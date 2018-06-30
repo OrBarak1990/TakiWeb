@@ -50,4 +50,8 @@ export default class LobbyArea extends React.Component {
             })
             .catch(err => {throw err});
     }
+
+    boardClicked(e){
+        //TODO
+    }
 }
