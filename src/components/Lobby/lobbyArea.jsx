@@ -30,7 +30,7 @@ export default class LobbyArea extends React.Component {
                     {this.state.users.map((line, index) => (<li key={line.user + index}>{line}</li>))}
                 </ul>
                 <ul className="converssion-area-wrpper">
-                    {this.state.boards.map((line, index) => (<ul key={line.user.name + index}>{line.gameName}</ul>))}
+                    {this.state.boards.map((line, index) => (<li data-key = {index} key={line.user.name + index} onClick={this.addEventListener.boardClicked}>{line.gameName}</li>))}
                 </ul>
             </div>
         )
@@ -52,7 +52,15 @@ export default class LobbyArea extends React.Component {
     }
 
     boardClicked(e){
-        //TODO
-        //TODO
+        e.preventDefault();
+        let index = e.target.getAttribute('data-key');
+
+        return fetch('/boardClicked', {method: 'POST', credentials: 'include'})
+            .then((response) => {
+                if (!response.ok){
+                    throw response;
+                }
+            })
+            //t
     }
 }
