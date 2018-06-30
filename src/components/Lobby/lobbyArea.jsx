@@ -53,5 +53,6 @@ export default class LobbyArea extends React.Component {
 
     boardClicked(e){
         //TODO
+        //TODO
     }
 }
