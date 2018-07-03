@@ -9,26 +9,28 @@ export default class BoardInput extends React.Component {
             sendInProgress:false
         };
 
-        this.sendText = this.sendText.bind(this);
+        this.addBoard = this.addBoard.bind(this);
     }
 
     render() {
         return(
-            <form className="chat-input-wrapper" onSubmit={this.sendText}>
-                <input disabled={this.state.sendInProgress} placeholder="enter text here" ref={input => this.inputElement = input} />
+            <form className="chat-input-wrapper" onSubmit={this.addBoard}>
+                <input disabled={this.state.sendInProgress} placeholder="enter game name here" ref={input => this.inputElement = input} />
+                <input disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.numPlayers = input} />
                 <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
             </form>
         )
     }
 
-    sendText(e) {
+    addBoard(e) {
         e.preventDefault();
         this.setState(()=>({sendInProgress: true}));
         const gameName = this.inputElement.value;
-        const numOfPlayers = this.inputElement.value;
-        fetch('/chat', {
+        const numOfPlayers = parseInt(this.numPlayers.value);
+        let text = {name: gameName, numOfPlayers: numOfPlayers};
+        fetch('/lobby', {
             method: 'POST',
-            body: {name: gameName, numOfPlayers: numOfPlayers, active: false},
+            body: JSON.stringify(text),
             credentials: 'include'
         })
             .then(response => {

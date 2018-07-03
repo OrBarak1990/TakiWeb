@@ -1,0 +1,249 @@
+@-webkit-keyframes opencard_move {
+    from {top: 38%;}
+    to {top: 35%;}
+}
+
+@-webkit-keyframes computerPullCard_move {
+    from {left: 55%;  top: 35%;}
+    to {left: 40%; top: 4%;}
+}
+
+@-webkit-keyframes humanPullCard_move {
+    from {left: 55%;  top: 35%;}
+    to {left: 40%; top: 80%;}
+}
+
+@keyframes rotating {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@-webkit-keyframes blueColor {
+    from {background-color: white;}
+    to {background-color: #000080;}
+}
+
+@-webkit-keyframes redColor {
+    from {background-color: white;}
+    to {background-color: red;}
+}
+
+@-webkit-keyframes yellowColor {
+    from {background-color: white;}
+    to {background-color: yellow;}
+}
+
+@-webkit-keyframes greenColor {
+    from {background-color: white;}
+    to {background-color: green;}
+}
+
+body {
+    background: #87CEEB;
+}
+
+@media all and (min-height: 768px) and (min-width: 680px) {
+    img {
+        height: 110px;
+        width: 80px;
+    }
+}
+
+@media all and (min-height: 768px) and (min-width: 720px) {
+    img {
+        height: 120px;
+        width: 83px;
+    }
+}
+
+@media all and (min-height: 768px) and (min-width: 760px) {
+    img {
+        height: 120px;
+        width: 86px;
+    }
+}
+
+@media all and (min-height: 768px) and (min-width: 800px) {
+    img {
+        height: 140px;
+        width: 90px;
+    }
+}
+
+img{
+    margin-right: -5%;
+}
+
+#playerCards {
+    bottom: 2%;
+    left: 30%;
+    height: 120px;
+    position: fixed;
+}
+
+#computerCards {
+    position: fixed;
+    top: 2%;
+    left: 30%;
+    margin: auto;
+}
+
+#computerCards .closeCard{
+    height: 140px;
+    width: 90px;
+    float: left;
+}
+
+#openCards{
+    position: fixed;
+    top:35%;
+    left: 40%;
+}
+
+#stockCards{
+    position: fixed;
+    height: 137px;
+    width: 111px;
+    top:35%;
+    left: 55%;
+}
+
+#pickColor{
+    visibility: hidden;
+}
+
+#yellowPicker{
+    position: fixed;
+    top:42%;
+    left: 29%;
+    height: 30px;
+    width: 30px;
+    background: yellow;
+}
+
+#redPicker{
+    position: fixed;
+    left: 27%;
+    top:40%;
+    height: 30px;
+    width: 30px;
+    background: #FF0000;
+}
+
+#bluePicker{
+    position: fixed;
+    top:42%;
+    left: 25%;
+    height: 30px;
+    width: 30px;
+    background:	#000080;
+}
+
+#greenPicker{
+    position: fixed;
+    top:45%;
+    left: 27%;
+    height: 30px;
+    width: 30px;
+    background: #008000;
+}
+
+#CurrentTurn{
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#Enter_Game{
+    background: #32CD32;
+    font-size: 15px;
+    color: white;
+}
+
+#Quit_Game{
+    background: #32CD32;
+    font-size: 15px;
+    color: white;
+}
+#next{
+    left: 4%;
+    position: fixed;
+    background: #32CD32;
+    color: white;
+}
+
+#prev{
+    left: 0%;
+    position: fixed;
+    background: #32CD32;
+    color: white;
+}
+
+#message{
+    position: fixed;
+    top: 65%;
+    left: 0.5%;
+    font-weight: bold;
+    font-style: oblique;
+    font-family: "Times New Roman", Times, serif;
+    font-size:30px;
+}
+#directions{
+    position: fixed;
+    top: 65%;
+    left: 0.5%;
+    font-weight: bold;
+    font-size:25px;
+}
+
+#errors{
+    position: fixed;
+    top: 65%;
+    left: 0.5%;
+    font-weight: bold;
+    font-size:25px;
+}
+
+#bold{
+    top: -15px;
+    position:relative;
+    transition: 0.6s;
+    animation: rotating 2s linear infinite;
+}
+
+#regular{
+    top:0%;
+}
+
+#restartTournament{
+    position: fixed;
+    font-size: 15px;
+    background: #32CD32;
+    color: white;
+    top: 27%;
+    left: 25%;
+}
+
+#restartGame{
+    position: fixed;
+    font-size: 15px;
+    background: #32CD32;
+    color: white;
+    top: 27%;
+    left: 40%;
+}
+
+#endGame{
+    position: fixed;
+    font-size: 15px;
+    background: #32CD32;
+    color: white;
+    top:27%;
+    left: 55%;
+}

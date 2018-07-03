@@ -1,33 +1,51 @@
-const boardList = {};
+const boardList = [];
 
 
 function boardAuthentication(req, res, next) {
+    for (let board in boardList) {
+        const name = boardList[board].gameName;
+        if (name === req.body.gameName) {
+            res.status(403).send('game name already exist');
+            return;
+        }
+    }
+    next();
+/*
     if(boardList[req.body.gameName] !== undefined) {
         res.status(403).send('game name already exist');
     } else {
         next();
     }
+*/
 }
 
 function addBoardToBoardList(boardDetails) {
-    boardList[boardDetails.gameName] = boardDetails;
+    // boardList[boardDetails.gameName] = boardDetails;
+    boardList.push(boardDetails);
 }
 
-function removeUserFromAuthList(req, res, next) {
-    if (userList[req.session.id] === undefined) {
-        res.status(403).send('user does not exist');
-    } else {
-        delete userList[req.session.id];
-        next();
-    }
-}
-
-function getUserInfo(id) {
-    return {name: userList[id]};
-}
 
 function getAllBoards() {
     return boardList;
 }
 
-module.exports = {addBoardToBoardList, boardAuthentication, getAllBoards};
+function checkAvailability(req, res, next) {
+    const body = JSON.parse(req.body);
+    let available = false;
+    for (let board in boardList) {
+        const name = boardList[board].gameName;
+        if (name === body.gameName) {
+            if(boardList[board].registerPlayers < boardList[board].numOfPlayers) {
+                boardList[board].registerPlayers++;
+                available = true;
+            }else
+                break;
+        }
+    }
+    if(available)
+        next();
+    else
+        res.status(403).send('the game have full players');
+}
+
+module.exports = {addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability};
