@@ -45,4 +45,4 @@ function getAllUsers() {
 	return users;
 }
 
-module.exports = {userAuthentication, addUserToAuthList, removeUserFromAuthList, getUserInfo, getAllUsers}
+module.exports = {userAuthentication, addUserToAuthList, removeUserFromAuthList, getUserInfo, getAllUsers};

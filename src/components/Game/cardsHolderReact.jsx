@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import CardReact from './cardReact';
+import CardReact from './cardReact.jsx';
 
 export default class CardHolderReact extends React.Component {
     constructor(args) {

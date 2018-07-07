@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {enumCard} from './../js/enumCard'
-import CardReact from './cardReact';
+import {enumCard} from './../../js/enumCard'
+import CardReact from './cardReact.jsx';
 
 export default class StackReact extends React.Component {
     constructor(args) {

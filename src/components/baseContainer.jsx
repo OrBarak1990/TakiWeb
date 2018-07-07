@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import LoginModal from './login-modal.jsx';
 import LobbyArea from './Lobby/lobbyArea.jsx';
 import BoardInput from './Lobby/boardInput.jsx';
+import PreGame from './Game/preGame.jsx';
 
 export default class BaseContainer extends React.Component {
     constructor(args) {
@@ -43,8 +44,8 @@ export default class BaseContainer extends React.Component {
        this.setState(()=>({showLogin: true}));
     }
 
-    boardClickedSuccessHandler(){
-        this.setState(()=>({room3: true}));
+    boardClickedSuccessHandler(boardDetail){
+        this.setState(()=>({room3: true, boardDetail: boardDetail.boardDetail}));
     }
 
    /* renderChatRoom() {
@@ -103,8 +104,12 @@ export default class BaseContainer extends React.Component {
         })
     }
 
+    /*TODO:: adding props for: is computer and number of players
+    * */
     renderRoom3() {
-
+        return(
+            <PreGame boardDetail = {this.state.boardDetail}/>
+        )
     }
 
     renderRoom2() {
@@ -117,3 +122,13 @@ export default class BaseContainer extends React.Component {
         // return (<LobbyContainer boardClickedSuccessHandler={this.boardClickedSuccessHandler} />)
     }
 }
+
+/*
+TODO: the get user name for first request, and for new window in same session is no good:
+    1. in the first request there is a warning, we need to change the response from error
+    2. in opening new window, the render will be correct only if we in login or in lobby
+ */
+
+/*
+* TODO: add button for if the user want ine of the players will be computer
+*/

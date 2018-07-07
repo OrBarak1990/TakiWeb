@@ -38,6 +38,7 @@ function checkAvailability(req, res, next) {
             if(boardList[board].registerPlayers < boardList[board].numOfPlayers) {
                 boardList[board].registerPlayers++;
                 available = true;
+                break;
             }else
                 break;
         }
@@ -48,4 +49,15 @@ function checkAvailability(req, res, next) {
         res.status(403).send('the game have full players');
 }
 
-module.exports = {addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability};
+function getBoardDetail(gameName) {
+    for (let board in boardList) {
+        const name = boardList[board].gameName;
+        if (name === gameName) {
+            return boardList[board];
+        }
+    }
+    return undefined;
+}
+
+
+module.exports = {addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability, getBoardDetail};

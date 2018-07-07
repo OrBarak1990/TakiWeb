@@ -65,10 +65,12 @@ export default class LobbyArea extends React.Component {
         .then((response) => {
             if (!response.ok){
                 this.setState(()=> ({errMessage: response.statusText}));
-            }else{
-                this.setState(()=> ({errMessage: ""}));
-                this.props.boardClickedSuccessHandler();
             }
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=> ({errMessage: ""}));
+            this.props.boardClickedSuccessHandler({boardDetail: content.boardDetail});
         })
     }
 }

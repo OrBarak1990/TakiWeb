@@ -27,7 +27,7 @@ export default class BoardInput extends React.Component {
         this.setState(()=>({sendInProgress: true}));
         const gameName = this.inputElement.value;
         const numOfPlayers = parseInt(this.numPlayers.value);
-        let text = {name: gameName, numOfPlayers: numOfPlayers};
+        let text = {name: gameName, numOfPlayers: numOfPlayers, computer: false};
         fetch('/lobby', {
             method: 'POST',
             body: JSON.stringify(text),

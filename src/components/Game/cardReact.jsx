@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import CloseCard from './../Images/other/close_card.png'
-import {enumCard} from './../js/enumCard'
+import CloseCard from './../../Images/other/close_card.png'
+import {enumCard} from './../../js/enumCard'
 
 export default class CardReact extends React.Component {
     constructor(args) {

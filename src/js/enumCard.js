@@ -59,6 +59,10 @@ const enumCard = (function () {
             PLUS:"if you have another card: same sign, or same color put it, otherwise take card from stack",
             TAKI:"please put on the stack all of your cards witch the same color of the taki",
             TWO_PLUS:"if you have put plus two card, otherwise take cards from stack"
+        }),
+
+        enumReactPosition: Object.freeze({
+            BUTTON: 0, LEFT: 1, UP: 2, RIGHT: 3
         })
     }
 })();
