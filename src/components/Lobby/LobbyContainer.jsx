@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ConverssionArea from './converssionArea.jsx';
-import ChatInput from './chatInput.jsx';
-import LobbyArea from "./lobbyArea";
-import BoardInput from "./boardInput";
+import LobbyArea from "./lobbyArea.jsx";
+import BoardInput from "./boardInput.jsx";
 
 export default function() {
     return(
         <div className="chat-contaier">
-            <LobbyArea />
+            <LobbyArea boardClickedSuccessHandler={this.props.boardClickedSuccessHandler}/>
             <BoardInput />
         </div>
     )

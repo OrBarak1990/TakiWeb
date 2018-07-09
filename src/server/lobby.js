@@ -8,26 +8,56 @@ const lobbyManagement = express.Router();
 
 lobbyManagement.use(bodyParser.text());
 
-lobbyManagement.route('/')
-    .get(auth.userAuthentication, (req, res) => {
+// lobbyManagement.route('/')
+lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const users = auth.getAllUsers();
         const boards = authBoard.getAllBoards();
         res.json({boards: boards, users: users});
-    })
-    .post([
+    });
+
+lobbyManagement.post('/',[
         auth.userAuthentication,
         authBoard.boardAuthentication,
         (req, res) => {
-            const body = req.body;
+            const body = JSON.parse(req.body);
             const gameName = body.name;
             const numOfPlayers = body.numOfPlayers;
+            const computer = body.computer;
+            let users = {computer: false};
+            let registers = 0;
+            if(computer) {
+                registers = 1;
+                users = {computer: true};
+            }
             const userInfo =  auth.getUserInfo(req.session.id);
             const details = {gameName: gameName, numOfPlayers: numOfPlayers,
-                userName:userInfo, registerPlayers: 0};
+                userName:userInfo.name, computer: computer, users: {registers: users},
+                registerPlayers: registers};
             authBoard.addBoardToBoardList(details);
             res.sendStatus(200);
         }
-        ]);
+]);
 
+// lobbyManagement.route('/boardClicked')
+lobbyManagement.post('/boardClicked',[
+        auth.userAuthentication,
+        authBoard.checkAvailability,
+        (req, res) => {
+            const body = JSON.parse(req.body);
+            let fullPlayers = false;
+            if(body.registerPlayers + 1 === body.numOfPlayers)
+                fullPlayers = true;
+            const boardDetail = authBoard.getBoardDetail(body.gameName);
+            res.json({boardDetail: boardDetail, fullPlayers: ""});
+        }
+    ]);
 
+lobbyManagement.post('/getBoard',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = req.body;
+        const boardDetail = authBoard.getBoardDetail(body);
+        res.json({boardDetail: boardDetail});
+    }
+]);
 module.exports = lobbyManagement;

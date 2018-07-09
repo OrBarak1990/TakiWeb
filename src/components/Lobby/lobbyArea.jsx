@@ -6,11 +6,13 @@ export default class LobbyArea extends React.Component {
         super(...args);
 
         this.state = {
-            boards: [],
-            users: []
+            users : [],
+            boards : [],
+            errMessage : ""
         };
 
         this.getLobbyContent = this.getLobbyContent.bind(this);
+        this.boardClicked = this.boardClicked.bind(this);
     }
 
     componentDidMount() {
@@ -27,17 +29,17 @@ export default class LobbyArea extends React.Component {
         return(
             <div className="converssion-area-wrpper">
                 <ul className="converssion-area-wrpper">
-                    {this.state.users.map((line, index) => (<li key={line.user + index}>{line}</li>))}
+                    {this.state.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
                 <ul className="converssion-area-wrpper">
-                    {this.state.boards.map((line, index) => (<li data-key = {index} key={line.user.name + index} onClick={this.addEventListener.boardClicked}>{line.gameName}</li>))}
+                    {this.state.boards.map((board, index) => (<li data-key = {index} key={200 + index} onClick={this.boardClicked}>{board.gameName}</li>))}
                 </ul>
             </div>
         )
     }
 
     getLobbyContent() {
-        return fetch('/chat', {method: 'GET', credentials: 'include'})
+        return fetch('/lobby', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok){
                     throw response;
@@ -54,13 +56,21 @@ export default class LobbyArea extends React.Component {
     boardClicked(e){
         e.preventDefault();
         let index = e.target.getAttribute('data-key');
-
-        return fetch('/boardClicked', {method: 'POST', credentials: 'include'})
-            .then((response) => {
-                if (!response.ok){
-                    throw response;
-                }
-            })
-            //t
+        let boardDetail = this.state.boards[index];
+        return fetch('/lobby/boardClicked', {
+            method: 'POST',
+            body: JSON.stringify(boardDetail),
+            credentials: 'include'
+        })
+        .then((response) => {
+            if (!response.ok){
+                this.setState(()=> ({errMessage: response.statusText}));
+            }
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=> ({errMessage: ""}));
+            this.props.boardClickedSuccessHandler({boardDetail: content.boardDetail});
+        })
     }
 }
