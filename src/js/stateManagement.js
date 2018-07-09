@@ -38,6 +38,18 @@ export default class  StateManagement{
         this.boardReact.changeSate(this.gameState);
     }
 
+    renderPush(uniqueIndex){
+        // this.pullCardsCallBacks.forEach(r => r.push(uniqueIndex));
+    }
+
+    renderPullCard(uniqueIndex){
+        // this.pullCardsCallBacks.forEach(r => r.pull(uniqueIndex));
+    }
+
+    renderError(uniqueIndex){
+        // boardsReact[uniqueIndex].renderError();
+    }
+
     endGame(message){
         this.message = message;
         this.gameState =  "endGame";

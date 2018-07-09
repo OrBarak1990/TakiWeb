@@ -12,29 +12,11 @@ export default class LobbyArea extends React.Component {
         };
 
         this.getBoardContent = this.getBoardContent.bind(this);
-        this.firstRender = this.firstRender.bind(this);
-        this.renderPreWindow = this.renderPreWindow.bind(this);
 
-    }
-
-    componentDidMount() {
         this.getBoardContent();
     }
 
-/*
-    componentWillUnmount() {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
-        }
-    }
-*/
-    firstRender() {
-        return (
-            <div className="container-fluid"/>
-        );
-    }
-
-    renderPreWindow(){
+    render(){
         return(
             <div className="container-fluid">
                 <div>number of registered players: {this.state.boardDetail.registerPlayers}</div>
@@ -43,17 +25,13 @@ export default class LobbyArea extends React.Component {
         );
     }
 
-    render(){
-        if(this.state.boardDetail === undefined)
-            return this.firstRender();
-        else
-            return this.renderPreWindow();
-    }
-
     getBoardContent() {
+        let func = {func: this.writeSomthing, stam: "stam"};
         return fetch('/lobby/getBoard', {
             method: 'POST',
             body: this.props.boardDetail.gameName,
+            // body: this,
+            // body: JSON.stringify(func),
             credentials: 'include'
         })
         .then((response) => {

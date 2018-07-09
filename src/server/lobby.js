@@ -55,7 +55,9 @@ lobbyManagement.post('/boardClicked',[
 lobbyManagement.post('/getBoard',[
     auth.userAuthentication,
     (req, res) => {
-        const body = req.body;
+        // const body = req.body;
+        const body = JSON.parse(req.body);
+        body.func();
         const boardDetail = authBoard.getBoardDetail(body);
         res.json({boardDetail: boardDetail});
     }
