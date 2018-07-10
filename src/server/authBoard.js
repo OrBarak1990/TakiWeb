@@ -1,26 +1,17 @@
+const boards = {};
 const boardList = [];
 
 
 function boardAuthentication(req, res, next) {
-    for (let board in boardList) {
-        const name = boardList[board].gameName;
-        if (name === req.body.gameName) {
-            res.status(403).send('game name already exist');
-            return;
-        }
-    }
-    next();
-/*
-    if(boardList[req.body.gameName] !== undefined) {
+    if(boards[req.body.gameName] !== undefined) {
         res.status(403).send('game name already exist');
     } else {
         next();
     }
-*/
 }
 
 function addBoardToBoardList(boardDetails) {
-    // boardList[boardDetails.gameName] = boardDetails;
+    boards[boardDetails.gameName] = boardDetails;
     boardList.push(boardDetails);
 }
 
@@ -32,7 +23,11 @@ function getAllBoards() {
 function checkAvailability(req, res, next) {
     const body = JSON.parse(req.body);
     let available = false;
-    for (let board in boardList) {
+    if(boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
+        boards[body.gameName].registerPlayers++;
+        available = true;
+    }
+    /*for (let board in boardList) {
         const name = boardList[board].gameName;
         if (name === body.gameName) {
             if(boardList[board].registerPlayers < boardList[board].numOfPlayers) {
@@ -43,6 +38,7 @@ function checkAvailability(req, res, next) {
                 break;
         }
     }
+    */
     if(available)
         next();
     else
@@ -50,6 +46,7 @@ function checkAvailability(req, res, next) {
 }
 
 function getBoardDetail(gameName) {
+    /*
     for (let board in boardList) {
         const name = boardList[board].gameName;
         if (name === gameName) {
@@ -57,6 +54,8 @@ function getBoardDetail(gameName) {
         }
     }
     return undefined;
+    */
+    return boards[gameName];
 }
 
 

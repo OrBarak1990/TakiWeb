@@ -30,9 +30,10 @@ export default class BoardReact extends React.Component {
     gameRender(){
         return(
             <div className="container-fluid">
-                <p id ="errors">{this.props.manager.error}</p>
-                //this.state.gameDetails.
+                <p id ="errors">{this.state.gameDetails.error}</p>
+                //this.state.gameDetails.error
                 <p id ="directions">{this.props.manager.direction}</p>
+
                 {<Clock/>}
                 <Statistics msg= {this.props.manager.statisticsMassages}/>
                 <OpenCards anm = {this.props.manager.openCardAnm} card = {this.props.manager.openCard} open = {true}/>

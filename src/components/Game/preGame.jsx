@@ -26,12 +26,9 @@ export default class LobbyArea extends React.Component {
     }
 
     getBoardContent() {
-        let func = {func: this.writeSomthing, stam: "stam"};
         return fetch('/lobby/getBoard', {
             method: 'POST',
-            body: this.props.boardDetail.gameName,
-            // body: this,
-            // body: JSON.stringify(func),
+            body: this.props.gameName,
             credentials: 'include'
         })
         .then((response) => {
@@ -42,6 +39,10 @@ export default class LobbyArea extends React.Component {
             return response.json();
         })
         .then(content => {
+            if (content.boardDetail.registerPlayers === content.boardDetail.numOfPlayers)
+            {
+                this.props.enterGameHandler(content.boardDetail);
+        }
             this.setState(()=> ({boardDetail: content.boardDetail}));
         })
     }

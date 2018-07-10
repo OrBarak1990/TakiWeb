@@ -1,4 +1,5 @@
-import HumanPlayer from './humanPlayer'
+const HumanPlayer = require('HumanPlayer');
+// import HumanPlayer from './HumanPlayer'
 import SmartComputer from './smartComputer'
 import statistics from './statistics'
 import {stack} from './stack'
