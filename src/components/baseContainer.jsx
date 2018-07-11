@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import LoginModal from './login-modal.jsx';
 import LobbyArea from './Lobby/lobbyArea.jsx';
 import BoardInput from './Lobby/boardInput.jsx';
+// import BoardReact from './Game/boardReact.jsx';
 import PreGame from './Game/preGame.jsx';
 
 export default class BaseContainer extends React.Component {
@@ -10,6 +11,7 @@ export default class BaseContainer extends React.Component {
         super(...args);
         this.state = {
             room3: false,
+            room4: false,
             showLogin: true,
             currentUser: {
                 name: ''
@@ -21,12 +23,15 @@ export default class BaseContainer extends React.Component {
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
         this.logoutHandler= this.logoutHandler.bind(this);
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
+        this.enterGameHandler = this.enterGameHandler.bind(this);
 
         this.getUserName();
     }
     
     render() {
-        if(this.state.room3){
+        if(this.state.room4)
+            return this.renderRoom4();
+        else if(this.state.room3){
             return this.renderRoom3();
         }else if (this.state.showLogin) {
             return (<LoginModal loginSuccessHandler={this.handleSuccessedLogin} loginErrorHandler={this.handleLoginError}/>)
@@ -46,6 +51,23 @@ export default class BaseContainer extends React.Component {
 
     boardClickedSuccessHandler(boardDetail){
         this.setState(()=>({room3: true, boardDetail: boardDetail.boardDetail}));
+    }
+
+    enterGameHandler(boardDetail){
+        return fetch('/game', {
+            method: 'POST',
+            body: JSON.stringify(boardDetail),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId}));
+            })
     }
 
    /* renderChatRoom() {
@@ -108,7 +130,7 @@ export default class BaseContainer extends React.Component {
     * */
     renderRoom3() {
         return(
-            <PreGame boardDetail = {this.state.boardDetail}/>
+            <PreGame enterGameHandler = {this.enterGameHandler} gameName = {this.state.boardDetail.gameName}/>
         )
     }
 
@@ -120,6 +142,16 @@ export default class BaseContainer extends React.Component {
             </div>
         )
         // return (<LobbyContainer boardClickedSuccessHandler={this.boardClickedSuccessHandler} />)
+    }
+
+    renderRoom4() {
+        /*return(
+            <BoardReact myIndex = {this.state.myIndex}/>
+        )
+        */
+        return(
+            <PreGame enterGameHandler = {this.enterGameHandler} gameName = {this.state.boardDetail.gameName}/>
+        )
     }
 }
 

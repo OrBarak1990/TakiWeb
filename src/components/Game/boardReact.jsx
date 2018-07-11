@@ -26,33 +26,15 @@ export default class BoardReact extends React.Component {
         };
     }
 
-    changeSate(state){
-        this.setState({gameState: state});
-    }
-
-    setGame(){
-        this.props.manager.setStartGame(this, this.props.game);
-    }
-
-    setTournament(){
-        this.props.manager.setStartTournament(this, this.props.game);
-    }
-
-    restartTournament(){
-        this.props.manager.setRestartTournamentStartGame();
-    }
-
-    restart(){
-        this.props.manager.setRestartStartGame();
-    }
 
     gameRender(){
         return(
             <div className="container-fluid">
-                <p id ="errors">{this.props.manager.error}</p>
+                <p id ="errors">{this.state.gameDetails.error}</p>
+                //this.state.gameDetails.error
                 <p id ="directions">{this.props.manager.direction}</p>
+
                 {<Clock/>}
-                <div><button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.props.manager.setQuitGame}>Quit Game</button></div>
                 <Statistics msg= {this.props.manager.statisticsMassages}/>
                 <OpenCards anm = {this.props.manager.openCardAnm} card = {this.props.manager.openCard} open = {true}/>
                 {this.props.manager.playersCards.map(this.eachPlayer)}
@@ -60,6 +42,10 @@ export default class BoardReact extends React.Component {
                 <Stack cards ={this.props.manager.stackCards} interactive = {true} img = {this.props.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
+    }
+
+    pullCardHandler(uniqueId){
+        this.setState({stackAnm: uniqueId % this.props.myIndex});
     }
 
     eachPlayer(cards, i) {
@@ -71,81 +57,27 @@ export default class BoardReact extends React.Component {
         );
     }
 
-    endGameRender(){
-        return(
-            <div>
-                <div id = {"endGameMode"}>
-                    <p id ="message">{this.props.manager.message}</p>
-                    <button id={"restartGame"} onClick={this.restart}>Restart Regular Game</button>
-                    <button id={"restartTournament"} onClick={this.restartTournament}>Start Tournament</button>
-                    <button id={"endGame"} onClick={window.close}>Exit Game</button>
-                </div>
-                <div className="container-fluid">
-                    <Statistics msg= {this.props.manager.statisticsMassages}/>
-                    <OpenCards card =  {this.props.manager.openCard} open = {true} game = {this.props.game}/>
-                    <CardsHolder cards = {this.props.manager.playersCards[0]} pickColorRef = {this.pickColorHolder} isDraggable = {false} open = {true} cssId = "playerCards" />
-                    <CardsHolder cards = {this.props.manager.playersCards[1]} pickColorRef = {this.pickColorHolder} isDraggable = {false} open = {true} cssId = "computerCards" />
-                    <PickColor interactive = {false} visible = {this.props.manager.pickColorVidibility} ref= {this.pickColorHolder} game = {this.props.game}/>
-                    <Stack cards = {[]} interactive = {false} img = {this.props.manager.stackImage} pickColorRef = {this.pickColorHolder} game = {this.props.game}/>
-                </div>
-                <div>
-                    <p id ="errors">{this.props.manager.error}</p>
-                    <button id={"next"} onClick={this.next}>Next</button>
-                    <button id={"prev"} onClick={this.prev}>Prev</button>
-                </div>
-            </div>
-        );
+
+    getBoardContent() {
+        return fetch('/game', {
+            method: 'PUT',
+            body: {uniqueID: this.props.myIndex, boardName: this.props.boardName},
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                this.timeoutId = setTimeout(this.getBoardContent, 200);
+                return response.json();
+            })
+            .then(content => {
+                if(content.pullAnm === true)
+                    this.pullCardHandler(content.uniqueId);
+                this.setState(()=> ({gameDetails: content.gameDetails}));
+            })
     }
 
-    next(){
-        this.props.manager.next();
-    }
-
-    prev(){
-        this.props.manager.prev();
-    }
-
-    endTournamentRender(){
-        return(
-            <div id = {"endGameMode"}>
-                <div id={"message"}>
-                {this.props.manager.message.map(this.eachMassage)}
-                </div>
-                <button id={"restartGame"} onClick={this.restart}>Start Regular Game</button>
-                <button id={"restartTournament"} onClick={this.restartTournament}>Restart Tournament</button>
-                <button id={"endGame"} onClick={window.close}>Exit Game</button>
-            </div>
-        );
-    }
-
-    eachMassage(msg,i) {
-        return(
-            <p key={i + 600}>{msg}</p>
-        );
-    }
-
-    endGameInTournamentRender(){
-        return(
-            <div id = {"endGameMode"}>
-                <p id ="message">{this.props.manager.message}</p>
-                <button id={"restartGame"} onClick={this.restart}>Next Game</button>
-            </div>
-        );
-    }
-
-    render(){
-        if(this.props.manager.gameState === "start")
-            return this.openingWindowRender();
-        else if(this.props.manager.gameState === "gaming")
-            return this.gameRender();
-        else if(this.props.manager.gameState === "endGame")
-            return this.endGameRender();
-        else if(this.props.manager.gameState === "endGameInTournament")
-            return this.endGameInTournamentRender();
-        else if(this.props.manager.gameState === "endTournament")
-            return this.endTournamentRender();
-    }
-
-
-
+//  const uniqueId = req.body
+//{error: board.stateManagment.errors[uniqueId], }
 }

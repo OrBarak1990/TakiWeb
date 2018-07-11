@@ -23,15 +23,13 @@ lobbyManagement.post('/',[
             const gameName = body.name;
             const numOfPlayers = body.numOfPlayers;
             const computer = body.computer;
-            let users = {computer: false};
             let registers = 0;
             if(computer) {
                 registers = 1;
-                users = {computer: true};
             }
             const userInfo =  auth.getUserInfo(req.session.id);
             const details = {gameName: gameName, numOfPlayers: numOfPlayers,
-                userName:userInfo.name, computer: computer, users: {registers: users},
+                userName:userInfo.name, computer: computer, users: [], active: false,
                 registerPlayers: registers};
             authBoard.addBoardToBoardList(details);
             res.sendStatus(200);
@@ -44,11 +42,9 @@ lobbyManagement.post('/boardClicked',[
         authBoard.checkAvailability,
         (req, res) => {
             const body = JSON.parse(req.body);
-            let fullPlayers = false;
-            if(body.registerPlayers + 1 === body.numOfPlayers)
-                fullPlayers = true;
             const boardDetail = authBoard.getBoardDetail(body.gameName);
-            res.json({boardDetail: boardDetail, fullPlayers: ""});
+            boardDetail.users.push(auth.getUserInfo(req.session.id).name);
+            res.json({boardDetail: boardDetail});
         }
     ]);
 

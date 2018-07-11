@@ -10,6 +10,7 @@ export default class CardReact extends React.Component {
             bold: false,
         };
         this.onDragStart = this.onDragStart.bind(this);
+        this.fetchError = this.fetchError.bind(this);
         this.mouseover = this.mouseover.bind(this);
         this.onmouseout = this.onmouseout.bind(this);
         this.endAnimation = this.endAnimation.bind(this);
@@ -18,10 +19,21 @@ export default class CardReact extends React.Component {
     onDragStart(ev) {
         let changeColorReact = this.props.pickColorRef.current;
         if(changeColorReact.props.visible === "visible"){
-            this.props.game.renderError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
+            this.fetchError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
+            // this.props.game.renderError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
             return false;
         }
         ev.dataTransfer.setData("Text", this.props.id);
+    }
+
+    fetchError(error) {
+        let massage = {error: error, uniqueId: this.props.uniqueId,
+            gameName: this.props.gameName};
+        return fetch('/game/card', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
     }
 
     render() {
