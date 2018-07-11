@@ -60,7 +60,7 @@ export default class BoardReact extends React.Component {
 
     getBoardContent() {
         return fetch('/game', {
-            method: 'PUT',
+            method: 'POST',
             body: {uniqueID: this.props.myIndex, boardName: this.props.boardName},
             credentials: 'include'
         })

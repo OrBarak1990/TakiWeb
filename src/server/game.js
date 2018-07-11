@@ -49,6 +49,16 @@ lobbyManagement.post('/card',[
     }
 ]);
 
+lobbyManagement.post('/card',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.game.renderError(body.error, body.uniqueID);
+        res.sendStatus(200);
+    }
+]);
+
 // lobbyManagement.route('/boardClicked')
 lobbyManagement.post('/boardClicked',[
     auth.userAuthentication,

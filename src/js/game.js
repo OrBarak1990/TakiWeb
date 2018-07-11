@@ -325,8 +325,37 @@ export default class Game{
 
     renderError(error){
         this.stateManagement.openCardAnm = false;
+        this.stateManagement.pullCardAnimation = false;
         this.stateManagement.error = error;
         this.stateManagement.direction = undefined;
         this.stateManagement.renderGame();
     }
+
+    /*
+    dropRender(){
+        this.stateManagement.openCardAnm = true;
+        this.stateManagement.pullCardAnimation = true;
+        this.stateManagement.error = undefined;
+        this.stateManagement.direction = undefined;
+        this.stateManagement.renderGame();
+    }
+
+    pullCardRender(uniqueID){
+        this.stateManagement.openCardAnm = false;
+        this.stateManagement.pullCardAnimation = true;
+        this.stateManagement.error = undefined;
+        this.stateManagement.direction = uniqueID;
+        this.stateManagement.renderGame();
+    }
+
+    changeColorRender(uniqueID){
+        this.stateManagement.openCardAnm = false;
+        this.stateManagement.pullCardAnimation = false;
+        this.stateManagement.error = undefined;
+        this.stateManagement.direction = uniqueID;
+//        this.stateManagement.pickColorVidibility = "Active";
+        this.stateManagement.renderGame();
+
+    }
+    */
 }
