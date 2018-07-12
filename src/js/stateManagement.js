@@ -1,16 +1,10 @@
 export default class  StateManagement{
     constructor(){
         this.playersCards = [];
-        this.pickColorVidibility = "hidden";
+        this.playerManagement = [];
         this.openCard = undefined;
         this.stackImage = undefined;
-        this.statisticsMassages = undefined;
         this.gameState =  "start";
-        this.openCardAnm = false;
-        this.stackCards = [];
-        this.message = [];
-        this.error = undefined;
-        this.direction = undefined;
         this.setStartGame = this.setStartGame.bind(this);
         this.setStartTournament = this.setStartTournament.bind(this);
         this.setRestartStartGame = this.setRestartStartGame.bind(this);
@@ -32,10 +26,6 @@ export default class  StateManagement{
         this.game.setManager(this);
         this.gameState = "gaming";
         this.game.startTournament();
-    }
-
-    renderGame(){
-        this.boardReact.changeSate(this.gameState);
     }
 
     renderPush(uniqueIndex){

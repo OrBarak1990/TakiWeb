@@ -13,7 +13,7 @@ export default class Card{
 
     setUniqueImage(imgName) {
         let colorName;
-        if( this.color !== undefined)
+        if(this.color !== undefined)
             colorName = Object.keys(enumCard.enumColor)[this.color].toLowerCase();
         else
             colorName = "other";

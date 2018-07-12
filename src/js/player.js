@@ -5,7 +5,7 @@ export default class Player{
     constructor(theName,theTurn){
         this.allCards = [];
         this.singleCardCounter = 0;
-        this.score = 0;
+      //  this.score = 0;
         this.averageTimePlayed = 0;
         this.turnsPlayedForStatistics = 0;
         this.takiMode = undefined;
@@ -13,9 +13,8 @@ export default class Player{
         this.turn = theTurn;
     }
 
-    setManager(playerManagement, index){
-        this.playerManagement = playerManagement;
-        this.playerIndex = index;
+    setManager(playerManagement){
+        this.stateManagement = playerManagement;
     }
 
     increasePlayerTurns(){
@@ -78,24 +77,24 @@ export default class Player{
     }
 
     setCardsPlace(humanAnimation){
-        this.playerManagement.playersCards[this.playerIndex] = [];
+        this.stateManagement.playersCards[this.turn] = [];
         this.addCards(this.allCards, humanAnimation);
     }
 
     addCards(cardsToAdd, humanAnimation) {
-        this.playerManagement.stackCards.push({humanAnimation: humanAnimation, id: cardsToAdd[0].id});
-        this.playerManagement.renderAnimationEnd = false;
+        this.stateManagement.stackCards.push({humanAnimation: humanAnimation, id: cardsToAdd[0].id});
+        //this.stateManagement.renderAnimationEnd = false;TODO: check after all changes
         this.saveCardsToAdd = cardsToAdd;
     }
-
+/*
     updateCardsToAdd() {
         if(this.saveCardsToAdd !== undefined){
             this.saveCardsToAdd.forEach(card => {
-                this.playerManagement.playersCards[this.playerIndex].push({image: card.uniqueCardImage, id: card.id});
+                this.stateManagement.playersCards[this.turn].push({image: card.uniqueCardImage, id: card.id});
             });
             this.saveCardsToAdd = undefined;
         }
-    }
+    }*/
 
     getSingleCardCounter(){
         return this.singleCardCounter;
@@ -103,9 +102,9 @@ export default class Player{
 
 
     doOperation(card, lastCard) {
-        for(let i = 0; i < this.playerManagement.playersCards[this.playerIndex].length; ++i){
-            if (this.playerManagement.playersCards[this.playerIndex][i].id === card.id) {
-                this.playerManagement.playersCards[this.playerIndex].splice(i, 1);
+        for(let i = 0; i < this.stateManagement.playersCards[this.turn].length; ++i){
+            if (this.stateManagement.playersCards[this.turn][i].id === card.id) {
+                this.stateManagement.playersCards[this.turn].splice(i, 1);
                 break;
             }
         }
@@ -127,6 +126,7 @@ export default class Player{
         return promote;
     }
 
+/*
     calcScore(){
       let score = 0;
         this.allCards.forEach(card => {
@@ -134,12 +134,17 @@ export default class Player{
         });
       return score;
     }
+*/
 
+/*
     updateTournamentScore(playerScore){
         this.score += playerScore;
     }
+*/
 
+/*
     getScore(){
         return this.score;
     }
+*/
 }
