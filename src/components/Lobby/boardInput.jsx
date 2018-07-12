@@ -17,6 +17,10 @@ export default class BoardInput extends React.Component {
             <form className="chat-input-wrapper" onSubmit={this.addBoard}>
                 <input disabled={this.state.sendInProgress} placeholder="enter game name here" ref={input => this.inputElement = input} />
                 <input disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.numPlayers = input} />
+                <label>
+                    Computer
+                    <input type = "checkbox" disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.computer = input} />
+                </label>
                 <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
             </form>
         )
@@ -27,7 +31,8 @@ export default class BoardInput extends React.Component {
         this.setState(()=>({sendInProgress: true}));
         const gameName = this.inputElement.value;
         const numOfPlayers = parseInt(this.numPlayers.value);
-        let text = {name: gameName, numOfPlayers: numOfPlayers, computer: false};
+        const computer = this.computer.checked;
+        let text = {name: gameName, numOfPlayers: numOfPlayers, computer: computer};
         fetch('/lobby', {
             method: 'POST',
             body: JSON.stringify(text),
