@@ -469,10 +469,6 @@ export default class SmartComputer extends Player{
 
     doOperation(card, lastCard){
         this.removeAllCardAppearances(card);
-        if (card.sign !== enumCard.enumTypes.TWO_PLUS)
-            this.playerManagement.direction = undefined;
-        else
-            this.playerManagement.direction = card.direction;
         return super.doOperation(card, lastCard);
     }
 

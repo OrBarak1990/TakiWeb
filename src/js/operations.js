@@ -10,13 +10,14 @@ function takiModeChecker(cards, takiMode) {
     return foundColor;
 }
 
+/*
 function removeAllCards(placeHOlder) {
     let deleteElement = document.getElementById(placeHOlder);
 
     while (deleteElement.hasChildNodes()) {
         deleteElement.removeChild(deleteElement.childNodes[0]);
     }
-}
+}*/
 
 function getUniqueCss(color,type,separator){
     return color.concat(separator).concat(type);
