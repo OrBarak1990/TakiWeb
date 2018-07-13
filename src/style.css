@@ -100,6 +100,29 @@ html{
     line-height: 100%;
 }
 
+.singleBoardInLobby{
+    border: 1px solid #ccc;
+    border-color: #cadcff;
+}
+
+.singleBoardInLobby .lobbyitem{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    justify-content: space-between;
+}
+
+.singleBoardInLobby .finishLinelobbyitem{
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
 .chat-contaier .converssion-area-wrpper {
     flex-grow: 1;
     border: 1px solid #ccc;

@@ -41,9 +41,13 @@ export default class LobbyArea extends React.Component {
                 </ul>
                 <ul className="converssion-area-wrpper">
                     {this.state.boards.map((board, index) => (
-                        <div data-key = {index} key={200 + index} onClick={this.boardClicked}>
-                            {board.gameName + " " + board.registerPlayers + " " + board.numOfPlayers}
-                        </div>))}
+                        <div className="singleBoardInLobby" onClick={this.boardClicked}>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{index + 1}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.gameName}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.registerPlayers}.</a></li>
+                            <li><a className = "finishLinelobbyitem" data-key = {index} key={200 + index}>{board.numOfPlayers}</a></li>
+                         </div>
+                    ))}
                 </ul>
             </div>
         )
