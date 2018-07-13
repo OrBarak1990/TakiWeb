@@ -30,10 +30,12 @@ let stack = (function () {
                 cards[cards.length - 1].number = twoCardsNumber[number];
                 cards[cards.length - 1].setElement(css);
             }
+/*
             score++;
             if(number === 0){
                 score++;
             }
+*/
         }
 
         for (let color = 0; color < colorNumber.length; ++color) {

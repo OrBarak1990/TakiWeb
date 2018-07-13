@@ -158,7 +158,7 @@ export default class BaseContainer extends React.Component {
 /*
 TODO: the get user name for first request, and for new window in same session is no good:
     1. in the first request there is a warning, we need to change the response from error
-    2. in opening new window, the render will be correct only if we in login or in lobby
+    2. in opening new window, the updateManagement will be correct only if we in login or in lobby
  */
 
 /*

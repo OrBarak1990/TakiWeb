@@ -3,8 +3,8 @@ import {enumCard} from './enumCard'
 import {setCards} from './operations'
 
 export default class HumanPlayer extends Player{
-    constructor(playerTurn){
-        super("HumanPlayer",playerTurn);
+    constructor(username,playerTurn){
+        super(username,playerTurn);
         this.turnsPlayed = 0;
         this.currentTurnTime = 0;
     }
@@ -31,8 +31,8 @@ export default class HumanPlayer extends Player{
         this.currentTurnTime = 0;
     }
 
-    setAverageTimePlayed(currentAvarageTimePlayed){
-        this.averageTimePlayed = currentAvarageTimePlayed;
+    setAverageTimePlayed(currentAverageTimePlayed){
+        this.averageTimePlayed = currentAverageTimePlayed;
     }
 
     setCards(theCards) {
@@ -53,9 +53,9 @@ export default class HumanPlayer extends Player{
     doOperation(card, lastCard){
         this.removeCard(card);
         if (card.sign !== enumCard.enumTypes.TWO_PLUS)
-            this.playerManagement.direction = card.direction;
+            this.stateManagement.stateManagement[this.turn].direction = card.direction;
         else
-            this.playerManagement.direction = undefined;
+            this.stateManagement.stateManagement[this.turn].direction = undefined;
         return super.doOperation(card, lastCard);
     }
 
@@ -80,7 +80,7 @@ export default class HumanPlayer extends Player{
     }
 
     pickColor() {
-        this.playerManagement.pickColorVidibility = "visible";
+        this.stateManagement.playerManagement[this.turn].pickColorVidibility = "visible";
         return enumCard.enumResult.CONTINUE_TURN;
     }
 }

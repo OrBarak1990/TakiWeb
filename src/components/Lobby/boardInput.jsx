@@ -15,12 +15,16 @@ export default class BoardInput extends React.Component {
     render() {
         return(
             <form className="chat-input-wrapper" onSubmit={this.addBoard}>
+                <h2>New Board:</h2>
                 <input disabled={this.state.sendInProgress} placeholder="enter game name here" ref={input => this.inputElement = input} />
-                <input disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.numPlayers = input} />
-                <label>
-                    Computer
-                    <input type = "checkbox" disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.computer = input} />
-                </label>
+                <select disabled={this.state.sendInProgress} ref={input => this.numPlayers = input}>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+                    <label id = "checkbox1">
+                        <label>Coumputer</label>
+                        <input  type = "checkbox" disabled={this.state.sendInProgress} placeholder="enter number of players" ref={input => this.computer = input} />
+                    </label>
                 <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
             </form>
         )

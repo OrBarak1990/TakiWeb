@@ -26,6 +26,12 @@
     font-size: 16px;
 }
 
+html{
+    height: 100%;
+    width: 100%;
+    background: #87CEEB;
+}
+
 .login-page-wrapper {
     position: absolute;
     left: 50%;
@@ -69,12 +75,40 @@
     justify-content: space-between;
 }
 
+.toolbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+
+.toolbar-item {
+    cursor: context-menu;
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#checkbox1{
+    display: block;
+    text-align: center;
+    line-height: 100%;
+}
+
 .chat-contaier .converssion-area-wrpper {
     flex-grow: 1;
     border: 1px solid #ccc;
     margin: 3px;
     padding: 8px;
+    list-style-type: none;
 }
+
+
 
 .chat-contaier .converssion-area-wrpper p{
     margin: 0 0 8px 0;

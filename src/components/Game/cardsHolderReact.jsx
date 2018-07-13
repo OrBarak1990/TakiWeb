@@ -11,7 +11,7 @@ export default class CardHolderReact extends React.Component {
 
     eachCard(card, i) {
         return(
-            <CardReact game = {this.props.game} pickColorRef = {this.props.pickColorRef} isDraggable = {this.props.isDraggable} key = {card.id} index = {i} openImg = {this.props.open} image = {card.image} id = {card.id} pullCardAnimation = {card.anm} humanAnimation = {card.humanAnimation}/>
+            <CardReact pickColorRef = {this.props.pickColorRef} isDraggable = {this.props.isDraggable} key = {card.id} index = {i} openImg = {this.props.open} image = {card.image} id = {card.id} pullCardAnimation = {card.anm} humanAnimation = {card.humanAnimation}/>
         );
     }
 

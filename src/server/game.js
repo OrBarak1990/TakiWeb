@@ -6,17 +6,12 @@ const authBoard = require('./authBoard');
 // const game = require('./../js/game');
 // const stateManagement = require('./../js/stateManagement');
 
-const lobbyManagement = express.Router();
+const gameManagement = express.Router();
 
-lobbyManagement.use(bodyParser.text());
+gameManagement.use(bodyParser.text());
 
-lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
-    const users = auth.getAllUsers();
-    const boards = authBoard.getAllBoards();
-    res.json({boards: boards, users: users});
-});
 
-lobbyManagement.post('/',[
+gameManagement.post('/',[
     auth.userAuthentication,
     authBoard.boardAuthentication,
     (req, res) => {
@@ -24,7 +19,7 @@ lobbyManagement.post('/',[
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         boardDetail.active = true ;
         if (boardDetail.game === undefined) {
-            boardDetail.game = new game();
+            boardDetail.game = new game(boardDetail.users);
             boardDetail.stateManagement = new stateManagement();
         }
         const userName = auth.getUserInfo(req.session.id).name;
@@ -39,7 +34,7 @@ lobbyManagement.post('/',[
     }
 ]);
 
-lobbyManagement.post('/card',[
+gameManagement.post('/cardError',[
     auth.userAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
@@ -49,26 +44,34 @@ lobbyManagement.post('/card',[
     }
 ]);
 
-lobbyManagement.post('/card',[
+gameManagement.post('/setDrop',[
     auth.userAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.game.renderError(body.error, body.uniqueID);
+        boardDetail.game.setDrop(body.id, body.uniqueID);
         res.sendStatus(200);
     }
 ]);
 
-// lobbyManagement.route('/boardClicked')
-lobbyManagement.post('/boardClicked',[
+gameManagement.post('/colorPicked',[
     auth.userAuthentication,
-    authBoard.checkAvailability,
     (req, res) => {
         const body = JSON.parse(req.body);
-        let fullPlayers = false;
-        if(body.registerPlayers + 1 === body.numOfPlayers)
-            fullPlayers = true;
-        res.sendStatus(200).json({fullPlayers: fullPlayers});
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.game.colorPicked(body.color, body.uniqueID);
+        res.sendStatus(200);
     }
 ]);
-module.exports = lobbyManagement;
+
+gameManagement.post('/pullCard',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.game.pullCard(body.color, body.uniqueID);
+        res.sendStatus(200);
+    }
+]);
+
+module.exports = gameManagement;

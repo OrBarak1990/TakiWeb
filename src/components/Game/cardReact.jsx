@@ -29,7 +29,7 @@ export default class CardReact extends React.Component {
     fetchError(error) {
         let massage = {error: error, uniqueId: this.props.uniqueId,
             gameName: this.props.gameName};
-        return fetch('/game/card', {
+        return fetch('/game/cardError', {
             method: 'POST',
             body: JSON.stringify(massage),
             credentials: 'include'

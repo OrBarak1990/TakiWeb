@@ -10,7 +10,7 @@ export default class PickColorReact extends React.Component {
         this.greenPicked = this.greenPicked.bind(this);
         this.redPicked = this.redPicked.bind(this);
         this.finishAnimation = this.finishAnimation.bind(this);
-
+        this.fetchColorPicked = this.fetchColorPicked.bind(this);
     }
     renderWithAnimation(){
         return(
@@ -63,32 +63,45 @@ export default class PickColorReact extends React.Component {
         this.setState({anm: false});
     }
 
+    fetchColorPicked(color) {
+        let massage = {color: color, uniqueId: this.props.uniqueId,
+            gameName: this.props.gameName};
+        return fetch('/game/colorPicked', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+    }
 
     bluePicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        this.props.game.colorPicked(enumCard.enumColor.BLUE);
+        // this.props.game.colorPicked(enumCard.enumColor.BLUE);
+        this.fetchColorPicked(enumCard.enumColor.BLUE);
     }
 
     yellowPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        this.props.game.colorPicked(enumCard.enumColor.YELLOW);
+        // this.props.game.colorPicked(enumCard.enumColor.YELLOW);
+        this.fetchColorPicked(enumCard.enumColor.YELLOW);
     }
 
     greenPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        this.props.game.colorPicked(enumCard.enumColor.GREEN);
+        // this.props.game.colorPicked(enumCard.enumColor.GREEN);
+        this.fetchColorPicked(enumCard.enumColor.GREEN);
     }
 
     redPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        this.props.game.colorPicked(enumCard.enumColor.RED);
+        // this.props.game.colorPicked(enumCard.enumColor.RED);
+        this.fetchColorPicked(enumCard.enumColor.RED);
     }
 }
