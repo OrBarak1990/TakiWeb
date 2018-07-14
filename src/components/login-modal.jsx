@@ -19,7 +19,7 @@ export default class LoginModal extends React.Component {
             <div className="login-page-wrapper">
                 <img className="taki-logo" src={takiImage} />
                 <form onSubmit={this.handleLogin}>
-                    <label className="username-label" htmlFor="userName"> name: </label>
+                    <label className="username-label" htmlFor="userName"> Name: </label>
                     <input className="username-input" name="userName"/>                        
                     <input className="submit-btn btn" type="submit" value="Login"/>
                 </form>

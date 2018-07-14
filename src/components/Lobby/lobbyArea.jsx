@@ -28,11 +28,26 @@ export default class LobbyArea extends React.Component {
     render() {
         return(
             <div className="converssion-area-wrpper">
+                <h2>UsersName:</h2>
                 <ul className="converssion-area-wrpper">
                     {this.state.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
+                <ul className="toolbar">
+                    <li><a className="toolbar-item" >Active</a></li>
+                    <li><a className="toolbar-item" >No.</a></li>
+                    <li><a className="toolbar-item" >Title</a></li>
+                    <li><a className="toolbar-item" >Players Active</a></li>
+                    <li><a className="toolbar-item" >Players Capacity</a></li>
+                </ul>
                 <ul className="converssion-area-wrpper">
-                    {this.state.boards.map((board, index) => (<li data-key = {index} key={200 + index} onClick={this.boardClicked}>{board.gameName}</li>))}
+                    {this.state.boards.map((board, index) => (
+                        <div className="singleBoardInLobby" onClick={this.boardClicked}>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{index + 1}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.gameName}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.registerPlayers}.</a></li>
+                            <li><a className = "finishLinelobbyitem" data-key = {index} key={200 + index}>{board.numOfPlayers}</a></li>
+                         </div>
+                    ))}
                 </ul>
             </div>
         )
