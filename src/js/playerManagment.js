@@ -1,4 +1,4 @@
-export default class  PlayerManagement{
+class  PlayerManagement{
     constructor(){
         this.pickColorVidibility = "hidden";
         this.statisticsMassages = undefined;
@@ -15,3 +15,4 @@ export default class  PlayerManagement{
     }
 }
 
+module.exports = PlayerManagement;

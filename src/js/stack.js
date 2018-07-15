@@ -1,12 +1,21 @@
-import {enumCard} from './enumCard'
-import {getUniqueCss} from './operations'
-import ChangeColorCard from './changeColorCard'
-import NumberCard from './numberCard'
-import Plus from './plus'
-import Stop from './stop'
-import SuperTaki from './superTaki'
-import Taki from './taki'
-import TwoPlus from './twoPlus'
+// import {enumCard} from './enumCard'
+// import {getUniqueCss} from './operations'
+// import ChangeColorCard from './changeColorCard'
+// import NumberCard from './numberCard'
+// import Plus from './plus'
+// import Stop from './stop'
+// import SuperTaki from './superTaki'
+// import Taki from './taki'
+// import TwoPlus from './twoPlus'
+const {enumCard} = require('./enumCard');
+const {getUniqueCss} = require('./operations');
+const ChangeColorCard = require('./changeColorCard');
+const NumberCard = require('./numberCard');
+const Plus = require('./plus');
+const Stop = require('./stop');
+const SuperTaki = require('./superTaki');
+const Taki = require('./taki');
+const TwoPlus = require('./twoPlus');
 
 let stack = (function () {
     let cards = [];
@@ -21,7 +30,6 @@ let stack = (function () {
         for (let number = 0; number < twoCardsNumber.length; ++number) {
             for (let color = 0; color < colorNumber.length; ++color) {
                 css = getUniqueCss(Object.keys(enumCard.enumColor)[color], twoCardsNumber[number].toString(), '_');
-
                 cards.push(new NumberCard(colorNumber[color], enumCard.enumTypes.NUMBER, id++, score));
                 cards[cards.length - 1].number = twoCardsNumber[number];
                 cards[cards.length - 1].setElement(css);
@@ -153,4 +161,5 @@ let stack = (function () {
     };
 })();
 
-export {stack}
+// export {stack}
+module.exports.stack = stack;

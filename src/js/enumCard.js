@@ -35,9 +35,9 @@ const enumCard = (function () {
         }),
 
         images: Object.freeze({
-            CLOSE_CARD: "../src/Images/other/close_card.png",
-            MANY_CLOSE_CARDS: "../src/Images/other/many_close_cards.png",
-            FEW_CLOSE_CARDS: "../src/Images/other/few_close_cards.png"
+            CLOSE_CARD: "close_card.png",
+            MANY_CLOSE_CARDS: "many_close_cards.png",
+            FEW_CLOSE_CARDS: "few_close_cards.png"
         }),
 
         enumResult: Object.freeze({
@@ -62,10 +62,10 @@ const enumCard = (function () {
         }),
 
         enumReactPosition: Object.freeze({
-            BUTTON: 0, LEFT: 1, UP: 2, RIGHT: 3
+            BUTTON: 0, UP: 1, LEFT: 2, RIGHT: 3
         })
     }
 })();
 
-export {enumCard}
-
+// export {enumCard}
+module.exports.enumCard = enumCard;

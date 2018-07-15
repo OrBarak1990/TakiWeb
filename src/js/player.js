@@ -1,7 +1,11 @@
-import {enumCard} from './enumCard'
-import {takiModeChecker} from './operations'
+// import {enumCard} from './enumCard'
+// import {takiModeChecker} from './operations'
+const {enumCard} = require('./enumCard');
+const {takiModeChecker} = require('./operations');
 
-export default class Player{
+
+
+class Player{
     constructor(theName,theTurn){
         this.allCards = [];
         this.singleCardCounter = 0;
@@ -82,11 +86,11 @@ export default class Player{
     }
 
     addCards(cardsToAdd, humanAnimation) {
-        this.stateManagement.stackCards.push({humanAnimation: humanAnimation, id: cardsToAdd[0].id});
+        this.stateManagement.playerManagement.forEach(p => p.stackCards.push({humanAnimation: humanAnimation, id: cardsToAdd[0].id}));
         //this.stateManagement.renderAnimationEnd = false;TODO: check after all changes
         this.saveCardsToAdd = cardsToAdd;
     }
-/*
+
     updateCardsToAdd() {
         if(this.saveCardsToAdd !== undefined){
             this.saveCardsToAdd.forEach(card => {
@@ -94,7 +98,7 @@ export default class Player{
             });
             this.saveCardsToAdd = undefined;
         }
-    }*/
+    }
 
     getSingleCardCounter(){
         return this.singleCardCounter;
@@ -148,3 +152,5 @@ export default class Player{
     }
 */
 }
+
+module.exports = Player;

@@ -1,7 +1,9 @@
-import Card from "./card";
-import {enumCard} from './enumCard'
+// import Card from "./card";
+// import {enumCard} from './enumCard'
+const Card = require('./card');
+const {enumCard} = require('./enumCard');
 
-export default class Plus extends Card{
+class Plus extends Card{
 
     constructor(theColor, theSign, theId){
         super(theColor, theSign, theId,10);
@@ -16,3 +18,5 @@ export default class Plus extends Card{
         return !lastCard.isActive() && (lastCard.getColor() === this.getColor() || lastCard.getSign() === this.getSign());
     }
 }
+
+module.exports = Plus;

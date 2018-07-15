@@ -1,8 +1,12 @@
-import Player from './player'
-import {enumCard} from './enumCard'
-import {setCards} from './operations'
+// import Player from './player'
+// import {enumCard} from './enumCard'
+// import {setCards} from './operations'
+const Player = require('./player');
+const {enumCard} = require('./enumCard');
+const {setCards} = require('./operations');
 
-export default class HumanPlayer extends Player{
+
+class HumanPlayer extends Player{
     constructor(username,playerTurn){
         super(username,playerTurn);
         this.turnsPlayed = 0;
@@ -53,9 +57,9 @@ export default class HumanPlayer extends Player{
     doOperation(card, lastCard){
         this.removeCard(card);
         if (card.sign !== enumCard.enumTypes.TWO_PLUS)
-            this.stateManagement.stateManagement[this.turn].direction = card.direction;
+            this.stateManagement.playerManagement[this.turn].direction = card.direction;
         else
-            this.stateManagement.stateManagement[this.turn].direction = undefined;
+            this.stateManagement.playerManagement[this.turn].direction = undefined;
         return super.doOperation(card, lastCard);
     }
 
@@ -84,3 +88,5 @@ export default class HumanPlayer extends Player{
         return enumCard.enumResult.CONTINUE_TURN;
     }
 }
+
+module.exports = HumanPlayer;

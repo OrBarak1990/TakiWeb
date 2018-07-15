@@ -3,8 +3,8 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const auth = require('./authUsers');
 const authBoard = require('./authBoard');
-// const game = require('./../js/game');
-// const stateManagement = require('./../js/stateManagement');
+const game = require('./../js/game');
+const stateManagement = require('./../js/stateManagement');
 
 const gameManagement = express.Router();
 
@@ -19,8 +19,9 @@ gameManagement.post('/',[
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         boardDetail.active = true ;
         if (boardDetail.game === undefined) {
-            boardDetail.game = new game(boardDetail.users);
+            boardDetail.game = new game(boardDetail.users, boardDetail.computer);
             boardDetail.stateManagement = new stateManagement();
+            boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
         }
         const userName = auth.getUserInfo(req.session.id).name;
         let uniqueId;
@@ -34,12 +35,37 @@ gameManagement.post('/',[
     }
 ]);
 
+gameManagement.post('/pull',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        const manger = boardDetail.stateManagement;
+        const uniqueId = body.uniqueID;
+        const answer = {playersCards: manger.playersCards,
+            openCard: manger.openCard, stackImage: manger.stackImage,
+            gameState: manger.gameState,
+            player: manger.playerManagement[uniqueId]};
+        res.json({manager: answer});
+    }
+]);
+
 gameManagement.post('/cardError',[
     auth.userAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         boardDetail.game.renderError(body.error, body.uniqueID);
+        res.sendStatus(200);
+    }
+]);
+
+gameManagement.post('/animationCardEnd',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.game.animationCardEnd(body.uniqueID);
         res.sendStatus(200);
     }
 ]);

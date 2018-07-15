@@ -8,60 +8,83 @@ import PickColor from './pickColor.jsx'
 import Clock from './clockReact.jsx'
 import {enumCard} from "../../js/enumCard";
 
-
 export default class BoardReact extends React.Component {
     constructor(args) {
         super(...args);
         this.pickColorHolder =  React.createRef();
-        this.setGame = this.setGame.bind(this);
-        this.setTournament = this.setTournament.bind(this);
-        this.restart = this.restart.bind(this);
-        this.restartTournament = this.restartTournament.bind(this);
-        this.eachMassage = this.eachMassage.bind(this);
         this.eachPlayer = this.eachPlayer.bind(this);
-        this.next = this.next.bind(this);
-        this.prev = this.prev.bind(this);
+        this.gameRender = this.gameRender.bind(this);
+        this.firstRender = this.firstRender.bind(this);
+        this.getGameContent = this.getGameContent.bind(this);
+        this.importAll = this.importAll.bind(this);
+        // this.next = this.next.bind(this);
+        // this.prev = this.prev.bind(this);
         this.state = {
-            gameState: "start",
+            manager: undefined,
         };
+        this.images = {};
     }
 
+    componentDidMount(){
+        this.getGameContent();
+        this.images = Object.assign((this.importAll(require.context('./../../Images/blue', false, /\.(png|jpe?g|svg)$/))),
+            (this.importAll(require.context('./../../Images/green', false, /\.(png|jpe?g|svg)$/))),
+            (this.importAll(require.context('./../../Images/other', false, /\.(png|jpe?g|svg)$/))),
+            (this.importAll(require.context('./../../Images/red', false, /\.(png|jpe?g|svg)$/))),
+            (this.importAll(require.context('./../../Images/yellow', false, /\.(png|jpe?g|svg)$/))));
+    }
 
-    gameRender(){
+    importAll(r) {
+        let images = {};
+        r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+        return images;
+    }
+
+    render(){
+        if (this.state.manager === undefined)
+            return this.firstRender();
+        return this.gameRender();
+    }
+
+    firstRender(){
         return(
             <div className="container-fluid">
-                <p id ="errors">{this.state.gameDetails.error}</p>
-                //this.state.gameDetails.error
-                <p id ="directions">{this.props.manager.direction}</p>
-
-                {<Clock/>}
-                <Statistics msg= {this.props.manager.statisticsMassages}/>
-                <OpenCards anm = {this.props.manager.openCardAnm} card = {this.props.manager.openCard} open = {true}/>
-                {this.props.manager.playersCards.map(this.eachPlayer)}
-                <PickColor interactive = {true} visible = {this.props.manager.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack cards ={this.props.manager.stackCards} interactive = {true} img = {this.props.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
 
-    pullCardHandler(uniqueId){
-        this.setState({stackAnm: uniqueId % this.props.myIndex});
+    gameRender(){
+        return(
+            <div className="container-fluid">
+                <p id ="errors">{this.state.manager.player.error}</p>
+                //this.state.gameDetails.error
+                <p id ="directions">{this.state.manager.player.direction}</p>
+                {<Clock/>}
+                {/*<Statistics msg= {this.state.manager.player.statisticsMassages}/>*/}
+                <OpenCards images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                {this.state.manager.playersCards.map(this.eachPlayer)}
+                <PickColor interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                <Stack images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+            </div>
+        );
     }
 
     eachPlayer(cards, i) {
         return (
-            <CardsHolder cards={cards} pickColorRef={this.pickColorHolder}
+            <CardsHolder key = {555 + i} cards={cards} pickColorRef={this.pickColorHolder}
                  isDraggable={i % this.props.myIndex === 0}
+                 images = {this.images}
                  open={i % this.props.myIndex === 0}
                  cssId={Object.keys(enumCard.enumReactPosition)[i % this.props.myIndex]}/>
         );
     }
 
 
-    getBoardContent() {
-        return fetch('/game', {
+    getGameContent() {
+        let massage = {uniqueID: this.props.myIndex, gameName: this.props.gameName};
+        return fetch('/game/pull', {
             method: 'POST',
-            body: {uniqueID: this.props.myIndex, boardName: this.props.boardName},
+            body: JSON.stringify(massage),
             credentials: 'include'
         })
             .then((response) => {
@@ -72,9 +95,7 @@ export default class BoardReact extends React.Component {
                 return response.json();
             })
             .then(content => {
-                if(content.pullAnm === true)
-                    this.pullCardHandler(content.uniqueId);
-                this.setState(()=> ({gameDetails: content.gameDetails}));
+                this.setState(()=> ({manager: content.manager}));
             })
     }
 

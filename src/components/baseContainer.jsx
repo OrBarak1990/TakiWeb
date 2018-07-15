@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import LoginModal from './login-modal.jsx';
 import LobbyArea from './Lobby/lobbyArea.jsx';
 import BoardInput from './Lobby/boardInput.jsx';
-// import BoardReact from './Game/boardReact.jsx';
+import BoardReact from './Game/boardReact.jsx';
 import PreGame from './Game/preGame.jsx';
 
 export default class BaseContainer extends React.Component {
@@ -50,7 +50,7 @@ export default class BaseContainer extends React.Component {
     }
 
     boardClickedSuccessHandler(boardDetail){
-        this.setState(()=>({room3: true, boardDetail: boardDetail.boardDetail}));
+        this.setState(()=>({room3: true, boardDetail: boardDetail}));
     }
 
     enterGameHandler(boardDetail){
@@ -130,7 +130,7 @@ export default class BaseContainer extends React.Component {
     * */
     renderRoom3() {
         return(
-            <PreGame enterGameHandler = {this.enterGameHandler} gameName = {this.state.boardDetail.gameName}/>
+            <PreGame enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
         )
     }
 
@@ -145,12 +145,8 @@ export default class BaseContainer extends React.Component {
     }
 
     renderRoom4() {
-        /*return(
-            <BoardReact myIndex = {this.state.myIndex}/>
-        )
-        */
         return(
-            <PreGame enterGameHandler = {this.enterGameHandler} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact myIndex = {this.state.myIndex} gameName = {this.state.boardDetail.gameName}/>
         )
     }
 }

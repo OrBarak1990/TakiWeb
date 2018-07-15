@@ -41,11 +41,11 @@ export default class LobbyArea extends React.Component {
                 </ul>
                 <ul className="converssion-area-wrpper">
                     {this.state.boards.map((board, index) => (
-                        <div className="singleBoardInLobby" onClick={this.boardClicked}>
-                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{index + 1}</a></li>
-                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.gameName}</a></li>
-                            <li><a className = "lobbyitem" data-key = {index} key={200 + index}>{board.registerPlayers}.</a></li>
-                            <li><a className = "finishLinelobbyitem" data-key = {index} key={200 + index}>{board.numOfPlayers}</a></li>
+                        <div className="singleBoardInLobby" key={200 + index} onClick={this.boardClicked}>
+                            <li><a className = "lobbyitem" data-key = {index} >{index + 1}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} >{board.gameName}</a></li>
+                            <li><a className = "lobbyitem" data-key = {index} >{board.registerPlayers}.</a></li>
+                            <li><a className = "finishLinelobbyitem" data-key = {index} >{board.numOfPlayers}</a></li>
                          </div>
                     ))}
                 </ul>
@@ -85,7 +85,7 @@ export default class LobbyArea extends React.Component {
         })
         .then(content => {
             this.setState(()=> ({errMessage: ""}));
-            this.props.boardClickedSuccessHandler({boardDetail: content.boardDetail});
+            this.props.boardClickedSuccessHandler(content.boardDetail);
         })
     }
 }

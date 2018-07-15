@@ -1,7 +1,10 @@
-import Card from "./card";
-import {enumCard} from './enumCard'
+// import Card from "./card";
+// import {enumCard} from './enumCard'
+const Card = require('./card');
+const {enumCard} = require('./enumCard');
 
-export default class NumberCard extends Card{
+
+class NumberCard extends Card{
 
     constructor(theColor, theSign, theId, theScore){
         super(theColor, theSign, theId, theScore);
@@ -16,3 +19,4 @@ export default class NumberCard extends Card{
     }
 }
 
+module.exports = NumberCard;

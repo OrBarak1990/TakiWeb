@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import CloseCard from './../../Images/other/close_card.png'
 import {enumCard} from './../../js/enumCard'
-
 export default class CardReact extends React.Component {
     constructor(args) {
         super(...args);
@@ -54,7 +53,14 @@ export default class CardReact extends React.Component {
     }
 
     endAnimation(){
-        this.props.game.animationCardEnd();
+        let massage = {error: error, uniqueId: this.props.uniqueId,
+            gameName: this.props.gameName};
+        return fetch('/game/animationCardEnd', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+        // this.props.game.animationCardEnd();
     }
 
     renderWithComputerAnimation(){
@@ -76,7 +82,9 @@ export default class CardReact extends React.Component {
     renderWithBold(){
         return(
             <a id= "bold">
-                <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout} draggable={this.props.isDraggable} onDragStart={this.onDragStart} src={this.props.openImg? this.props.image : CloseCard}/>
+                <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout}
+                     draggable={this.props.isDraggable} onDragStart={this.onDragStart}
+                     src={this.props.openImg? this.props.images[this.props.image] : CloseCard}/>
             </a>
         );
     }
@@ -84,7 +92,9 @@ export default class CardReact extends React.Component {
     renderWithoutBold(){
         return(
             <a id="regular">
-                <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout} draggable={this.props.isDraggable} onDragStart={this.onDragStart} src={this.props.openImg? this.props.image : CloseCard}/>
+                <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout}
+                     draggable={this.props.isDraggable} onDragStart={this.onDragStart}
+                     src={this.props.openImg? this.props.images[this.props.image] : CloseCard}/>
             </a>
         );
     }

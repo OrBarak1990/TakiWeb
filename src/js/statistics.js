@@ -1,5 +1,7 @@
-import {enumCard} from './enumCard'
-export default class statistics {
+// import {enumCard} from './enumCard'
+const {enumCard} = require('./enumCard');
+
+class statistics {
     
     constructor(thePlayersGame){
         this.playersGame = thePlayersGame;
@@ -30,3 +32,5 @@ export default class statistics {
          this.manager = statisticsManager;
      }
 }
+
+module.exports = statistics;

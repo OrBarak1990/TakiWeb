@@ -1,12 +1,19 @@
-const HumanPlayer = require('HumanPlayer');
 // import HumanPlayer from './HumanPlayer'
-import SmartComputer from './smartComputer'
-import statistics from './statistics'
-import {stack} from './stack'
-import {enumCard} from './enumCard'
-import {setCards, takiPermission, takeCards, getUniqueCss} from './operations'
+// import SmartComputer from './smartComputer'
+// import statistics from './statistics'
+// import {stack} from './stack'
+// import {enumCard} from './enumCard'
+// import {setCards, takiPermission, takeCards, getUniqueCss} from './operations'
+const HumanPlayer = require('./HumanPlayer');
+const SmartComputer = require('./smartComputer');
+const statistics = require('./statistics');
+const {stack} = require('./stack');
+const {enumCard} = require('./enumCard');
+const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operations');
 
-export default class Game{
+
+
+ class Game{
 
     constructor(users, computer){
         this.gameCards = [];
@@ -329,19 +336,21 @@ export default class Game{
             this.savesStates.push(this.stateManagement.clone());
     }
 
-/*  animationCardEnd(){
-        this.stateManagement.stackCards.splice(0, 1);
-        if(this.stateManagement.stackCards.length === 0 && !this.stateManagement.renderAnimationEnd)
-            this.renderAnimation();
+  animationCardEnd(uniqueID){
+        this.stateManagement.playerManagement[uniqueID].stackCards.splice(0, 1);
+        if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
+            !this.stateManagement.playerManagement[uniqueID].renderAnimationEnd)
+            this.renderAnimation(uniqueID);
     }
 
-    renderAnimation(){
-        this.stateManagement.message = undefined;
-        this.players.forEach(p => p.updateCardsToAdd());
-        if(!this.tournament)
-            this.savesStates.push(this.stateManagement.clone());
-        this.stateManagement.renderAnimationEnd = true;
-    }*/ // TODO:: understand for what this two use for
+    renderAnimation(uniqueID){
+        this.stateManagement.playerManagement[uniqueID].message = undefined;
+        this.players[uniqueID].updateCardsToAdd();
+        /*if(!this.tournament)
+            this.savesStates.push(this.stateManagement.clone());*/
+        this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());
+        this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
+    } // TODO:: understand for what this two use for
 
     renderError(error){
         //this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
@@ -375,3 +384,5 @@ export default class Game{
     }
     */
 }
+
+module.exports = Game;

@@ -1,7 +1,10 @@
-import Player from './player'
-import {enumCard} from './enumCard'
+// import Player from './player'
+// import {enumCard} from './enumCard'
+const {enumCard} = require('./enumCard');
+const Player = require('./player');
 
-export default class SmartComputer extends Player{
+
+class SmartComputer extends Player{
 
     constructor(playerTurn){
         super("ComputerPlayer",playerTurn);
@@ -494,3 +497,5 @@ export default class SmartComputer extends Player{
         return this.pickedColor;
     }
 }
+
+module.exports = SmartComputer;

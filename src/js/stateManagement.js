@@ -1,4 +1,6 @@
-export default class  StateManagement{
+const PlayerManagement = require('./playerManagment');
+
+class  StateManagement{
     constructor(){
         this.playersCards = [];
         this.playerManagement = [];
@@ -12,16 +14,16 @@ export default class  StateManagement{
         this.setQuitGame = this.setQuitGame.bind(this);
     }
 
-    setStartGame(boardReact, game){
-        this.boardReact = boardReact;
+    setStartGame(game, players){
         this.game = game;
+        for(let i = 0; i < players; ++i)
+            this.playerManagement.push(new PlayerManagement());
         this.game.setManager(this);
         this.gameState = "gaming";
         this.game.startGame();
     }
 
-    setStartTournament(boardReact, game){
-        this.boardReact = boardReact;
+    setStartTournament(game){
         this.game = game;
         this.game.setManager(this);
         this.gameState = "gaming";
@@ -43,19 +45,16 @@ export default class  StateManagement{
     endGame(message){
         this.message = message;
         this.gameState =  "endGame";
-        this.boardReact.changeSate(this.gameState);
     }
 
     endGameInTournament(message){
         this.message = message;
         this.gameState =  "endGameInTournament";
-        this.boardReact.changeSate(this.gameState);
     }
 
     endTournament(message){
         this.message = message;
         this.gameState =  "endTournament";
-        this.boardReact.changeSate(this.gameState);
     }
 
     setRestartTournamentStartGame(){
@@ -111,3 +110,4 @@ export default class  StateManagement{
     }
 }
 
+    module.exports = StateManagement;

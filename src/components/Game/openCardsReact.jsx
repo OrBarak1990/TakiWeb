@@ -32,7 +32,7 @@ export default class CardHolderReact extends React.Component {
     renderWithAnimation(){
         return(
             <div onAnimationEnd={this.finishAnimation} onDragOver={this.allowDrop} onDrop = {this.Drop} id = {"openCards"} style={{transition: "0.6s",animation: "opencard_move 1.5s"}} >
-                <img draggable={false} src={this.props.card.image}/>
+                <img draggable={false} src={this.props.images[this.props.card.image]}/>
             </div>
         );
     }
@@ -40,7 +40,7 @@ export default class CardHolderReact extends React.Component {
     renderWithoutAnimation(){
         return(
             <div onDragOver={this.allowDrop} onDrop = {this.Drop} id = {"openCards"}>
-                <img draggable={false} src={this.props.card.image}/>
+                <img draggable={false} src={this.props.images[this.props.card.image]}/>
             </div>
         );
     }

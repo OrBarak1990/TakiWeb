@@ -1,6 +1,7 @@
-import {enumCard} from './enumCard'
+// import {enumCard} from './enumCard'
+const {enumCard} = require('./enumCard');
 
-export default class Card{
+class Card{
 
     constructor (theColor, theSign, theId, theScore){
         this.color = theColor;
@@ -12,12 +13,7 @@ export default class Card{
     }
 
     setUniqueImage(imgName) {
-        let colorName;
-        if(this.color !== undefined)
-            colorName = Object.keys(enumCard.enumColor)[this.color].toLowerCase();
-        else
-            colorName = "other";
-        this.uniqueCardImage = "../src/Images/" + colorName + "/" + imgName.toLowerCase() + ".png";
+        this.uniqueCardImage = imgName.toLowerCase() + ".png";
     }
 
     isActive (){
@@ -52,3 +48,5 @@ export default class Card{
         this.active = activeness;
     };
 }
+
+module.exports = Card;
