@@ -65,7 +65,7 @@ gameManagement.post('/animationCardEnd',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.game.animationCardEnd(body.uniqueID);
+        boardDetail.game.animationCardEnd(body.uniqueId);
         res.sendStatus(200);
     }
 ]);

@@ -30,7 +30,7 @@ lobbyManagement.post('/',[
             const userInfo =  auth.getUserInfo(req.session.id);
             const details = {gameName: gameName, numOfPlayers: numOfPlayers,
                 userName:userInfo.name, computer: computer, users: [], active: false,
-                registerPlayers: registers};
+                registerPlayers: registers ,color: "green"};
             authBoard.addBoardToBoardList(details);
             res.sendStatus(200);
         }
@@ -44,6 +44,9 @@ lobbyManagement.post('/boardClicked',[
             const body = JSON.parse(req.body);
             const boardDetail = authBoard.getBoardDetail(body.gameName);
             boardDetail.users.push(auth.getUserInfo(req.session.id).name);
+            if(boardDetail.active === true){
+                boardDetail.color = "red";
+            }
             res.json({boardDetail: boardDetail});
         }
     ]);

@@ -85,6 +85,7 @@ html{
 
 
 .toolbar-item {
+    width: 15%;
     cursor: context-menu;
     float: left;
     display: block;
@@ -105,7 +106,8 @@ html{
     border-color: #cadcff;
 }
 
-.singleBoardInLobby .lobbyitem{
+.singleBoardInLobby .singleBoardItem{
+    width: 15%;
     float: left;
     display: block;
     color: white;
@@ -115,7 +117,8 @@ html{
     justify-content: space-between;
 }
 
-.singleBoardInLobby .finishLinelobbyitem{
+.singleBoardInLobby .finishLinesingleBoardItem{
+    width: 15%;
     display: inline-block;
     color: white;
     text-align: center;

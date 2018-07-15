@@ -1,3 +1,4 @@
+import css from '../../css/cards.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Statistics from './statisticsReact.jsx'
@@ -57,14 +58,13 @@ export default class BoardReact extends React.Component {
         return(
             <div className="container-fluid">
                 <p id ="errors">{this.state.manager.player.error}</p>
-                //this.state.gameDetails.error
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
                 {/*<Statistics msg= {this.state.manager.player.statisticsMassages}/>*/}
                 <OpenCards images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <Stack uniqueID = {this.props.myIndex} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
@@ -75,7 +75,10 @@ export default class BoardReact extends React.Component {
                  isDraggable={i % this.props.myIndex === 0}
                  images = {this.images}
                  open={i % this.props.myIndex === 0}
-                 cssId={Object.keys(enumCard.enumReactPosition)[i % this.props.myIndex]}/>
+                 cssId={Object.keys(enumCard.enumReactPosition)[i % this.props.myIndex]}
+                 uniqueID = {i % this.props.myIndex}
+                 gameName={this.props.gameName}
+                 />
         );
     }
 
