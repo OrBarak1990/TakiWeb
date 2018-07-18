@@ -34,6 +34,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         }
         if (computer)
             this.players.push(new SmartComputer(users.length));
+        this.computer = computer;
     }
     
     changeTurn(promote, dropAnm) {
@@ -330,10 +331,12 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     updateManagement(dropAnm) {
-        this.stateManagement.stateManagement.forEach(p => p.openCardAnm = dropAnm);
-        this.stateManagement.stateManagement[this.turn].error = undefined;
-        if(!this.tournament && this.stateManagement.stackCards.length === 0)
-            this.savesStates.push(this.stateManagement.clone());
+        this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
+        if (!(this.computer && this.turn === this.players.length - 1)) {
+            this.stateManagement.playerManagement[this.turn].error = undefined;
+            if (!this.tournament && this.stateManagement.playerManagement[this.turn].stackCards.length === 0)
+                this.stateManagement.playerManagement[this.turn].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
+        }
     }
 
   animationCardEnd(uniqueID){
@@ -346,17 +349,20 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     renderAnimation(uniqueID){
         this.stateManagement.playerManagement[uniqueID].message = undefined;
         this.players[uniqueID].updateCardsToAdd();
+         if(this.computer && uniqueID === 0) {
+             this.players[this.players.length - 1].updateCardsToAdd();
+         }
         /*if(!this.tournament)
             this.savesStates.push(this.stateManagement.clone());*/
-        this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());
+        this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
         this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
     } // TODO:: understand for what this two use for
 
     renderError(error){
         //this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
         //this.stateManagement.pullCardAnimation = false;//TODO: check after all changes, if neccessery
-        this.stateManagement.stateManagement[this.turn].error = error;
-        this.stateManagement.stateManagement[this.turn].direction = undefined;
+        this.stateManagement.playerManagement[this.turn].error = error;
+        this.stateManagement.playerManagement[this.turn].direction = undefined;
     }
 
     /*

@@ -42,7 +42,7 @@ class HumanPlayer extends Player{
     setCards(theCards) {
         this.allCards = theCards;
         setInterval(this.calcCurrentTurn.bind(this),1000);
-        super.setCardsPlace(true);
+        super.setCardsPlace();
     }
 
     setTurnsPlayed(currentTurnsPlayed){
@@ -65,7 +65,7 @@ class HumanPlayer extends Player{
 
     pullCardFromStock(cardsToSet) {
         setCards(this.allCards, cardsToSet);
-        super.addCards(cardsToSet,true);
+        super.addCards(cardsToSet);
     }
 
 

@@ -80,13 +80,13 @@ class Player{
         return this.averageTimePlayed;
     }
 
-    setCardsPlace(humanAnimation){
+    setCardsPlace(){
         this.stateManagement.playersCards[this.turn] = [];
-        this.addCards(this.allCards, humanAnimation);
+        this.addCards(this.allCards);
     }
 
-    addCards(cardsToAdd, humanAnimation) {
-        this.stateManagement.playerManagement.forEach(p => p.stackCards.push({humanAnimation: humanAnimation, id: cardsToAdd[0].id}));
+    addCards(cardsToAdd) {
+        this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.turn, id: cardsToAdd[0].id}));
         //this.stateManagement.renderAnimationEnd = false;TODO: check after all changes
         this.saveCardsToAdd = cardsToAdd;
     }

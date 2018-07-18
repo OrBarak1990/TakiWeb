@@ -146,7 +146,7 @@ export default class BaseContainer extends React.Component {
 
     renderRoom4() {
         return(
-            <BoardReact myIndex = {this.state.myIndex} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact uniqueID = {this.state.myIndex} myModul = {this.state.myIndex + this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
         )
     }
 }

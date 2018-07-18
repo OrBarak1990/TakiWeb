@@ -83,18 +83,14 @@ class  StateManagement{
 
     clone(){
         let cloneState = new StateManagement();
-        cloneState.playersCards = [];
-        cloneState.playersCards[0] = this.playersCards[0];
-        cloneState.playersCards[1] = this.playersCards[1];
-        cloneState.pickColorVidibility = this.pickColorVidibility;
+        //cloneState.playersCards = [];
+        for(let i = 0;i < this.playerManagement.length;++i){
+            cloneState.playersCards[i] = this.playersCards[i];
+            cloneState.playerManagement.push(this.playerManagement[i].clone());
+        }
         cloneState.openCard = this.openCard;
         cloneState.stackImage = this.stackImage;
-        cloneState.statisticsMassages = this.statisticsMassages;
         cloneState.gameState =  "endGame";
-        cloneState.message = this.message;
-        cloneState.error = this.error;
-        cloneState.game = this.game;
-        cloneState.boardReact = this.boardReact;
         return cloneState;
     }
 

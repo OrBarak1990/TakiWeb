@@ -51,7 +51,7 @@ export default class CardHolderReact extends React.Component {
 
     Drop(ev) {
         let id = ev.dataTransfer.getData("Text");
-        let massage = {id: id, uniqueId: this.props.uniqueId,
+        let massage = {id: id, uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/setDrop', {
             method: 'POST',

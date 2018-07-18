@@ -43,6 +43,7 @@ export default class CardReact extends React.Component {
             else {
                 return this.renderWithComputerAnimation();
             }
+            // return this.renderAnimation();
         }
         else {
             if (!this.state.bold)
@@ -54,10 +55,10 @@ export default class CardReact extends React.Component {
 
     endAnimation(){
 /*
-        let massage = {error: error, uniqueID: this.props.uniqueId,
+        let massage = {error: error, playerID: this.props.uniqueId,
             gameName: this.props.gameName};
 */
-        let massage = {uniqueId: this.props.uniqueID, gameName: this.props.gameName};
+        let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
 
         return fetch('/game/animationCardEnd', {
             method: 'POST',
@@ -66,6 +67,14 @@ export default class CardReact extends React.Component {
         })
         // this.props.game.animationCardEnd();
     }
+
+/*    renderAnimation(){
+        return(
+            <a id="regular">
+                <img onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+            </a>
+        );
+    }*/
 
     renderWithComputerAnimation(){
         return(
