@@ -33,19 +33,18 @@ export default class LobbyArea extends React.Component {
                     {this.state.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
                 <ul className="toolbar">
-                    <li><a className="toolbar-item" >Active</a></li>
-                    <li><a className="toolbar-item" >No.</a></li>
+                    <li><a className="toolbar-item" >Number</a></li>
                     <li><a className="toolbar-item" >Title</a></li>
                     <li><a className="toolbar-item" >Players Active</a></li>
                     <li><a className="toolbar-item" >Players Capacity</a></li>
                 </ul>
                 <ul className="converssion-area-wrpper">
                     {this.state.boards.map((board, index) => (
-                        <div className="singleBoardInLobby" key={200 + index} onClick={this.boardClicked}>
-                            <li><a className = "lobbyitem" data-key = {index} >{index + 1}</a></li>
-                            <li><a className = "lobbyitem" data-key = {index} >{board.gameName}</a></li>
-                            <li><a className = "lobbyitem" data-key = {index} >{board.registerPlayers}.</a></li>
-                            <li><a className = "finishLinelobbyitem" data-key = {index} >{board.numOfPlayers}</a></li>
+                        <div className="singleBoardInLobby" key={200 + index} onClick={this.boardClicked} style ={{background:board.color}}>
+                            <li><a className = "singleBoardItem" data-key = {index} >{index + 1}</a></li>
+                            <li><a className = "singleBoardItem" data-key = {index} >{board.gameName}</a></li>
+                            <li><a className = "singleBoardItem" data-key = {index} >{board.registerPlayers}.</a></li>
+                            <li><a className = "finishLinesingleBoardItem" data-key = {index} >{board.numOfPlayers}</a></li>
                          </div>
                     ))}
                 </ul>

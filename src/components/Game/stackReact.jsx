@@ -13,7 +13,7 @@ export default class StackReact extends React.Component {
 
     eachCard(card, i) {
         return(
-            <CardReact humanAnimation = {card.humanAnimation} pullCardAnimation ={true} key = {i + 400}/>
+            <CardReact uniqueID = {this.props.uniqueID} gameName={this.props.gameName} humanAnimation = {card.humanAnimation} pullCardAnimation ={true} key = {i + 400}/>
         );
     }
 
