@@ -5,8 +5,8 @@ class  PlayerManagement{
         this.openCardAnm = false;
         this.stackCards = [];
         this.message = [];
-        this.error = undefined;
-        this.direction = undefined;
+        this.error = [];
+        this.direction = [];
         this.savesStates = [];
     }
 

@@ -64,7 +64,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     colorPicked(pickedColor, uniqueId) {
-        this.stateManagement.playerManagement[uniqueId].direction = undefined;
+        this.stateManagement.playerManagement[uniqueId].direction = [];
         //this.stateManagement.playerManagement[uniqueId].openCardAnm = false; //TODO: check after all changes, if neccessery
         this.stateManagement.playerManagement[uniqueId].pickColorVidibility = "hidden";
         this.gameCards[this.gameCards.length - 1].setColor(pickedColor);
@@ -128,7 +128,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     pullCardValidation(player) {
-        this.stateManagement.playerManagement[this.turn].direction = undefined;
+        this.stateManagement.playerManagement[this.turn].direction = [];
         //this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
         if (player === this.players[this.turn] && player.pullApproval(this.gameCards[this.gameCards.length - 1])) {
             this.stateManagement.stackImage = stack.getStackImage();
@@ -180,11 +180,11 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     initialGameAndStatistics() {
-        this.turn = 0;
+        this.turn = 0; //TODO: change that
         this.partition();
         this.gameStatistics = new statistics(this.players);
         this.gameStatistics.setManager(this.stateManagement);
-        this.gameStatistics.updateStatistics(0);
+        this.gameStatistics.updateStatistics(this.turn);
         this.stateManagement.stackImage = stack.getStackImage();
         this.stateManagement.playerManagement.forEach(p => p.pickColorVidibility = "hidden");
     }
@@ -294,7 +294,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     endGameMode(message) {
         let newMsg = [];
         newMsg[0] = message + " win!";
-        this.stateManagement.stateManagement.forEach(p => p.error = undefined);
+        this.stateManagement.stateManagement.forEach(p => p.error = []);
 /*
         if(this.tournament)
             this.tournamentGameEnd(newMsg);
@@ -333,7 +333,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     updateManagement(dropAnm) {
         this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
         if (!(this.computer && this.turn === this.players.length - 1)) {
-            this.stateManagement.playerManagement[this.turn].error = undefined;
+            this.stateManagement.playerManagement[this.turn].error = [];
             if (!this.tournament && this.stateManagement.playerManagement[this.turn].stackCards.length === 0)
                 this.stateManagement.playerManagement[this.turn].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
         }
@@ -362,7 +362,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         //this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
         //this.stateManagement.pullCardAnimation = false;//TODO: check after all changes, if neccessery
         this.stateManagement.playerManagement[this.turn].error = error;
-        this.stateManagement.playerManagement[this.turn].direction = undefined;
+        this.stateManagement.playerManagement[this.turn].direction = [];
     }
 
     /*

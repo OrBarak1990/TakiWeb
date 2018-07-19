@@ -81,21 +81,21 @@ img{
     margin-right: -5%;
 }
 
-#playerCards {
+#BUTTON {
     bottom: 2%;
     left: 30%;
     height: 120px;
     position: fixed;
 }
 
-#computerCards {
+#UP {
     position: fixed;
     top: 2%;
     left: 30%;
     margin: auto;
 }
 
-#computerCards .closeCard{
+#UP .closeCard{
     height: 140px;
     width: 90px;
     float: left;
@@ -211,7 +211,6 @@ img{
 }
 
 #bold{
-    top: -15px;
     position:relative;
     transition: 0.6s;
     animation: rotating 2s linear infinite;
