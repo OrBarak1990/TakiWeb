@@ -26,6 +26,7 @@ export default class CardHolderReact extends React.Component {
     }
 
     finishAnimation(){
+        this.props.player.openCardAnm = false;
         this.setState({anm: false});
     }
 

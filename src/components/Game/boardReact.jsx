@@ -60,8 +60,8 @@ export default class BoardReact extends React.Component {
                 <p id ="errors">{this.state.manager.player.error}</p>
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
-                {/*<Statistics msg= {this.state.manager.player.statisticsMassages}/>*/}
-                <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} player ={this.state.manager.player} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
                 <Stack uniqueID={this.props.uniqueID}  myModul = {this.props.myModul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>

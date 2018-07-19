@@ -40,7 +40,7 @@ export default class StackReact extends React.Component {
         else{
             this.props.game.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN);
         }*/
-        let massage = {uniqueId: this.props.uniqueId,
+        let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/pullCard', {
             method: 'POST',

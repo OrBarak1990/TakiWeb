@@ -98,7 +98,7 @@ gameManagement.post('/pullCard',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.game.pullCard(body.color, body.uniqueID);
+        boardDetail.game.pullCard(body.uniqueID);
         res.sendStatus(200);
     }
 ]);
