@@ -21,7 +21,7 @@ gameManagement.post('/',[
         if (boardDetail.game === undefined) {
             boardDetail.game = new game(boardDetail.users, boardDetail.computer);
             boardDetail.stateManagement = new stateManagement();
-            boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.users.length);
+            boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
         }
         const userName = auth.getUserInfo(req.session.id).name;
         let uniqueId;
@@ -99,6 +99,16 @@ gameManagement.post('/pullCard',[
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         boardDetail.game.pullCard(body.uniqueID);
+        res.sendStatus(200);
+    }
+]);
+
+gameManagement.post('/finishAnimation',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.stateManagement.playerManagement[body.uniqueID].openCardAnm = false;
         res.sendStatus(200);
     }
 ]);

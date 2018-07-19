@@ -56,7 +56,8 @@ lobbyManagement.post('/getBoard',[
     (req, res) => {
         const body = req.body;
         const boardDetail = authBoard.getBoardDetail(body);
-        res.json({boardDetail: boardDetail});
+        res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
+                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName}});
     }
 ]);
 module.exports = lobbyManagement;

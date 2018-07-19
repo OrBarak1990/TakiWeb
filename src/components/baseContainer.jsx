@@ -5,6 +5,7 @@ import LobbyArea from './Lobby/lobbyArea.jsx';
 import BoardInput from './Lobby/boardInput.jsx';
 import BoardReact from './Game/boardReact.jsx';
 import PreGame from './Game/preGame.jsx';
+import {enumCard} from "../js/enumCard";
 
 export default class BaseContainer extends React.Component {
     constructor(args) {
@@ -24,6 +25,7 @@ export default class BaseContainer extends React.Component {
         this.logoutHandler= this.logoutHandler.bind(this);
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
         this.enterGameHandler = this.enterGameHandler.bind(this);
+        this.getPos = this.getPos.bind(this);
 
         this.getUserName();
     }
@@ -146,8 +148,18 @@ export default class BaseContainer extends React.Component {
 
     renderRoom4() {
         return(
-            <BoardReact uniqueID = {this.state.myIndex} myModul = {this.state.myIndex + this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} modul = {this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
         )
+    }
+
+    getPos() {
+        if(this.state.myIndex === 0 )
+            return enumCard.enumReactPosition_0;
+        else if(this.state.myIndex === 1 )
+            return enumCard.enumReactPosition_1;
+        else if(this.state.myIndex === 2 )
+            return enumCard.enumReactPosition_2;
+        return enumCard.enumReactPosition_3;
     }
 }
 

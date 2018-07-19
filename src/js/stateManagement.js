@@ -1,4 +1,5 @@
 const PlayerManagement = require('./playerManagment');
+const {enumCard} = require('./enumCard');
 
 class  StateManagement{
     constructor(){
@@ -30,6 +31,22 @@ class  StateManagement{
         this.game.startTournament();
     }
 
+    updateDirection(card, playerID){
+        this.playerManagement[playerID].direction = undefined;
+        if (card.sign !== enumCard.enumTypes.TWO_PLUS)
+            this.playerManagement[playerID].direction = card.direction;
+        else
+            this.playerManagement[(playerID + 1) % this.playerManagement.length].direction = card.direction;
+    }
+
+    deletePlayerCard(card,playerID){
+        for(let i = 0; i < this.playersCards[playerID].length; ++i){
+            if (this.playersCards[playerID][i].id === card.id) {
+                this.playersCards[playerID].splice(i, 1);
+                break;
+            }
+        }
+    }
     renderPush(uniqueIndex){
         // this.pullCardsCallBacks.forEach(r => r.push(uniqueIndex));
     }
@@ -43,7 +60,7 @@ class  StateManagement{
     }
 
     endGame(message){
-        this.message = message;
+        this.playerManagement.forEach(p => p.message = message);
         this.gameState =  "endGame";
     }
 

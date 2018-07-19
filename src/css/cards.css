@@ -1,14 +1,14 @@
-@-webkit-keyframes opencard_move {
+@keyframes opencard_move {
     from {top: 38%;}
     to {top: 35%;}
 }
 
-@-webkit-keyframes computerPullCard_move {
+@-webkit-keyframes UP_move {
     from {left: 55%;  top: 35%;}
     to {left: 40%; top: 4%;}
 }
 
-@-webkit-keyframes humanPullCard_move {
+@-webkit-keyframes BUTTON_move {
     from {left: 55%;  top: 35%;}
     to {left: 40%; top: 80%;}
 }
@@ -214,6 +214,9 @@ img{
     position:relative;
     transition: 0.6s;
     animation: rotating 2s linear infinite;
+}
+#endPullCardAnm{
+    top:-200%
 }
 
 #regular{

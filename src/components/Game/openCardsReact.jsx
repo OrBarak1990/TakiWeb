@@ -26,8 +26,15 @@ export default class CardHolderReact extends React.Component {
     }
 
     finishAnimation(){
-        this.props.player.openCardAnm = false;
-        this.setState({anm: false});
+        // this.props.player.openCardAnm = false;
+        // this.setState({anm: false});
+        let massage = {uniqueID: this.props.uniqueID,
+            gameName: this.props.gameName};
+        return fetch('/game/finishAnimation', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
     }
 
     renderWithAnimation(){

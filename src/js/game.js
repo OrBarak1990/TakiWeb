@@ -43,6 +43,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.players[this.turn].resetPlayerClock();
         this.updateManagement(dropAnm);
         this.turn = (this.turn + promote) % this.players.length;
+        this.stateManagement.playerManagement[this.turn].direction = [];
+        this.stateManagement.playerManagement[this.turn].error = [];
         this.gameStatistics.updateStatistics(this.turn);
     }
 
@@ -76,11 +78,12 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         setTimeout(this.computerOperation, 2200);
     }
 
-    setDrop(id){
+    setDrop(id, uniqueID){
         let card = this.players[this.turn].getCard(id);
         if (card !== undefined) {
             this.dropValidation(card);
-        }
+        }else
+            this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
     }
 
     dropValidation(card) {
@@ -104,9 +107,9 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         }else{
            // this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
             if(!takiPermission(this.players[this.turn], card))
-                this.renderError(enumCard.enumErrors.CARD_NOT_IN_TAKI);
+                this.renderError(enumCard.enumErrors.CARD_NOT_IN_TAKI, this.turn);
             else
-                this.renderError(enumCard.enumErrors.CARD_NOT_AUTHORIZED);
+                this.renderError(enumCard.enumErrors.CARD_NOT_AUTHORIZED, this.turn);
         }
     }
 
@@ -120,11 +123,11 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.stateManagement.stackImage = stack.getStackImage();
     }
 
-    pullCard(uniqueId){
-        if(this.turn === uniqueId)
+    pullCard(uniqueID){
+        if(this.turn === uniqueID)
             this.pullCardValidation(this.players[this.turn]);
         else
-            this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN);
+            this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
     }
 
     pullCardValidation(player) {
@@ -146,10 +149,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             setTimeout(this.computerOperation, 2200);
         }
         else{
-            if(player !== this.players[this.turn])
-                this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN);
-            else
-                this.renderError(enumCard.enumErrors.PULL_CARD_WITH_AVAILABLE_CARD);
+            this.renderError(enumCard.enumErrors.PULL_CARD_WITH_AVAILABLE_CARD, this.turn);
         }
     }
 
@@ -234,7 +234,9 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.players[i].setTurnsPlayed(playerTurn[i]);
         }
 
-        this.renderError();
+        // this.renderError();//TODO:: need to fix for able to restart
+        for(let i = 0; i < this.players.length; i++)
+            this.renderError(undefined,i);
         this.initialGameAndStatistics();
         setTimeout(this.computerOperation, 2200);
     }
@@ -294,7 +296,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     endGameMode(message) {
         let newMsg = [];
         newMsg[0] = message + " win!";
-        this.stateManagement.stateManagement.forEach(p => p.error = []);
+        this.stateManagement.playerManagement.forEach(p => p.error = []);
 /*
         if(this.tournament)
             this.tournamentGameEnd(newMsg);
@@ -332,6 +334,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
 
     updateManagement(dropAnm) {
         this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
+        this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
         if (!(this.computer && this.turn === this.players.length - 1)) {
             this.stateManagement.playerManagement[this.turn].error = [];
             if (!this.tournament && this.stateManagement.playerManagement[this.turn].stackCards.length === 0)
@@ -341,12 +344,14 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
 
   animationCardEnd(uniqueID){
         this.stateManagement.playerManagement[uniqueID].stackCards.splice(0, 1);
-        if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
+        /*if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
             !this.stateManagement.playerManagement[uniqueID].renderAnimationEnd)
-            this.renderAnimation(uniqueID);
+            this.renderEndAnimation(uniqueID);*/
+      if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0)
+          this.renderEndAnimation(uniqueID);
     }
 
-    renderAnimation(uniqueID){
+    renderEndAnimation(uniqueID){
         this.stateManagement.playerManagement[uniqueID].message = undefined;
         this.players[uniqueID].updateCardsToAdd();
          if(this.computer && uniqueID === 0) {
@@ -355,14 +360,14 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         /*if(!this.tournament)
             this.savesStates.push(this.stateManagement.clone());*/
         this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
-        this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
+        // this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
     } // TODO:: understand for what this two use for
 
-    renderError(error){
+    renderError(error, playerID){
         //this.stateManagement.openCardAnm = false;//TODO: check after all changes, if neccessery
         //this.stateManagement.pullCardAnimation = false;//TODO: check after all changes, if neccessery
-        this.stateManagement.playerManagement[this.turn].error = error;
-        this.stateManagement.playerManagement[this.turn].direction = [];
+        this.stateManagement.playerManagement[playerID].error = error;
+        this.stateManagement.playerManagement[playerID].direction = [];
     }
 
     /*
