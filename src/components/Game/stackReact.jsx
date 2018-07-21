@@ -10,13 +10,14 @@ export default class StackReact extends React.Component {
         this.dragStart = this.dragStart.bind(this);
         this.eachCard = this.eachCard.bind(this);
     }
-//            {/*<CardReact animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>*/}
+//            <CardReact uniqueID = {this.props.uniqueID} gameName={this.props.gameName}humanAnimation = {humanAnimation} pullCardAnimation ={true} game = {this.props.game} key = {i + 400}/>
+//        let humanAnimation = card.playerID % this.props.myModul === 0;
 
     eachCard(card, i) {
-        // let anm = Object.keys(enumCard.enumReactPosition)[card.playerID % this.props.myModul];
-        let humanAnimation = card.playerID % this.props.myModul === 0;
+        let anm = Object.keys(this.props.enumReactPosition)[card.playerID];
+        anm = anm.concat("_move 2s");
         return(
-            <CardReact uniqueID = {this.props.uniqueID} gameName={this.props.gameName}humanAnimation = {humanAnimation} pullCardAnimation ={true} game = {this.props.game} key = {i + 400}/>
+            <CardReact animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>
         );
     }
 

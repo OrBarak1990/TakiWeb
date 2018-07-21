@@ -43,7 +43,7 @@ export default class CardReact extends React.Component {
             else {
                 return this.renderWithComputerAnimation();
             }
-            // return this.renderAnimation();
+            // return this.renderEndAnimation();
         }
         else {
             if (!this.state.bold)
@@ -68,7 +68,7 @@ export default class CardReact extends React.Component {
         // this.props.game.animationCardEnd();
     }
 
-/*    renderAnimation(){
+/*    renderEndAnimation(){
         return(
             <a id="regular">
                 <img onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
@@ -79,7 +79,7 @@ export default class CardReact extends React.Component {
     renderWithComputerAnimation(){
         return(
             <a id="regular">
-                <img onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: "computerPullCard_move 2s", position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
     }
@@ -87,7 +87,7 @@ export default class CardReact extends React.Component {
     renderWithHumanAnimation(){
         return(
             <a id="regular">
-                <img onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: "humanPullCard_move 2s", position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
     }

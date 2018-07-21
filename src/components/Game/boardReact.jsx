@@ -63,8 +63,8 @@ export default class BoardReact extends React.Component {
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
                 <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} player ={this.state.manager.player} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
-                <PickColor interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack uniqueID={this.props.uniqueID}  myModul = {this.props.myModul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <PickColor uniqueID={this.props.uniqueID} gameName={this.props.gameName} interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                <Stack enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID}  myModul = {this.props.modul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
@@ -88,13 +88,13 @@ export default class BoardReact extends React.Component {
     eachPlayer(cards, i) {
         return (
             <CardsHolder key = {555 + i} cards={cards} pickColorRef={this.pickColorHolder}
-                 isDraggable={i % this.props.myModul === 0}
+                 isDraggable={i === this.props.uniqueID}
                  images = {this.images}
-                 open={i % this.props.myModul === 0}
-                 cssId={Object.keys(enumCard.enumReactPosition)[i % this.props.myModul]}
+                 open={i === this.props.uniqueID}
+                 cssId={Object.keys(this.props.enumReactPosition)[i]}
                  uniqueID = {this.props.uniqueID}
                  gameName={this.props.gameName}
-                 />
+            />
         );
     }
 

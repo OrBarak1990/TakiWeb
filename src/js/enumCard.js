@@ -61,9 +61,23 @@ const enumCard = (function () {
             TWO_PLUS:"if you have put plus two card, otherwise take cards from stack"
         }),
 
-        enumReactPosition: Object.freeze({
+        enumReactPosition_0: Object.freeze({
             BUTTON: 0, UP: 1, LEFT: 2, RIGHT: 3
-        })
+        }),
+/*        enumReactPosition_1: Object.freeze({
+            BUTTON: 1, UP: 0, LEFT: 2, RIGHT: 3
+        }),*/
+        enumReactPosition_1: Object.freeze({
+            UP: 0, BUTTON: 1, LEFT: 2, RIGHT: 3
+        }),
+
+        enumReactPosition_2: Object.freeze({
+            UP: 0, LEFT: 1, BUTTON: 2, RIGHT: 3
+        }),
+
+        enumReactPosition_3: Object.freeze({
+            UP: 0, LEFT: 1, RIGHT: 2, BUTTON: 3
+        }),
     }
 })();
 

@@ -17,8 +17,8 @@ class Player{
         this.turn = theTurn;
     }
 
-    setManager(playerManagement){
-        this.stateManagement = playerManagement;
+    setManager(stateManagement){
+        this.stateManagement = stateManagement;
     }
 
     increasePlayerTurns(){
@@ -87,7 +87,7 @@ class Player{
 
     addCards(cardsToAdd) {
         this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.turn, id: cardsToAdd[0].id}));
-        //this.stateManagement.renderAnimationEnd = false;TODO: check after all changes
+        // this.stateManagement.renderAnimationEnd = false;
         this.saveCardsToAdd = cardsToAdd;
     }
 
@@ -106,12 +106,8 @@ class Player{
 
 
     doOperation(card, lastCard) {
-        for(let i = 0; i < this.stateManagement.playersCards[this.turn].length; ++i){
-            if (this.stateManagement.playersCards[this.turn][i].id === card.id) {
-                this.stateManagement.playersCards[this.turn].splice(i, 1);
-                break;
-            }
-        }
+        this.stateManagement.updateDirection(card, this.turn);
+        this.stateManagement.deletePlayerCard(card,this.turn);
 
         let promote = card.doOperation(this, lastCard);
         if (this.takiMode !== undefined) {
