@@ -79,6 +79,14 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     setDrop(id, uniqueID){
+/*        if(!this.stateManagement.playerManagement[uniqueID].openCardAnm &&
+            ! this.stateManagement.playerManagement[uniqueID].stackCards.length > 0){
+            let card = this.players[this.turn].getCard(id);
+            if (card !== undefined) {
+                this.dropValidation(card);
+            }else
+                this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
+        }*/
         let card = this.players[this.turn].getCard(id);
         if (card !== undefined) {
             this.dropValidation(card);
@@ -124,7 +132,14 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     pullCard(uniqueID){
-        if(this.turn === uniqueID)
+/*        if(!this.stateManagement.playerManagement[uniqueID].openCardAnm &&
+            ! this.stateManagement.playerManagement[uniqueID].stackCards.length > 0) {
+            if (this.turn === uniqueID)
+                this.pullCardValidation(this.players[this.turn]);
+            else
+                this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
+        }*/
+        if (this.turn === uniqueID)
             this.pullCardValidation(this.players[this.turn]);
         else
             this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
@@ -145,6 +160,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.amountOfCardsToTakeFromStock = 1;
            // this.stateManagement.playerManagement.foreach(p => p.pullCardAnimation = true);
             player.pullCardFromStock(cardsFromStock);
+            if(this.computer)
+                this.stateManagement.playerManagement[this.players.length - 1].stackCards.splice(0, 1);
             this.changeTurn(enumCard.enumResult.NEXT_TURN, false);
             setTimeout(this.computerOperation, 2200);
         }
@@ -158,7 +175,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.stateManagement.playerManagement.forEach(p => p.pullCardAnimation = true);
             if (this.players[this.turn].colorToPick()) {
                 let color = this.players[this.turn].getColor();
-                this.colorPicked(color);
+                this.colorPicked(color,this.turn);
             } else {
                 let card = this.players[this.turn].pickCard(this.gameCards[this.gameCards.length - 1]);
                 if (card === undefined)
@@ -271,29 +288,30 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 */
     prev(uniqueId){
-        if(this.stateManagement.playerManagement[uniqueId].turnIndex -1 >= 0) {
-            this.stateManagement.takeValues(
-                this.stateManagement.playerManagement[uniqueId].savesStates[
-                    --this.stateManagement.playerManagement[uniqueId].turnIndex]);
+        let playerManagement = this.stateManagement.playerManagement[uniqueId];
+        if(playerManagement.turnIndex -1 >= 0) {
+            playerManagement.savesStates[playerManagement.turnIndex].playerManagement[uniqueId].error = [];
+            playerManagement.turnIndex--;
         }else{
-            this.stateManagement.playerManagement[uniqueId].message = [];
-            this.stateManagement.playerManagement[uniqueId].error = "start game window";
+            playerManagement.message = [];
+            playerManagement.savesStates[playerManagement.turnIndex].playerManagement[uniqueId].error = "start game window";
         }
     }
 
     next(uniqueId){
-        if(this.stateManagement.playerManagement[uniqueId].turnIndex + 1 <
-            this.stateManagement.playerManagement[uniqueId].savesStates.length) {
-            this.stateManagement.takeValues(
-                this.stateManagement.playerManagement[uniqueId].savesStates[
-                    ++this.stateManagement.playerManagement[uniqueId].turnIndex]);
+        let playerManagement = this.stateManagement.playerManagement[uniqueId];
+        if(playerManagement.turnIndex + 1 <
+            playerManagement.savesStates.length) {
+            playerManagement.savesStates[playerManagement.turnIndex].playerManagement[uniqueId].error = [];
+            playerManagement.turnIndex++;
         }else {
-            this.stateManagement.playerManagement[uniqueId].message = [];
-            this.stateManagement.playerManagement[uniqueId].error = "end game window";
+            playerManagement.message = [];
+            playerManagement.savesStates[playerManagement.turnIndex].playerManagement[uniqueId].error = "end game window";
         }
     }
 
     endGameMode(message) {
+        this.stateManagement.playerManagement.forEach(p => p.savesStates.push(this.stateManagement.clone()));//TODO:: bring it back
         let newMsg = [];
         newMsg[0] = message + " win!";
         this.stateManagement.playerManagement.forEach(p => p.error = []);
@@ -313,19 +331,19 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.stateManagement.endGame(newMsg);
     }
 
-    quitGame() {
+/*    quitGame() {
         if(this.turn === this.players[0].turn) {
             this.quitMode = true;
-/*            if (this.tournament) {
+/!*            if (this.tournament) {
                 this.turn = (this.turn + 1) % this.players.length;
                 this.tournamentGameEnd("Player quit! Computer Win!");
             }
             else {
                 this.endGameMode("PLAYER quit! COMPUTER");
-            }*/
+            }*!/
         this.endGameMode("PLAYER quit! COMPUTER");
         }
-    }
+    }*/
 
     setManager(stateManagement) {
         this.stateManagement = stateManagement;
@@ -334,33 +352,40 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
 
     updateManagement(dropAnm) {
         this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
-        this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
-        if (!(this.computer && this.turn === this.players.length - 1)) {
-            this.stateManagement.playerManagement[this.turn].error = [];
-            if (!this.tournament && this.stateManagement.playerManagement[this.turn].stackCards.length === 0)
-                this.stateManagement.playerManagement[this.turn].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
-        }
+        this.stateManagement.playerManagement[this.turn].error = [];
+        if (this.stateManagement.playerManagement[this.turn].stackCards.length === 0) {
+            let cloneState = this.stateManagement.clone();
+            this.stateManagement.playerManagement.forEach(p => p.savesStates.push(cloneState));//TODO:: bring it back
+        }else
+            console.log("line 360 in game js");
     }
 
   animationCardEnd(uniqueID){
-        this.stateManagement.playerManagement[uniqueID].stackCards.splice(0, 1);
-        /*if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
+/*        this.stateManagement.playerManagement[uniqueID].stackCards.splice(0, 1);
+        /!*if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
             !this.stateManagement.playerManagement[uniqueID].renderAnimationEnd)
-            this.renderEndAnimation(uniqueID);*/
+            this.renderEndAnimation(uniqueID);*!/
       if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0)
-          this.renderEndAnimation(uniqueID);
+          this.renderEndAnimation(uniqueID);*/
+      this.stateManagement.playerManagement[uniqueID].stackCards.length = 0;
+      this.renderEndAnimation(uniqueID);
     }
 
     renderEndAnimation(uniqueID){
         this.stateManagement.playerManagement[uniqueID].message = undefined;
         this.players[uniqueID].updateCardsToAdd();
          if(this.computer && uniqueID === 0) {
+             this.stateManagement.playerManagement[this.players.length - 1].stackCards = [];
              this.players[this.players.length - 1].updateCardsToAdd();
          }
         /*if(!this.tournament)
             this.savesStates.push(this.stateManagement.clone());*/
-        this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
-        // this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
+        if(this.gameStatistics.turnsCounter ===0)
+            this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
+        else {
+            let cloneState = this.stateManagement.clone();
+            this.stateManagement.playerManagement.forEach(p => p.savesStates.push(cloneState));//TODO:: bring it back
+        }// this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
     } // TODO:: understand for what this two use for
 
     renderError(error, playerID){

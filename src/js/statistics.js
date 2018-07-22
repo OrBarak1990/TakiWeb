@@ -25,6 +25,7 @@ class statistics {
              playerLocal = "Average turn time: " + Math.round(this.playersGame[i].getAverageTimePlayed() * 100) / 100 + " sec";
              messages.push(playerLocal);
          }
+
          this.manager.playerManagement.forEach(p => p.statisticsMassages = []);
          this.manager.playerManagement.forEach(p => p.statisticsMassages = messages);
 

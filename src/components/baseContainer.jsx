@@ -26,6 +26,7 @@ export default class BaseContainer extends React.Component {
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
         this.enterGameHandler = this.enterGameHandler.bind(this);
         this.getPos = this.getPos.bind(this);
+        this.exitGame = this.exitGame.bind(this);
 
         this.getUserName();
     }
@@ -146,9 +147,23 @@ export default class BaseContainer extends React.Component {
         // return (<LobbyContainer boardClickedSuccessHandler={this.boardClickedSuccessHandler} />)
     }
 
+    exitGame(){
+        let massage = {gameName: this.state.boardDetail.gameName};
+        fetch('/game/finishGame', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok){
+                this.setState(()=>({room4: false}));
+            }
+        });
+    }
+
     renderRoom4() {
         return(
-            <BoardReact enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} modul = {this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact exitGame = {this.exitGame} enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} modul = {this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
         )
     }
 

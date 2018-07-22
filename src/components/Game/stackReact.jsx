@@ -30,7 +30,9 @@ export default class StackReact extends React.Component {
         );
     }
 
-    handleClick(ev) {
+    handleClick() {
+        if(this.props.openCardAnm || this.props.cards.length > 0)
+            return false;
         if(this.props.interactive === false)
             return false;
         let changeColorReact = this.props.pickColorRef.current;
@@ -48,6 +50,11 @@ export default class StackReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
+            .then(response => {
+                if (!response.ok){
+                    console.log("StackReact, line 55");
+                }
+            });
 
     }
 
