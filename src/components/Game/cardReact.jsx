@@ -33,6 +33,11 @@ export default class CardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
+            .then(response => {
+                if (!response.ok){
+                    console.log("cardReact, line 38");
+                }
+            });
     }
 
     render() {
@@ -65,6 +70,11 @@ export default class CardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
+        .then(response => {
+            if (!response.ok){
+                console.log("cardReact, line 70");
+            }
+        });
         // this.props.game.animationCardEnd();
     }
 

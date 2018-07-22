@@ -7,7 +7,7 @@ class  StateManagement{
         this.playerManagement = [];
         this.openCard = undefined;
         this.stackImage = undefined;
-        this.gameState =  "start";
+        // this.gameState =  "start";
         this.setStartGame = this.setStartGame.bind(this);
         this.setStartTournament = this.setStartTournament.bind(this);
         this.setRestartStartGame = this.setRestartStartGame.bind(this);
@@ -60,8 +60,12 @@ class  StateManagement{
     }
 
     endGame(message){
-        this.playerManagement.forEach(p => p.message = message);
-        this.gameState =  "endGame";
+        this.playerManagement.forEach(p => {
+            p.message = message;
+            p.gameState =  "endGame";
+            p.turnIndex = p.savesStates.length - 1;
+        });
+        // this.gameState =  "endGame";
     }
 
     endGameInTournament(message){
@@ -100,14 +104,16 @@ class  StateManagement{
 
     clone(){
         let cloneState = new StateManagement();
-        //cloneState.playersCards = [];
+        cloneState.playersCards = [];
         for(let i = 0;i < this.playerManagement.length;++i){
-            cloneState.playersCards[i] = this.playersCards[i];
+            cloneState.playersCards[i] = [];
+            for(let j=0; j< this.playersCards[i].length;++j){
+                cloneState.playersCards[i].push(this.playersCards[i][j]);
+            }
             cloneState.playerManagement.push(this.playerManagement[i].clone());
         }
         cloneState.openCard = this.openCard;
         cloneState.stackImage = this.stackImage;
-        cloneState.gameState =  "endGame";
         return cloneState;
     }
 

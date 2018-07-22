@@ -19,6 +19,7 @@ export default class BoardInput extends React.Component {
                 <input disabled={this.state.sendInProgress} placeholder="enter game name here" ref={input => this.inputElement = input} />
                 <select disabled={this.state.sendInProgress} ref={input => this.numPlayers = input}>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
                     <label id = "checkbox1">

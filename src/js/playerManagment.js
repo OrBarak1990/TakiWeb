@@ -8,6 +8,7 @@ class  PlayerManagement{
         this.error = [];
         this.direction = [];
         this.savesStates = [];
+        this.gameState = "start";
     }
 
     endGame(){
@@ -19,6 +20,7 @@ class  PlayerManagement{
         clonePlayerState.pickColorVidibility = this.pickColorVidibility;
         clonePlayerState.statisticsMassages = this.statisticsMassages;
         clonePlayerState.message = this.message;
+        clonePlayerState.gameState =  "endGame";
         /*clonePlayerState.playerManagement.error = this.error;*/
         return clonePlayerState;
     }
