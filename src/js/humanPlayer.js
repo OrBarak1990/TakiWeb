@@ -56,10 +56,6 @@ class HumanPlayer extends Player{
 
     doOperation(card, lastCard){
         this.removeCard(card);
-        if (card.sign !== enumCard.enumTypes.TWO_PLUS)
-            this.stateManagement.playerManagement[this.turn].direction = card.direction;
-        else
-            this.stateManagement.playerManagement[this.turn].direction = undefined;
         return super.doOperation(card, lastCard);
     }
 

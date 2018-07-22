@@ -1,4 +1,5 @@
 const PlayerManagement = require('./playerManagment');
+const {enumCard} = require('./enumCard');
 
 class  StateManagement{
     constructor(){
@@ -6,7 +7,7 @@ class  StateManagement{
         this.playerManagement = [];
         this.openCard = undefined;
         this.stackImage = undefined;
-        this.gameState =  "start";
+        // this.gameState =  "start";
         this.setStartGame = this.setStartGame.bind(this);
         this.setStartTournament = this.setStartTournament.bind(this);
         this.setRestartStartGame = this.setRestartStartGame.bind(this);
@@ -30,6 +31,22 @@ class  StateManagement{
         this.game.startTournament();
     }
 
+    updateDirection(card, playerID){
+        this.playerManagement[playerID].direction = undefined;
+        if (card.sign !== enumCard.enumTypes.TWO_PLUS)
+            this.playerManagement[playerID].direction = card.direction;
+        else
+            this.playerManagement[(playerID + 1) % this.playerManagement.length].direction = card.direction;
+    }
+
+    deletePlayerCard(card,playerID){
+        for(let i = 0; i < this.playersCards[playerID].length; ++i){
+            if (this.playersCards[playerID][i].id === card.id) {
+                this.playersCards[playerID].splice(i, 1);
+                break;
+            }
+        }
+    }
     renderPush(uniqueIndex){
         // this.pullCardsCallBacks.forEach(r => r.push(uniqueIndex));
     }
@@ -43,8 +60,12 @@ class  StateManagement{
     }
 
     endGame(message){
-        this.message = message;
-        this.gameState =  "endGame";
+        this.playerManagement.forEach(p => {
+            p.message = message;
+            p.gameState =  "endGame";
+            p.turnIndex = p.savesStates.length - 1;
+        });
+        // this.gameState =  "endGame";
     }
 
     endGameInTournament(message){
@@ -83,14 +104,16 @@ class  StateManagement{
 
     clone(){
         let cloneState = new StateManagement();
-        //cloneState.playersCards = [];
+        cloneState.playersCards = [];
         for(let i = 0;i < this.playerManagement.length;++i){
-            cloneState.playersCards[i] = this.playersCards[i];
+            cloneState.playersCards[i] = [];
+            for(let j=0; j< this.playersCards[i].length;++j){
+                cloneState.playersCards[i].push(this.playersCards[i][j]);
+            }
             cloneState.playerManagement.push(this.playerManagement[i].clone());
         }
         cloneState.openCard = this.openCard;
         cloneState.stackImage = this.stackImage;
-        cloneState.gameState =  "endGame";
         return cloneState;
     }
 

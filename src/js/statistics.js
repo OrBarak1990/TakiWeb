@@ -9,14 +9,14 @@ class statistics {
         this.singleCardPlayers = [];
     }
      updateStatistics(turn) {
-        let messages = [];
         this.turnsCounter++;
-         messages[0] = "\n" + "Turns played totally :" + this.turnsCounter;
          let playerTurnName = "Current player turn: " + this.playersGame[turn].name;
-         messages.push(playerTurnName);
          for (let i = 0; i < this.playersGame.length; ++i) {
+             let messages = [];
+             messages[0] = "\n" + "Turns played totally :" + this.turnsCounter;
+             messages.push(playerTurnName);
              this.singleCardPlayers[i] = this.playersGame[i].getSingleCardCounter();
-             let playerLocal = Object.keys(enumCard.enumPlayer)[i];
+             let playerLocal = this.playersGame[i].name + ": ";
              messages.push(playerLocal);
              playerLocal = "Turns played: " + this.playersGame[i].getTurnsPlayed();
              messages.push(playerLocal);
@@ -24,9 +24,13 @@ class statistics {
              messages.push(playerLocal);
              playerLocal = "Average turn time: " + Math.round(this.playersGame[i].getAverageTimePlayed() * 100) / 100 + " sec";
              messages.push(playerLocal);
+             this.manager.playerManagement[i].statisticsMassages = [];
+             this.manager.playerManagement[i].statisticsMassages = messages;
          }
+/*
          this.manager.playerManagement.forEach(p => p.statisticsMassages = []);
          this.manager.playerManagement.forEach(p => p.statisticsMassages = messages);
+*/
 
 
 

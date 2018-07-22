@@ -12,7 +12,10 @@ lobbyManagement.use(bodyParser.text());
 lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const users = auth.getAllUsers();
         const boards = authBoard.getAllBoards();
-        res.json({boards: boards, users: users});
+        let boardMsg = [];
+        boards.forEach(b => boardMsg.push({numOfPlayers: b.numOfPlayers,
+            registerPlayers: b.registerPlayers, gameName: b.gameName, color: b.color}));
+        res.json({boards: boardMsg, users: users});
     });
 
 lobbyManagement.post('/',[
@@ -44,10 +47,11 @@ lobbyManagement.post('/boardClicked',[
             const body = JSON.parse(req.body);
             const boardDetail = authBoard.getBoardDetail(body.gameName);
             boardDetail.users.push(auth.getUserInfo(req.session.id).name);
-            if(boardDetail.active === true){
+            if(boardDetail.registerPlayers === boardDetail.numOfPlayers){
                 boardDetail.color = "red";
             }
-            res.json({boardDetail: boardDetail});
+            res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
+                    numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName}});
         }
     ]);
 
@@ -56,7 +60,8 @@ lobbyManagement.post('/getBoard',[
     (req, res) => {
         const body = req.body;
         const boardDetail = authBoard.getBoardDetail(body);
-        res.json({boardDetail: boardDetail});
+        res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
+                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName}});
     }
 ]);
 module.exports = lobbyManagement;

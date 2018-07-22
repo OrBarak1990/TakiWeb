@@ -64,13 +64,18 @@ export default class PickColorReact extends React.Component {
     }
 
     fetchColorPicked(color) {
-        let massage = {color: color, uniqueId: this.props.uniqueId,
+        let massage = {color: color, uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/colorPicked', {
             method: 'POST',
             body: JSON.stringify(massage),
             credentials: 'include'
         })
+            .then(response => {
+                if (!response.ok){
+                    console.log("PickColorReact, line 77");
+                }
+            });
     }
 
     bluePicked(ev) {

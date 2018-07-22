@@ -1,14 +1,14 @@
-@-webkit-keyframes opencard_move {
+@keyframes opencard_move {
     from {top: 38%;}
     to {top: 35%;}
 }
 
-@-webkit-keyframes computerPullCard_move {
+@-webkit-keyframes UP_move {
     from {left: 55%;  top: 35%;}
     to {left: 40%; top: 4%;}
 }
 
-@-webkit-keyframes humanPullCard_move {
+@-webkit-keyframes BUTTON_move {
     from {left: 55%;  top: 35%;}
     to {left: 40%; top: 80%;}
 }
@@ -81,17 +81,38 @@ img{
     margin-right: -5%;
 }
 
+#statistics{
+    width: 20%;
+}
+
 #BUTTON {
     bottom: 2%;
-    left: 30%;
+    left: 35%;
     height: 120px;
     position: fixed;
 }
 
+#LEFT {
+    position: fixed;
+    top: 18%;
+    left: 0%;
+    margin: auto;
+    transform: rotate(-90deg);
+}
+
+#RIGHT {
+    position: fixed;
+    top: 18%;
+    right: -5%;
+    margin: auto;
+    transform: rotate(-90deg);
+}
+
+
 #UP {
     position: fixed;
     top: 2%;
-    left: 30%;
+    left: 35%;
     margin: auto;
 }
 
@@ -199,7 +220,7 @@ img{
     top: 65%;
     left: 0.5%;
     font-weight: bold;
-    font-size:25px;
+    font-size:100%;
 }
 
 #errors{
@@ -207,13 +228,16 @@ img{
     top: 65%;
     left: 0.5%;
     font-weight: bold;
-    font-size:25px;
+    font-size:100%;
 }
 
 #bold{
     position:relative;
     transition: 0.6s;
     animation: rotating 2s linear infinite;
+}
+#endPullCardAnm{
+    top:-200%
 }
 
 #regular{

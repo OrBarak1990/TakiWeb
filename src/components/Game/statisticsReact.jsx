@@ -16,10 +16,10 @@ export default class StatisticsReact extends React.Component {
             <div id = {"statistics"}>
                 <h2>Statistics:</h2>
                 <h3>Game Statistics:</h3>
-                <p>{turnPlayed}</p>
                 <div id = {"CurrentTurn"}>
                     <p>{currentPlayerTurn}</p>
                 </div>
+                <p>{turnPlayed}</p>
                 {messages.map(this.eachMassage)}
             </div>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class CardHolderReact extends React.Component {
+export default class OpenCardsReact extends React.Component {
     constructor(args) {
         super(...args);
         this.Drop = this.Drop.bind(this);
@@ -26,8 +26,20 @@ export default class CardHolderReact extends React.Component {
     }
 
     finishAnimation(){
-        this.props.player.openCardAnm = false;
-        this.setState({anm: false});
+        // this.props.player.openCardAnm = false;
+        // this.setState({anm: false});
+        let massage = {uniqueID: this.props.uniqueID,
+            gameName: this.props.gameName};
+        return fetch('/game/finishAnimation', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok){
+                    console.log("OpenCardsReact, line 40");
+                }
+            });
     }
 
     renderWithAnimation(){
@@ -51,6 +63,8 @@ export default class CardHolderReact extends React.Component {
     }
 
     Drop(ev) {
+        if(this.props.anm || this.props.pullCardAnm)
+            return false;
         let id = ev.dataTransfer.getData("Text");
         let massage = {id: id, uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
@@ -59,6 +73,11 @@ export default class CardHolderReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
+            .then(response => {
+                if (!response.ok){
+                    console.log("OpenCardsReact, line 73");
+                }
+            });
         // this.props.game.setDrop(id);
     }
 }

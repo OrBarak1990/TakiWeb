@@ -14,12 +14,13 @@ export default class BoardReact extends React.Component {
         super(...args);
         this.pickColorHolder =  React.createRef();
         this.eachPlayer = this.eachPlayer.bind(this);
+        this.eachPlayerInEndGame = this.eachPlayerInEndGame.bind(this);
         this.gameRender = this.gameRender.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.getGameContent = this.getGameContent.bind(this);
         this.importAll = this.importAll.bind(this);
-        // this.next = this.next.bind(this);
-        // this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
+        this.prev = this.prev.bind(this);
         this.state = {
             manager: undefined,
         };
@@ -44,12 +45,43 @@ export default class BoardReact extends React.Component {
     render(){
         if (this.state.manager === undefined)
             return this.firstRender();
+        else if(this.state.manager.player.gameState ===  "endGame") {
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
+            }
+            return this.endGameRender();
+        }
+        else if(this.state.manager.player.gameState ===  "stopGaming")
+            return this.playerEndRender();
         return this.gameRender();
     }
 
     firstRender(){
         return(
             <div className="container-fluid">
+            </div>
+        );
+    }
+
+    endGameRender(){
+        return(
+            <div>
+                <div id = {"endGameMode"}>
+                    <p id ="message">{this.state.manager.player.message}</p>
+                    <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
+                </div>
+                <div className="container-fluid">
+                    <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                    <OpenCards card =  {this.state.manager.openCard} images = {this.images} open = {true}/>
+                    {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
+                    <PickColor interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                    <Stack cards = {[]} images = {this.images} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder} />
+                </div>
+                <div>
+                    <p id ="errors">{this.state.manager.player.error}</p>
+                    <button id={"next"} onClick={this.next}>Next</button>
+                    <button id={"prev"} onClick={this.prev}>Prev</button>
+                </div>
             </div>
         );
     }
@@ -61,10 +93,10 @@ export default class BoardReact extends React.Component {
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} player ={this.state.manager.player} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} player ={this.state.manager.player} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
-                <PickColor interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack uniqueID={this.props.uniqueID}  myModul = {this.props.myModul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <PickColor uniqueID={this.props.uniqueID} gameName={this.props.gameName} interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID}  myModul = {this.props.modul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
@@ -88,13 +120,26 @@ export default class BoardReact extends React.Component {
     eachPlayer(cards, i) {
         return (
             <CardsHolder key = {555 + i} cards={cards} pickColorRef={this.pickColorHolder}
-                 isDraggable={i % this.props.myModul === 0}
+                 isDraggable={i === this.props.uniqueID}
                  images = {this.images}
-                 open={i % this.props.myModul === 0}
-                 cssId={Object.keys(enumCard.enumReactPosition)[i % this.props.myModul]}
+                 open={i === this.props.uniqueID}
+                 cssId={Object.keys(this.props.enumReactPosition)[i]}
                  uniqueID = {this.props.uniqueID}
                  gameName={this.props.gameName}
-                 />
+            />
+        );
+    }
+
+    eachPlayerInEndGame(cards, i) {
+        return (
+            <CardsHolder key = {555 + i} cards={cards} pickColorRef={this.pickColorHolder}
+                         isDraggable={false}
+                         images = {this.images}
+                         open={true}
+                         cssId={Object.keys(this.props.enumReactPosition)[i]}
+                         uniqueID = {this.props.uniqueID}
+                         gameName={this.props.gameName}
+            />
         );
     }
 
@@ -118,6 +163,41 @@ export default class BoardReact extends React.Component {
             })
     }
 
+    next(){
+        let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
+        return fetch('/game/next', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=> ({manager: content.manager}));
+            })
+    }
+    prev(){
+        let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
+        return fetch('/game/prev', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=> ({manager: content.manager}));
+            })
+    }
 //  const uniqueId = req.body
 //{error: board.stateManagment.errors[uniqueId], }
+
 }
