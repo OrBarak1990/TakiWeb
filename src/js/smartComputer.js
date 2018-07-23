@@ -449,7 +449,8 @@ class SmartComputer extends Player{
     }
 
     setCards(cards, playersAmount){
-        this.numberOfPlayers = playersAmount;
+        // this.numberOfPlayers = playersAmount;
+        this.numberOfPlayers = 2;
         this.setAllCards(cards);
         super.setCardsPlace();
     }

@@ -24,14 +24,20 @@ export default class converssionArea extends React.Component {
 
     render() {               
         return(
-            <div className="converssion-area-wrpper">
+            <div id="chatWindow">
                 {this.state.content.map((line, index) => (<p key={line.user.name + index}>{line.user.name}:  {line.text}</p>))}
             </div>
         )
     }
 
     getChatContent() {
-        return fetch('/chat', {method: 'GET', credentials: 'include'})
+        let massage = {uniqueId: this.props.uniqueId,
+            gameName: this.props.gameName};
+        return fetch('/chat/pull', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
         .then((response) => {
             if (!response.ok){
                 throw response;

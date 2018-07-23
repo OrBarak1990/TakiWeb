@@ -80,7 +80,7 @@ class HumanPlayer extends Player{
     }
 
     pickColor() {
-        this.stateManagement.playerManagement[this.turn].pickColorVidibility = "visible";
+        this.stateManagement.playerManagement[this.id].pickColorVidibility = "visible";
         return enumCard.enumResult.CONTINUE_TURN;
     }
 }

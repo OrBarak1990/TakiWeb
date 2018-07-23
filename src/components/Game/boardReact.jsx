@@ -18,6 +18,7 @@ export default class BoardReact extends React.Component {
         this.gameRender = this.gameRender.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.getGameContent = this.getGameContent.bind(this);
+        this.getViewerDetails = this.getViewerDetails.bind(this);
         this.importAll = this.importAll.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
@@ -28,7 +29,10 @@ export default class BoardReact extends React.Component {
     }
 
     componentDidMount(){
-        this.getGameContent();
+        if(this.props.viewer)
+            this.getViewerDetails();
+        else
+            this.getGameContent();
         this.images = Object.assign((this.importAll(require.context('./../../Images/blue', false, /\.(png|jpe?g|svg)$/))),
             (this.importAll(require.context('./../../Images/green', false, /\.(png|jpe?g|svg)$/))),
             (this.importAll(require.context('./../../Images/other', false, /\.(png|jpe?g|svg)$/))),
@@ -43,7 +47,9 @@ export default class BoardReact extends React.Component {
     }
 
     render(){
-        if (this.state.manager === undefined)
+        if(this.props.viewer)
+            return this.renderViewer();
+        else if (this.state.manager === undefined)
             return this.firstRender();
         else if(this.state.manager.player.gameState ===  "endGame") {
             if (this.timeoutId) {
@@ -93,28 +99,39 @@ export default class BoardReact extends React.Component {
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} player ={this.state.manager.player} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor uniqueID={this.props.uniqueID} gameName={this.props.gameName} interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID}  myModul = {this.props.modul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
 
-/*    gameRender(){
+    playerEndRender() {
         return(
             <div className="container-fluid">
-                <p id ="errors">{undefined}</p>
-                <p id ="directions">{undefined}</p>
                 {<Clock/>}
-                {/!*<Statistics msg= {this.state.manager.player.statisticsMassages}/>*!/}
-                <OpenCards images = {this.images} anm = {false} card = {this.state.manager.openCard} open = {true}/>
+                <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
-                <PickColor interactive = {true} visible = {false} ref= {this.pickColorHolder}/>
-                <Stack uniqueID={this.props.uniqueID}  myModul = {this.props.myModul} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
-    }*/
+    }
+
+    renderViewer() {
+        return(
+            <div className="container-fluid">
+                {<Clock/>}
+                <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
+                <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+            </div>
+        );
+    }
 
 
     eachPlayer(cards, i) {
@@ -163,6 +180,25 @@ export default class BoardReact extends React.Component {
             })
     }
 
+    getViewerDetails() {
+        let massage = {gameName: this.props.gameName};
+        return fetch('/game/pullViewerDetails', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                this.timeoutId = setTimeout(this.getViewerDetails, 200);
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=> ({manager: content.manager}));
+            })
+    }
+
     next(){
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
         return fetch('/game/next', {
@@ -199,5 +235,4 @@ export default class BoardReact extends React.Component {
     }
 //  const uniqueId = req.body
 //{error: board.stateManagment.errors[uniqueId], }
-
 }

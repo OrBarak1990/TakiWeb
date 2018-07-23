@@ -22,6 +22,7 @@ gameManagement.post('/',[
             boardDetail.game = new game(boardDetail.users, boardDetail.computer);
             boardDetail.stateManagement = new stateManagement();
             boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
+            boardDetail.chatContent = [];
         }
         const userName = auth.getUserInfo(req.session.id).name;
         let uniqueId;
@@ -46,6 +47,24 @@ gameManagement.post('/pull',[
             openCard: manger.openCard, stackImage: manger.stackImage,
             gameState: manger.gameState,
             player: manger.playerManagement[uniqueId]};
+        res.json({manager: answer});
+    }
+]);
+
+gameManagement.post('/pullViewerDetails',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        const manger = boardDetail.stateManagement;
+        const currentPlayer = manger.playerManagement[manger.game.turn];
+        const firstPlayer = manger.playerManagement[manger.game.turn];
+        const answer = {playersCards: manger.playersCards,
+            openCard: manger.openCard, stackImage: manger.stackImage,
+            gameState: manger.gameState,
+            player: {statisticsMassages: currentPlayer.statisticsMassages,
+                stackCards: firstPlayer.stackCards, openCardAnm: firstPlayer.openCardAnm,
+            }};
         res.json({manager: answer});
     }
 ]);
@@ -158,6 +177,7 @@ gameManagement.post('/finishGame',[
             boardDetail.game = undefined;
             boardDetail.stateManagement = undefined;
             boardDetail.color = "green";
+            boardDetail.chatContent = undefined;
         }
         res.sendStatus(200);
     }

@@ -26,8 +26,6 @@ export default class OpenCardsReact extends React.Component {
     }
 
     finishAnimation(){
-        // this.props.player.openCardAnm = false;
-        // this.setState({anm: false});
         let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/finishAnimation', {

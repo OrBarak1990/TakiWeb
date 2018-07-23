@@ -14,7 +14,7 @@ class Player{
         this.turnsPlayedForStatistics = 0;
         this.takiMode = undefined;
         this.name = theName;
-        this.turn = theTurn;
+        this.id = theTurn;
     }
 
     setManager(stateManagement){
@@ -81,12 +81,12 @@ class Player{
     }
 
     setCardsPlace(){
-        this.stateManagement.playersCards[this.turn] = [];
+        this.stateManagement.playersCards[this.id] = [];
         this.addCards(this.allCards);
     }
 
     addCards(cardsToAdd) {
-        this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.turn, id: cardsToAdd[0].id}));
+        this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.id, id: cardsToAdd[0].id}));
         // this.stateManagement.renderAnimationEnd = false;
         this.saveCardsToAdd = cardsToAdd;
     }
@@ -94,7 +94,7 @@ class Player{
     updateCardsToAdd() {
         if(this.saveCardsToAdd !== undefined){
             this.saveCardsToAdd.forEach(card => {
-                this.stateManagement.playersCards[this.turn].push({image: card.uniqueCardImage, id: card.id});
+                this.stateManagement.playersCards[this.id].push({image: card.uniqueCardImage, id: card.id});
             });
             this.saveCardsToAdd = undefined;
         }
@@ -106,8 +106,8 @@ class Player{
 
 
     doOperation(card, lastCard) {
-        this.stateManagement.updateDirection(card, this.turn);
-        this.stateManagement.deletePlayerCard(card,this.turn);
+        this.stateManagement.updateDirection(card, this.id);
+        this.stateManagement.deletePlayerCard(card,this.id);
 
         let promote = card.doOperation(this, lastCard);
         if (this.takiMode !== undefined) {

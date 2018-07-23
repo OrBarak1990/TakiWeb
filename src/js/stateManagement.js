@@ -7,7 +7,7 @@ class  StateManagement{
         this.playerManagement = [];
         this.openCard = undefined;
         this.stackImage = undefined;
-        // this.gameState =  "start";
+        this.gameState =  "start";
         this.setStartGame = this.setStartGame.bind(this);
         this.setStartTournament = this.setStartTournament.bind(this);
         this.setRestartStartGame = this.setRestartStartGame.bind(this);
@@ -61,6 +61,7 @@ class  StateManagement{
 
     endGame(message){
         this.playerManagement.forEach(p => {
+            p.error = [];
             p.message = message;
             p.gameState =  "endGame";
             p.turnIndex = p.savesStates.length - 1;

@@ -13,6 +13,11 @@
     to {left: 40%; top: 80%;}
 }
 
+@-webkit-keyframes LEFT_move {
+    from {left: 55%;  top: 35%;}
+    to {left: 2%; top: 40%;}
+}
+
 @keyframes rotating {
     0% {
         transform: rotate(0deg);
@@ -269,4 +274,8 @@ img{
     color: white;
     top:27%;
     left: 55%;
+}
+
+#chatWindow{
+    height:200px;width:200px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;
 }

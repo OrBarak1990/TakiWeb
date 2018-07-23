@@ -92,7 +92,7 @@ export default class CardReact extends React.Component {
                 <img id="endPullCardAnm" onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
-    }
+    }//onAnimationStart={this.endAnimation}
 
     renderWithHumanAnimation(){
         return(

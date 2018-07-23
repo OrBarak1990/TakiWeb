@@ -21,7 +21,6 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.setPlayers(users, computer);
         this.amountOfCardsToTakeFromStock = 1;
         this.endGame = false;
-        this.tournament = false;
         this.computerOperation = this.computerOperation.bind(this);
         this.prev = this.prev.bind(this);
         this.next = this.next.bind(this);
@@ -102,7 +101,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.stateManagement.openCard = {image: card.uniqueCardImage, id: card.id};
             this.calcAmountCardsToTake(card);
             if (this.players[this.turn].getAmountOfCards() === 0 && card.getSign() !== enumCard.enumTypes.PLUS) {
-                this.endGameMode(Object.keys(enumCard.enumPlayer)[this.turn]);
+                this.runOutOfCards(Object.keys(enumCard.enumPlayer)[this.turn]);
             }else {
                 this.stateManagement.playerManagement.forEach(p => p.openCardAnm = true);
                 if (promote !== enumCard.enumResult.CONTINUE_TURN)
@@ -139,7 +138,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             else
                 this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
         }*/
-        if (this.turn === uniqueID)
+        if (this.players[this.turn].id === uniqueID)
             this.pullCardValidation(this.players[this.turn]);
         else
             this.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN, uniqueID);
@@ -310,11 +309,21 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         }
     }
 
-    endGameMode(message) {
+    runOutOfCards(message){
+        let outs = 0;
+        this.players.forEach(p => p.allCards.length === 0? outs++: outs);
+        this.stateManagement.playerManagement[this.turn].gameState = "stopGaming";
+        if( outs + 1 === this.players.length)
+            this.endGameMode();
+        else if (outs === 1)
+            this.winMessage = message;
+        this.players.splice(this.turn, 1);
+    }
+
+    endGameMode() {
         this.stateManagement.playerManagement.forEach(p => p.savesStates.push(this.stateManagement.clone()));//TODO:: bring it back
         let newMsg = [];
-        newMsg[0] = message + " win!";
-        this.stateManagement.playerManagement.forEach(p => p.error = []);
+        newMsg[0] = this.winMessage + " win!";
 /*
         if(this.tournament)
             this.tournamentGameEnd(newMsg);
