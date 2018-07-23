@@ -1,7 +1,7 @@
 class  PlayerManagement{
     constructor(){
         this.pickColorVidibility = "hidden";
-        this.statisticsMassages = undefined;
+        this.statisticsMassages = [];
         this.openCardAnm = false;
         this.stackCards = [];
         this.message = [];
