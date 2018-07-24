@@ -129,6 +129,7 @@ export default class BoardReact extends React.Component {
                 {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
                 <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
                 <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.props.logout}>Logout</button>
             </div>
         );
     }

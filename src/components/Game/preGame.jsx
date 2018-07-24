@@ -14,8 +14,6 @@ export default class LobbyArea extends React.Component {
         this.getBoardContent = this.getBoardContent.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.secondRender = this.secondRender.bind(this);
-
-
     }
 
     componentDidMount(){
@@ -29,13 +27,22 @@ export default class LobbyArea extends React.Component {
     }
 
     secondRender() {
+        let computer = this.state.boardDetail.computer;
+        if(computer)
+            computer = "SmartComputer";
         return(
             <div className="container-fluid">
                 <div>number of registered players: {this.state.boardDetail.registerPlayers}</div>
+                <h2>Register Players</h2>
+                <ul className="registerUsers">
+                    {this.state.boardDetail.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
+                </ul>
+                <ul className="registerUsers">
+                    <li>{computer}</li>
+                </ul>
                 {/*<Stack cards = {[]} interactive = {false} img = {CloseCards}/>*/}
             </div>
         );
-
     }
 
     firstRender() {
