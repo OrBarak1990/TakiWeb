@@ -13,6 +13,7 @@ export default class LobbyArea extends React.Component {
 
         this.getLobbyContent = this.getLobbyContent.bind(this);
         this.boardClicked = this.boardClicked.bind(this);
+        //this.viewGame = this.viewGame.bind(this);
     }
 
     componentDidMount() {
@@ -46,7 +47,7 @@ export default class LobbyArea extends React.Component {
                             <li><a className = "singleBoardItem" data-key = {index} >{board.registerPlayers}.</a></li>
                             <li><a className = "singleBoardItem" data-key = {index} >{board.numOfPlayers}</a></li>
                             <button className="EnterGameButton" data-key = {index} type="button" disabled={this.state.sendInProgress} onClick={this.boardClicked}>Play Game</button>
-                            <button className="ViewGameButton"  data-key = {index} type="button" disabled={this.state.sendInProgress}>View Game</button>
+                            <button className="ViewGameButton"  data-key = {index} type="button" disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game</button>
                          </div>
                     ))}
                 </ul>
@@ -68,7 +69,30 @@ export default class LobbyArea extends React.Component {
             })
             .catch(err => {throw err});
     }
-
+/*
+    viewGame(e){
+        e.preventDefault();
+        this.setState(()=>({sendInProgress: true}));
+        let index = e.target.getAttribute('data-key');
+        let boardDetail = this.state.boards[index];
+        return fetch('/lobby/viewGame', {
+            method: 'POST',
+            body: JSON.stringify(boardDetail),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                this.setState(()=>({sendInProgress: false}));
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=> ({errMessage: ""}));
+                this.props.viewGameSuccessHandler(content.boardDetail);
+            })
+    }
+  */
     boardClicked(e){
         e.preventDefault();
         this.setState(()=>({sendInProgress: true}));

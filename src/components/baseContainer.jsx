@@ -18,7 +18,8 @@ export default class BaseContainer extends React.Component {
                 name: ''
             }
         };
-        
+
+        this.backToLoginScreen = this.backToLoginScreen.bind(this);
         this.handleSuccessedLogin = this.handleSuccessedLogin.bind(this);
         this.handleLoginError = this.handleLoginError.bind(this);
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
@@ -50,6 +51,10 @@ export default class BaseContainer extends React.Component {
     handleLoginError() {
         console.error('login failed');
        this.setState(()=>({showLogin: true}));
+    }
+
+    backToLoginScreen(){
+        this.setState(()=>({showLogin: true}));
     }
 
     boardClickedSuccessHandler(boardDetail){
@@ -140,6 +145,7 @@ export default class BaseContainer extends React.Component {
     renderRoom2() {
         return(
             <div className="chat-contaier">
+                <button id="Quit_Game" type="button" style={{width: "100px", visibility : "visible"}} onClick={this.backToLoginScreen}>Logout</button> {/*//TODO: remove the user*/}
                 <LobbyArea boardClickedSuccessHandler={this.boardClickedSuccessHandler}/>
                 <BoardInput />
             </div>
