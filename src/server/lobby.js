@@ -61,7 +61,7 @@ lobbyManagement.post('/getBoard',[
         const body = req.body;
         const boardDetail = authBoard.getBoardDetail(body);
         res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
-                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName}});
+                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName, users: boardDetail.users, computer: boardDetail.computer}});
     }
 ]);
 module.exports = lobbyManagement;
