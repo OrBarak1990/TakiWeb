@@ -74,8 +74,11 @@ export default class LobbyArea extends React.Component {
         .then(content => {
             if (content.boardDetail.registerPlayers === content.boardDetail.numOfPlayers)
             {
-                this.props.enterGameHandler(content.boardDetail);
-        }
+                if(this.props.viewer)
+                    this.props.viewGameSuccessHandler(content.boardDetail);
+                else
+                    this.props.enterGameHandler(content.boardDetail);
+            }
             this.setState(()=> ({boardDetail: content.boardDetail}));
         })
     }

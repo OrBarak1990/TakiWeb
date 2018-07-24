@@ -24,6 +24,40 @@ gameManagement.post('/',[
             boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
             boardDetail.chatContent = [];
         }
+
+        const userName = auth.getUserInfo(req.session.id).name;
+        let uniqueId;
+        for (let i = 0; i < boardDetail.users.length; ++i) {
+            if (userName === boardDetail.users[i]) {
+                uniqueId = i;
+                break;
+            }
+        }
+
+        for (let i = 0; i < boardDetail.viewers.length; ++i) {
+            if (userName === boardDetail.viewers[i]) {
+                uniqueId = i + 4;
+                boardDetail.stateManagement.addViewer();
+                break;
+            }
+        }
+        res.json({uniqueId: uniqueId});
+    }
+]);
+
+/*gameManagement.post('/viewerEnter',[
+    auth.userAuthentication,
+    authBoard.boardAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        boardDetail.active = true ;
+        if (boardDetail.game === undefined) {
+            boardDetail.game = new game(boardDetail.users, boardDetail.computer);
+            boardDetail.stateManagement = new stateManagement();
+            boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
+            boardDetail.chatContent = [];
+        }
         const userName = auth.getUserInfo(req.session.id).name;
         let uniqueId;
         for (let i = 0; i < boardDetail.users.length; ++i) {
@@ -34,7 +68,7 @@ gameManagement.post('/',[
         }
         res.json({uniqueId: uniqueId});
     }
-]);
+]);*/
 
 gameManagement.post('/pull',[
     auth.userAuthentication,
@@ -46,12 +80,12 @@ gameManagement.post('/pull',[
         const answer = {playersCards: manger.playersCards,
             openCard: manger.openCard, stackImage: manger.stackImage,
             gameState: manger.gameState,
-            player: manger.playerManagement[uniqueId]};
+            player: manger.getUserDetails(uniqueId)};
         res.json({manager: answer});
     }
-]);
+]);//
 
-gameManagement.post('/pullViewerDetails',[
+/*gameManagement.post('/pullViewerDetails',[
     auth.userAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
@@ -67,7 +101,7 @@ gameManagement.post('/pullViewerDetails',[
             }};
         res.json({manager: answer});
     }
-]);
+]);*/
 
 gameManagement.post('/cardError',[
     auth.userAuthentication,
@@ -84,7 +118,10 @@ gameManagement.post('/animationCardEnd',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.game.animationCardEnd(body.uniqueID);
+        if(body.uniqueID < 4)
+            boardDetail.game.animationCardEnd(body.uniqueID);
+        else
+            boardDetail.stateManagement.viewerManagement[body.uniqueID - 4].stackCards.length = 0;
         res.sendStatus(200);
     }
 ]);
@@ -124,9 +161,13 @@ gameManagement.post('/finishAnimation',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.stateManagement.playerManagement[body.uniqueID].openCardAnm = false;
-        if(boardDetail.computer)
-            boardDetail.stateManagement.playerManagement[boardDetail.numOfPlayers - 1].openCardAnm = false;
+        if(body.uniqueID < 4) {
+            const playerManagements = boardDetail.stateManagement.playerManagement;
+            playerManagements[body.uniqueID].openCardAnm = false;
+            if (boardDetail.computer)
+                playerManagements[playerManagements.length - 1].openCardAnm = false;
+        }else
+            boardDetail.stateManagement.viewerManagement[body.uniqueID - 4].openCardAnm = false;
         res.sendStatus(200);
     }
 ]);

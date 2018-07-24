@@ -69,7 +69,7 @@ export default class LobbyArea extends React.Component {
             })
             .catch(err => {throw err});
     }
-/*
+
     viewGame(e){
         e.preventDefault();
         this.setState(()=>({sendInProgress: true}));
@@ -92,7 +92,7 @@ export default class LobbyArea extends React.Component {
                 this.props.viewGameSuccessHandler(content.boardDetail);
             })
     }
-  */
+
     boardClicked(e){
         e.preventDefault();
         this.setState(()=>({sendInProgress: true}));

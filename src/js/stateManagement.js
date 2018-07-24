@@ -5,6 +5,7 @@ class  StateManagement{
     constructor(){
         this.playersCards = [];
         this.playerManagement = [];
+        this.viewerManagement = [];
         this.openCard = undefined;
         this.stackImage = undefined;
         this.gameState =  "start";
@@ -15,13 +16,23 @@ class  StateManagement{
         this.setQuitGame = this.setQuitGame.bind(this);
     }
 
-    setStartGame(game, players){
+    setStartGame(game, players, viewers){
         this.game = game;
         for(let i = 0; i < players; ++i)
             this.playerManagement.push(new PlayerManagement());
         this.game.setManager(this);
         this.gameState = "gaming";
         this.game.startGame();
+    }
+
+    getUserDetails(uniqueID){
+        if(uniqueID < 4)
+            return this.viewerManagement[uniqueID];
+        return this.playerManagement[uniqueID];
+    }
+
+    addViewer(){
+        this.viewerManagement.push(new PlayerManagement());
     }
 
     setStartTournament(game){

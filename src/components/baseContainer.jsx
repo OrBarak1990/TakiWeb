@@ -25,7 +25,9 @@ export default class BaseContainer extends React.Component {
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
         this.logoutHandler= this.logoutHandler.bind(this);
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
+        this.viewGameSuccessHandler = this.viewGameSuccessHandler.bind(this);
         this.enterGameHandler = this.enterGameHandler.bind(this);
+        this.enterViewerGame = this.enterViewerGame.bind(this);
         this.getPos = this.getPos.bind(this);
         this.exitGame = this.exitGame.bind(this);
 
@@ -58,7 +60,31 @@ export default class BaseContainer extends React.Component {
     }
 
     boardClickedSuccessHandler(boardDetail){
-        this.setState(()=>({room3: true, boardDetail: boardDetail}));
+        this.setState(()=>({viewer: false, room3: true, boardDetail: boardDetail}));
+    }
+
+    viewGameSuccessHandler(boardDetail){
+        if(boardDetail.registerPlayers === boardDetail.numOfPlayers)
+            this.enterViewerGame(boardDetail);
+        else
+            this.setState(()=>({viewer: true, room3: true, boardDetail: boardDetail}));
+    }
+
+    enterViewerGame(boardDetail){
+        return fetch('/game/viewerEnter', {
+            method: 'POST',
+            body: JSON.stringify(boardDetail),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, viewer: true}));
+            })
     }
 
     enterGameHandler(boardDetail){
@@ -138,7 +164,7 @@ export default class BaseContainer extends React.Component {
     * */
     renderRoom3() {
         return(
-            <PreGame enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
+            <PreGame viewer = {this.state.viewer} viewGameSuccessHandler = {this.viewGameSuccessHandler} enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
         )
     }
 
@@ -169,7 +195,7 @@ export default class BaseContainer extends React.Component {
 
     renderRoom4() {
         return(
-            <BoardReact exitGame = {this.exitGame} enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} modul = {this.state.boardDetail.numOfPlayers} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact viewer = {this.state.viewer} exitGame = {this.exitGame} enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} gameName = {this.state.boardDetail.gameName}/>
         )
     }
 

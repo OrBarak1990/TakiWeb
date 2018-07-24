@@ -29,10 +29,11 @@ export default class BoardReact extends React.Component {
     }
 
     componentDidMount(){
-        if(this.props.viewer)
+/*        if(this.props.viewer)
             this.getViewerDetails();
         else
-            this.getGameContent();
+            this.getGameContent();*/
+        this.getGameContent();
         this.images = Object.assign((this.importAll(require.context('./../../Images/blue', false, /\.(png|jpe?g|svg)$/))),
             (this.importAll(require.context('./../../Images/green', false, /\.(png|jpe?g|svg)$/))),
             (this.importAll(require.context('./../../Images/other', false, /\.(png|jpe?g|svg)$/))),
@@ -47,10 +48,10 @@ export default class BoardReact extends React.Component {
     }
 
     render(){
-        if(this.props.viewer)
-            return this.renderViewer();
-        else if (this.state.manager === undefined)
+        if (this.state.manager === undefined)
             return this.firstRender();
+        else if(this.props.viewer)
+            return this.renderViewer();
         else if(this.state.manager.player.gameState ===  "endGame") {
             if (this.timeoutId) {
                 clearTimeout(this.timeoutId);
@@ -169,19 +170,19 @@ export default class BoardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
-                }
-                this.timeoutId = setTimeout(this.getGameContent, 200);
-                return response.json();
-            })
-            .then(content => {
-                this.setState(()=> ({manager: content.manager}));
-            })
+        .then((response) => {
+            if (!response.ok){
+                this.setState(()=> ({errMessage: response.statusText}));
+            }
+            this.timeoutId = setTimeout(this.getGameContent, 200);
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=> ({manager: content.manager}));
+        })
     }
 
-    getViewerDetails() {
+/*    getViewerDetails() {
         let massage = {gameName: this.props.gameName};
         return fetch('/game/pullViewerDetails', {
             method: 'POST',
@@ -198,7 +199,7 @@ export default class BoardReact extends React.Component {
             .then(content => {
                 this.setState(()=> ({manager: content.manager}));
             })
-    }
+    }*/
 
     next(){
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
@@ -207,15 +208,15 @@ export default class BoardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
-                }
-                return response.json();
-            })
-            .then(content => {
-                this.setState(()=> ({manager: content.manager}));
-            })
+        .then((response) => {
+            if (!response.ok){
+                this.setState(()=> ({errMessage: response.statusText}));
+            }
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=> ({manager: content.manager}));
+        })
     }
     prev(){
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
@@ -224,15 +225,15 @@ export default class BoardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
-                }
-                return response.json();
-            })
-            .then(content => {
-                this.setState(()=> ({manager: content.manager}));
-            })
+        .then((response) => {
+            if (!response.ok){
+                this.setState(()=> ({errMessage: response.statusText}));
+            }
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=> ({manager: content.manager}));
+        })
     }
 //  const uniqueId = req.body
 //{error: board.stateManagment.errors[uniqueId], }

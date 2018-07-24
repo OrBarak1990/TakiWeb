@@ -369,7 +369,13 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             console.log("line 360 in game js");
     }
 
-  animationCardEnd(uniqueID){
+/*
+    viewerAnimationCardEnd(uniqueID){
+        this.stateManagement.viewerManagement[uniqueID - 4].stackCards.length = 0;
+    }
+*/
+
+    animationCardEnd(uniqueID){
 /*        this.stateManagement.playerManagement[uniqueID].stackCards.splice(0, 1);
         /!*if(this.stateManagement.playerManagement[uniqueID].stackCards.length === 0 &&
             !this.stateManagement.playerManagement[uniqueID].renderAnimationEnd)
@@ -383,10 +389,10 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     renderEndAnimation(uniqueID){
         this.stateManagement.playerManagement[uniqueID].message = undefined;
         this.players[uniqueID].updateCardsToAdd();
-         if(this.computer && uniqueID === 0) {
+        if(this.computer && uniqueID === 0) {
              this.stateManagement.playerManagement[this.players.length - 1].stackCards = [];
              this.players[this.players.length - 1].updateCardsToAdd();
-         }
+        }
         /*if(!this.tournament)
             this.savesStates.push(this.stateManagement.clone());*/
         if(this.gameStatistics.turnsCounter ===0)
