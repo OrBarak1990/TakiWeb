@@ -23,7 +23,7 @@ lobbyManagement.post('/',[
         authBoard.boardAuthentication,
         (req, res) => {
             const body = JSON.parse(req.body);
-            const gameName = body.name;
+            const gameName = body.gameName;
             const numOfPlayers = body.numOfPlayers;
             const computer = body.computer;
             let registers = 0;

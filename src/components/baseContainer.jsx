@@ -19,7 +19,7 @@ export default class BaseContainer extends React.Component {
             }
         };
 
-        this.backToLoginScreen = this.backToLoginScreen.bind(this);
+        this.logOutHandler = this.logOutHandler.bind(this);
         this.handleSuccessedLogin = this.handleSuccessedLogin.bind(this);
         this.handleLoginError = this.handleLoginError.bind(this);
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
@@ -55,8 +55,15 @@ export default class BaseContainer extends React.Component {
        this.setState(()=>({showLogin: true}));
     }
 
-    backToLoginScreen(){
-        this.setState(()=>({showLogin: true}));
+    logOutHandler(){
+        return fetch('/users/logout', {method: 'GET', credentials: 'include'})
+        .then((response) => {
+            if (!response.ok){
+                throw response;
+            }
+            this.setState(()=>({showLogin: true}));
+        })
+        .catch(err => {throw err});
     }
 
     boardClickedSuccessHandler(boardDetail){
@@ -71,20 +78,20 @@ export default class BaseContainer extends React.Component {
     }
 
     enterViewerGame(boardDetail){
-        return fetch('/game/viewerEnter', {
+        return fetch('/game', {
             method: 'POST',
             body: JSON.stringify(boardDetail),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
-                }
-                return response.json();
-            })
-            .then(content => {
-                this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, viewer: true}));
-            })
+        .then((response) => {
+            if (!response.ok){
+                this.setState(()=> ({errMessage: response.statusText}));
+            }
+            return response.json();
+        })
+        .then(content => {
+            this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, viewer: true, boardDetail: boardDetail}));
+        })
     }
 
     enterGameHandler(boardDetail){
@@ -171,8 +178,8 @@ export default class BaseContainer extends React.Component {
     renderRoom2() {
         return(
             <div className="chat-contaier">
-                <button id="Quit_Game" type="button" style={{width: "100px", visibility : "visible"}} onClick={this.backToLoginScreen}>Logout</button> {/*//TODO: remove the user*/}
-                <LobbyArea boardClickedSuccessHandler={this.boardClickedSuccessHandler}/>
+                <button id="Quit_Game" type="button" style={{width: "100px", visibility : "visible"}} onClick={this.logOutHandler}>Logout</button> {/*//TODO: remove the user*/}
+                <LobbyArea viewGameSuccessHandler = {this.viewGameSuccessHandler} boardClickedSuccessHandler={this.boardClickedSuccessHandler}/>
                 <BoardInput />
             </div>
         )
@@ -180,7 +187,8 @@ export default class BaseContainer extends React.Component {
     }
 
     exitGame(){
-        let massage = {gameName: this.state.boardDetail.gameName};
+        let massage = {gameName: this.state.boardDetail.gameName,
+            uniqueID : this.state.myIndex};
         fetch('/game/finishGame', {
             method: 'POST',
             body: JSON.stringify(massage),
@@ -200,7 +208,7 @@ export default class BaseContainer extends React.Component {
     }
 
     getPos() {
-        if(this.state.myIndex === 0 )
+        if(this.state.myIndex === 0  || this.state.myIndex >= 4)
             return enumCard.enumReactPosition_0;
         else if(this.state.myIndex === 1 )
             return enumCard.enumReactPosition_1;

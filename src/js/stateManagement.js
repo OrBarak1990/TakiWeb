@@ -9,6 +9,7 @@ class  StateManagement{
         this.openCard = undefined;
         this.stackImage = undefined;
         this.gameState =  "start";
+        this.winMessage =  undefined;
         this.setStartGame = this.setStartGame.bind(this);
         this.setStartTournament = this.setStartTournament.bind(this);
         this.setRestartStartGame = this.setRestartStartGame.bind(this);
@@ -16,7 +17,7 @@ class  StateManagement{
         this.setQuitGame = this.setQuitGame.bind(this);
     }
 
-    setStartGame(game, players, viewers){
+    setStartGame(game, players){
         this.game = game;
         for(let i = 0; i < players; ++i)
             this.playerManagement.push(new PlayerManagement());
@@ -25,14 +26,32 @@ class  StateManagement{
         this.game.startGame();
     }
 
-    getUserDetails(uniqueID){
-        if(uniqueID < 4)
-            return this.viewerManagement[uniqueID];
+    getUserDetails(uniqueID, viewerName){
+        if(uniqueID >= 4){
+            for(let i = 0; i < this.viewerManagement.length; ++i){
+                if(viewerName === this.viewerManagement[i].name){
+                    return this.viewerManagement[i];
+                }
+            }
+        }
         return this.playerManagement[uniqueID];
     }
 
-    addViewer(){
+    addViewer(viewerName){
         this.viewerManagement.push(new PlayerManagement());
+        this.viewerManagement[this.viewerManagement.length - 1].name = viewerName;
+        this.viewerManagement[this.viewerManagement.length - 1].message = this.winMessage;
+        this.viewerManagement[this.viewerManagement.length - 1].gameState = this.gameState;
+
+    }
+
+    removeViewer(viewerName){
+        for(let i = 0; i < this.viewerManagement.length; ++i){
+            if(viewerName === this.viewerManagement[i].name){
+                this.viewerManagement.splice(i, 1);
+                break;
+            }
+        }
     }
 
     setStartTournament(game){
@@ -77,7 +96,12 @@ class  StateManagement{
             p.gameState =  "endGame";
             p.turnIndex = p.savesStates.length - 1;
         });
-        // this.gameState =  "endGame";
+        this.viewerManagement.forEach(v => {
+            v.gameState =  "endGame";
+            v.message = message;
+        });
+        this.winMessage = message;
+        this.gameState =  "endGame";
     }
 
     endGameInTournament(message){

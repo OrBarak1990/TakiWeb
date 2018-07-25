@@ -18,10 +18,11 @@ export default class BoardReact extends React.Component {
         this.gameRender = this.gameRender.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.getGameContent = this.getGameContent.bind(this);
-        this.getViewerDetails = this.getViewerDetails.bind(this);
+        // this.getViewerDetails = this.getViewerDetails.bind(this);
         this.importAll = this.importAll.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
+        this.viewerLogOut = this.viewerLogOut.bind(this);
         this.state = {
             manager: undefined,
         };
@@ -50,14 +51,15 @@ export default class BoardReact extends React.Component {
     render(){
         if (this.state.manager === undefined)
             return this.firstRender();
-        else if(this.props.viewer)
-            return this.renderViewer();
         else if(this.state.manager.player.gameState ===  "endGame") {
             if (this.timeoutId) {
                 clearTimeout(this.timeoutId);
             }
+            if(this.props.viewer)
+                return this.endGameViewerRender();
             return this.endGameRender();
-        }
+        }else if(this.props.viewer)
+            return this.renderViewer();
         else if(this.state.manager.player.gameState ===  "stopGaming")
             return this.playerEndRender();
         return this.gameRender();
@@ -126,11 +128,29 @@ export default class BoardReact extends React.Component {
             <div className="container-fluid">
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
                 <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
-                <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.props.logout}>Logout</button>
+                <Stack uniqueID={this.props.uniqueID} openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.viewerLogOut}>Logout</button>
+            </div>
+        );
+    }
+
+    endGameViewerRender(){
+        return(
+            <div>
+                <div id = {"endGameMode"}>
+                    <p id ="message">{this.state.manager.player.message}</p>
+                    <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
+                </div>
+                <div className="container-fluid">
+                    <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                    <OpenCards card =  {this.state.manager.openCard} images = {this.images} open = {true}/>
+                    {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
+                    <PickColor interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
+                    <Stack cards = {[]} images = {this.images} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder} />
+                </div>
             </div>
         );
     }
@@ -237,4 +257,10 @@ export default class BoardReact extends React.Component {
     }
 //  const uniqueId = req.body
 //{error: board.stateManagment.errors[uniqueId], }
+    viewerLogOut() {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+        this.props.exitGame();
+    }
 }

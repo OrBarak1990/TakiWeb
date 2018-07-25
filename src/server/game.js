@@ -37,7 +37,7 @@ gameManagement.post('/',[
         for (let i = 0; i < boardDetail.viewers.length; ++i) {
             if (userName === boardDetail.viewers[i]) {
                 uniqueId = i + 4;
-                boardDetail.stateManagement.addViewer();
+                boardDetail.stateManagement.addViewer(userName);
                 break;
             }
         }
@@ -77,10 +77,11 @@ gameManagement.post('/pull',[
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         const manger = boardDetail.stateManagement;
         const uniqueId = body.uniqueID;
+        const userName = auth.getUserInfo(req.session.id).name;
         const answer = {playersCards: manger.playersCards,
             openCard: manger.openCard, stackImage: manger.stackImage,
             gameState: manger.gameState,
-            player: manger.getUserDetails(uniqueId)};
+            player: manger.getUserDetails(uniqueId, userName)};
         res.json({manager: answer});
     }
 ]);//
@@ -120,8 +121,16 @@ gameManagement.post('/animationCardEnd',[
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         if(body.uniqueID < 4)
             boardDetail.game.animationCardEnd(body.uniqueID);
-        else
-            boardDetail.stateManagement.viewerManagement[body.uniqueID - 4].stackCards.length = 0;
+        else{
+            const userName = auth.getUserInfo(req.session.id).name;
+            const viewerManagements = boardDetail.stateManagement.viewerManagement;
+            for(let i = 0; i < viewerManagements.length; ++i){
+                if(userName === viewerManagements[i].name){
+                    viewerManagements[i].stackCards.length = 0;
+                    break;
+                }
+            }
+        }
         res.sendStatus(200);
     }
 ]);
@@ -166,8 +175,16 @@ gameManagement.post('/finishAnimation',[
             playerManagements[body.uniqueID].openCardAnm = false;
             if (boardDetail.computer)
                 playerManagements[playerManagements.length - 1].openCardAnm = false;
-        }else
-            boardDetail.stateManagement.viewerManagement[body.uniqueID - 4].openCardAnm = false;
+        }else{
+            const userName = auth.getUserInfo(req.session.id).name;
+            const viewerManagements = boardDetail.stateManagement.viewerManagement;
+            for(let i = 0; i < viewerManagements.length; ++i){
+                if(userName === viewerManagements[i].name){
+                    viewerManagements[i].openCardAnm = false;
+                    break;
+                }
+            }
+        }
         res.sendStatus(200);
     }
 ]);
@@ -211,14 +228,25 @@ gameManagement.post('/finishGame',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.users.splice(0, 1);
-        boardDetail.registerPlayers--;
-        if(boardDetail.users.length === 0){
-            boardDetail.active = false ;
-            boardDetail.game = undefined;
-            boardDetail.stateManagement = undefined;
-            boardDetail.color = "green";
-            boardDetail.chatContent = undefined;
+        if(body.uniqueID < 4) {
+            boardDetail.users.splice(0, 1);
+            boardDetail.registerPlayers--;
+            if (boardDetail.users.length === 0) {
+                boardDetail.active = false;
+                boardDetail.game = undefined;
+                boardDetail.stateManagement = undefined;
+                boardDetail.color = "green";
+                boardDetail.chatContent = undefined;
+            }
+        }else{
+            const userName = auth.getUserInfo(req.session.id).name;
+            boardDetail.stateManagement.removeViewer(userName);
+            for (let i = 0; i < boardDetail.viewers.length; ++i) {
+                if (userName === boardDetail.viewers[i]) {
+                    boardDetail.viewers.splice(i, 1);
+                    break;
+                }
+            }
         }
         res.sendStatus(200);
     }

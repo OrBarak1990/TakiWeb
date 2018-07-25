@@ -13,7 +13,7 @@ export default class LobbyArea extends React.Component {
 
         this.getLobbyContent = this.getLobbyContent.bind(this);
         this.boardClicked = this.boardClicked.bind(this);
-        //this.viewGame = this.viewGame.bind(this);
+        this.viewGame = this.viewGame.bind(this);
     }
 
     componentDidMount() {

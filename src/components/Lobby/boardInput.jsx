@@ -6,7 +6,7 @@ export default class BoardInput extends React.Component {
         super(...args);
 
         this.state = {
-            sendInProgress:false
+            sendInProgress:false,
         };
 
         this.addBoard = this.addBoard.bind(this);
@@ -39,19 +39,23 @@ export default class BoardInput extends React.Component {
         const gameName = this.inputElement.value;
         const numOfPlayers = parseInt(this.numPlayers.value);
         const computer = this.computer.checked;
-        let text = {name: gameName, numOfPlayers: numOfPlayers, computer: computer};
+        let text = {gameName: gameName, numOfPlayers: numOfPlayers, computer: computer};
         fetch('/lobby', {
             method: 'POST',
             body: JSON.stringify(text),
             credentials: 'include'
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw response;
-                }
-                this.setState(()=>({sendInProgress: false}));
-                this.inputElement.value = '';
-            });
+        .then(response => {
+            if (!response.ok) {
+                this.setState(()=>({error: response.json()}));
+                // throw response;
+            }
+            this.setState(()=>({sendInProgress: false}));
+            this.inputElement.value = '';
+        })
+        .catch(err => {
+            this.setState(()=>({error: err}));
+        });
         return false;
     }
 }

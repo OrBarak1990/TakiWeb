@@ -87,6 +87,7 @@ class Player{
 
     addCards(cardsToAdd) {
         this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.id, id: cardsToAdd[0].id}));
+        this.stateManagement.viewerManagement.forEach(v => v.stackCards.push({playerID: this.id, id: cardsToAdd[0].id}));
         // this.stateManagement.renderAnimationEnd = false;
         this.saveCardsToAdd = cardsToAdd;
     }

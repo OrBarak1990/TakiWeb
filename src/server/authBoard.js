@@ -3,7 +3,8 @@ const boardList = [];
 
 
 function boardAuthentication(req, res, next) {
-    if(boards[req.body.gameName] !== undefined) {
+    const body = JSON.parse(req.body);
+    if(boards[body.gameName] !== undefined) {
         res.status(403).send('game name already exist');
     } else {
         next();
