@@ -19,8 +19,10 @@ class  StateManagement{
 
     setStartGame(game, players){
         this.game = game;
-        for(let i = 0; i < players; ++i)
+        for(let i = 0; i < players; ++i) {
             this.playerManagement.push(new PlayerManagement());
+            this.playerManagement[i].turn = i;
+        }
         this.game.setManager(this);
         this.gameState = "gaming";
         this.game.startGame();
@@ -34,6 +36,20 @@ class  StateManagement{
                 }
             }
         }
+/*        if(this.playerManagement[uniqueID].openCardAnm)
+            this.playerManagement[uniqueID].counterAnm++;
+        else
+            this.playerManagement[uniqueID].counterAnm = 0;
+        if(this.playerManagement[uniqueID].counterAnm === 17)
+            this.playerManagement[uniqueID].openCardAnm = false;
+
+        if(this.playerManagement[uniqueID].stackCards.length > 0)
+            this.playerManagement[uniqueID].counterStackAnm++;
+        else
+            this.playerManagement[uniqueID].counterStackAnm = 0;
+        if(this.playerManagement[uniqueID].counterStackAnm === 17)
+            this.playerManagement[uniqueID].stackCards.length = 0;*/
+
         return this.playerManagement[uniqueID];
     }
 

@@ -9,6 +9,8 @@ class  PlayerManagement{
         this.direction = [];
         this.savesStates = [];
         this.gameState = "start";
+        this.counterAnm = 0;
+        this.counterStackAnm = 0;
     }
 
     endGame(){

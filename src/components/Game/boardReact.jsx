@@ -102,10 +102,10 @@ export default class BoardReact extends React.Component {
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards setPull = {this.getGameContent} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor uniqueID={this.props.uniqueID} gameName={this.props.gameName} interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <Stack setPull = {this.getGameContent} openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {true} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
@@ -115,10 +115,10 @@ export default class BoardReact extends React.Component {
             <div className="container-fluid">
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards setPull = {this.getGameContent} uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <Stack setPull = {this.getGameContent} openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
             </div>
         );
     }
@@ -128,10 +128,10 @@ export default class BoardReact extends React.Component {
             <div className="container-fluid">
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                <OpenCards uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
+                <OpenCards setPull = {this.getGameContent} uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} anm = {this.state.manager.player.openCardAnm} card = {this.state.manager.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
                 <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                <Stack uniqueID={this.props.uniqueID} openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
+                <Stack setPull = {this.getGameContent} uniqueID={this.props.uniqueID} openCardAnm = {this.state.manager.player.openCardAnm} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
                 <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.viewerLogOut}>Logout</button>
             </div>
         );
@@ -182,7 +182,6 @@ export default class BoardReact extends React.Component {
         );
     }
 
-
     getGameContent() {
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
         return fetch('/game/pull', {
@@ -194,10 +193,13 @@ export default class BoardReact extends React.Component {
             if (!response.ok){
                 this.setState(()=> ({errMessage: response.statusText}));
             }
-            this.timeoutId = setTimeout(this.getGameContent, 200);
+            // this.timeoutId = setTimeout(this.getGameContent, 200);
             return response.json();
         })
         .then(content => {
+            if(!content.manager.player.openCardAnm &&
+                content.manager.player.stackCards.length === 0)
+                this.timeoutId = setTimeout(this.getGameContent, 200);
             this.setState(()=> ({manager: content.manager}));
         })
     }

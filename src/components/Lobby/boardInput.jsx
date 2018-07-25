@@ -47,15 +47,15 @@ export default class BoardInput extends React.Component {
         })
         .then(response => {
             if (!response.ok) {
-                this.setState(()=>({error: response.json()}));
-                // throw response;
+                // this.setState(()=>({error: response.json()}));
+                throw response;
             }
             this.setState(()=>({sendInProgress: false}));
             this.inputElement.value = '';
-        })
-        .catch(err => {
-            this.setState(()=>({error: err}));
         });
+/*        .catch(err => {
+            this.setState(()=>({error: err}));
+        });*/
         return false;
     }
 }

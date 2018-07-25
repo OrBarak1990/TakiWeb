@@ -46,8 +46,25 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         let id = this.players[this.turn].id;
         this.stateManagement.playerManagement[id].direction = [];
         this.stateManagement.playerManagement[id].error = [];
-        this.gameStatistics.updateStatistics(id);
+        this.gameStatistics.updateStatistics(this.turn);
     }
+
+     changeTurnForPlayerOutOfHand(promote, dropAnm, deleteIndex) {
+         this.players[this.turn].increasePlayerTurns();
+         this.players[this.turn].calculateAVG();
+         this.players[this.turn].resetPlayerClock();
+         this.updateManagement(dropAnm);
+         this.turn = (this.turn + promote) % (this.players.length-1);
+         this.players.splice(deleteIndex, 1);
+         let playerManagement = this.stateManagement.playerManagement;
+         for(let i = 0; i < this.players.length; ++i){
+             playerManagement[this.players[i].id].turn = i;
+         }
+         let id = this.players[this.turn].id;
+         this.stateManagement.playerManagement[id].direction = [];
+         this.stateManagement.playerManagement[id].error = [];
+         this.gameStatistics.updateStatistics(this.turn);
+     }
 
     calcAmountCardsToTake(card) {
         if (card.getSign() === enumCard.enumTypes.TWO_PLUS) {
@@ -104,8 +121,9 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.stateManagement.openCard = {image: card.uniqueCardImage, id: card.id};
             this.calcAmountCardsToTake(card);
             if (this.players[this.turn].getAmountOfCards() === 0 && card.getSign() !== enumCard.enumTypes.PLUS) {
-                this.runOutOfCards();
-            }else {
+                return this.runOutOfCards();
+            }
+            if (!this.endGame){
                 // this.stateManagement.playerManagement.forEach(p => p.openCardAnm = true);
                 // this.stateManagement.viewerManagement.forEach(v => v.openCardAnm = true);
                 if (promote !== enumCard.enumResult.CONTINUE_TURN)
@@ -165,8 +183,10 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.amountOfCardsToTakeFromStock = 1;
            // this.stateManagement.playerManagement.foreach(p => p.pullCardAnimation = true);
             player.pullCardFromStock(cardsFromStock);
-            if(this.computer)
-                this.stateManagement.playerManagement[this.players.length - 1].stackCards.splice(0, 1);
+            if(this.computer && !this.computerEnd) {
+                let playerManagement = this.stateManagement.playerManagement;
+                playerManagement[playerManagement.length - 1].stackCards.splice(0, 1);
+            }
             this.changeTurn(enumCard.enumResult.NEXT_TURN, false);
             if(!this.computerEnd)
                 setTimeout(this.computerOperation, 2200);
@@ -317,17 +337,19 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     runOutOfCards(){
-        let outs = 0;
-        this.players.forEach(p => p.allCards.length === 0? outs++: outs);
         let id = this.players[this.turn].id;
         this.stateManagement.playerManagement[id].gameState = "stopGaming";
         if(this.players[this.turn].isComputer())
             this.computerEnd = true;
-        if( outs + 1 === this.players.length)
+        if(this.players.length === 2)
             this.endGameMode();
-        else if (outs === 1)
+        else if (this.winMessage === undefined)
             this.winMessage = this.players[this.turn].name;
-        this.players.splice(this.turn, 1);
+        let deleteIndex = this.turn;
+        this.changeTurnForPlayerOutOfHand(0, true, deleteIndex);
+        if(!this.computerEnd)
+            setTimeout(this.computerOperation, 2200);
+        // this.turn = (this.turn + this.players.length - 1) % this.players.length;
     }
 
     endGameMode() {
@@ -399,20 +421,22 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     renderEndAnimation(uniqueID){
-        this.stateManagement.playerManagement[uniqueID].message = undefined;
-        this.players[uniqueID].updateCardsToAdd();
+        let playerManagement = this.stateManagement.playerManagement;
+        playerManagement[uniqueID].message = undefined;
+        this.players[playerManagement[uniqueID].turn].updateCardsToAdd();
         if(this.computer && uniqueID === 0) {
-             this.stateManagement.playerManagement[this.players.length - 1].stackCards = [];
-             this.players[this.players.length - 1].updateCardsToAdd();
+            playerManagement[playerManagement.length - 1].stackCards = [];
+            if(!this.computerEnd)
+                this.players[playerManagement[playerManagement.length - 1].turn].updateCardsToAdd();
         }
         /*if(!this.tournament)
             this.savesStates.push(this.stateManagement.clone());*/
         if(this.gameStatistics.turnsCounter ===0)
-            this.stateManagement.playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
+            playerManagement[uniqueID].savesStates.push(this.stateManagement.clone());//TODO:: bring it back
         else {
             let cloneState = this.stateManagement.clone();
-            this.stateManagement.playerManagement.forEach(p => p.savesStates.push(cloneState));//TODO:: bring it back
-        }// this.stateManagement.playerManagement[uniqueID].renderAnimationEnd = true;
+            playerManagement.forEach(p => p.savesStates.push(cloneState));//TODO:: bring it back
+        }// playerManagement[uniqueID].renderAnimationEnd = true;
     } // TODO:: understand for what this two use for
 
     renderError(error, playerID){

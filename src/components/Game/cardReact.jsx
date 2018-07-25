@@ -26,7 +26,7 @@ export default class CardReact extends React.Component {
     }
 
     fetchError(error) {
-        let massage = {error: error, uniqueId: this.props.uniqueId,
+        let massage = {error: error, uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/cardError', {
             method: 'POST',
@@ -74,6 +74,7 @@ export default class CardReact extends React.Component {
             if (!response.ok){
                 console.log("cardReact, line 70");
             }
+            this.props.setPull();
         });
         // this.props.game.animationCardEnd();
     }

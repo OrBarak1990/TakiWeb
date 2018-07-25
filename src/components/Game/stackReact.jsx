@@ -17,7 +17,7 @@ export default class StackReact extends React.Component {
         let anm = Object.keys(this.props.enumReactPosition)[card.playerID];
         anm = anm.concat("_move 2s");
         return(
-            <CardReact animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>
+            <CardReact setPull = {this.props.setPull} animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>
         );
     }
 
