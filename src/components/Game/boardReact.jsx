@@ -15,6 +15,7 @@ export default class BoardReact extends React.Component {
         this.pickColorHolder =  React.createRef();
         this.eachPlayer = this.eachPlayer.bind(this);
         this.eachPlayerInEndGame = this.eachPlayerInEndGame.bind(this);
+        this.eachPlayerInViewer = this.eachPlayerInViewer.bind(this);
         this.gameRender = this.gameRender.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.getGameContent = this.getGameContent.bind(this);
@@ -129,7 +130,7 @@ export default class BoardReact extends React.Component {
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
                 <OpenCards setPull = {this.getGameContent} uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} card = {this.state.manager.player.openCard} open = {true}/>
-                {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
+                {this.state.manager.playersCards.map(this.eachPlayerInViewer)}
                 <PickColor  interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
                 <Stack setPull = {this.getGameContent} uniqueID={this.props.uniqueID} openCardAnm = {this.state.manager.player.dropCard !== undefined} enumReactPosition={this.props.enumReactPosition} gameName={this.props.gameName} images = {this.images} cards ={this.state.manager.player.stackCards} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder}/>
                 <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.viewerLogOut}>Logout</button>
@@ -147,7 +148,7 @@ export default class BoardReact extends React.Component {
                 <div className="container-fluid">
                     <Statistics msg= {this.state.manager.player.statisticsMassages}/>
                     <OpenCards card =  {this.state.manager.player.openCard} images = {this.images} open = {true}/>
-                    {this.state.manager.playersCards.map(this.eachPlayerInViewer)}
+                    {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
                     <PickColor interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
                     <Stack cards = {[]} images = {this.images} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder} />
                 </div>
