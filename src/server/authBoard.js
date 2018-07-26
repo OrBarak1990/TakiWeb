@@ -4,13 +4,30 @@ const boardList = [];
 
 function boardAuthentication(req, res, next) {
     const body = JSON.parse(req.body);
+    boards[body.gameName] = [];
     if(boards[body.gameName] !== undefined) {
-        res.status(403).send('game name already exist');
-    } else {
+        body.error = body.sameName;
+    }else if(body.gameName === "") {
+        body.error = body.emptyTitle;
+    }else if(body.gameName.length > 20)
+        body.error = body.longTitle;
+    next();
+}
+
+/*
+function boardAuthentication(req, res, next) {
+    const body = JSON.parse(req.body);
+    if(boards[body.gameName] !== undefined) {
+        res.status(200).send(body.sameName);
+    }else if(body.gameName === "") {
+        res.status(200).send(body.emptyTitle);
+    }else if(body.gameName.length > 20) {
+        res.status(200).send(body.longTitle);
+    }else {
         next();
     }
 }
-
+ */
 function addBoardToBoardList(boardDetails) {
     boards[boardDetails.gameName] = boardDetails;
     boardList.push(boardDetails);
