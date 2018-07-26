@@ -13,7 +13,7 @@ gameManagement.use(bodyParser.text());
 
 gameManagement.post('/',[
     auth.userAuthentication,
-    authBoard.boardAuthentication,
+    /*authBoard.boardAuthentication,*/
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
