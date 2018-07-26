@@ -3,7 +3,7 @@ const enumCard = (function () {
         enumColor: Object.freeze({RED: 0, BLUE: 1, GREEN: 2, YELLOW: 3}),
         enumTypes: Object.freeze({
             STOP: 0, CHANGE_COLOR: 1, PLUS: 2, NUMBER: 3, TAKI: 4,
-            SUPER_TAKI: 5, TWO_PLUS: 6
+            SUPER_TAKI: 5, TWO_PLUS: 6, CHANGE_DIR: 7
         }),
 
         enumPlayer: Object.freeze({
@@ -41,7 +41,7 @@ const enumCard = (function () {
         }),
 
         enumResult: Object.freeze({
-            EXTRA_TURN: 0, NEXT_TURN: 1, JUMP_TURN: 2,
+            CHANGE_DIR: -1, EXTRA_TURN: 0, NEXT_TURN: 1, JUMP_TURN: 2,
             CONTINUE_TURN: 3
         }),
 
@@ -58,7 +58,8 @@ const enumCard = (function () {
             CHANGE_COLOR:"you need to pick one of the buttons",
             PLUS:"if you have another card: same sign, or same color put it, otherwise take card from stack",
             TAKI:"please put on the stack all of your cards witch the same color of the taki",
-            TWO_PLUS:"if you have put plus two card, otherwise take cards from stack"
+            TWO_PLUS:"if you have put plus two card, otherwise take cards from stack",
+            CHANGE_DIR:"The game change his direction"
         }),
 
         enumReactPosition_0: Object.freeze({

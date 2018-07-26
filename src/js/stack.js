@@ -12,6 +12,7 @@ const {getUniqueCss} = require('./operations');
 const ChangeColorCard = require('./changeColorCard');
 const NumberCard = require('./numberCard');
 const Plus = require('./plus');
+const ChangeDirection = require('./changeDirection');
 const Stop = require('./stop');
 const SuperTaki = require('./superTaki');
 const Taki = require('./taki');
@@ -47,6 +48,13 @@ let stack = (function () {
         }
 
         for (let color = 0; color < colorNumber.length; ++color) {
+
+            css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.CHANGE_DIR], '_');
+            cards.push(new ChangeDirection(colorNumber[color], enumCard.enumTypes.CHANGE_DIR, id++));
+            cards[cards.length - 1].setElement(css);
+            cards.push(new ChangeDirection(colorNumber[color], enumCard.enumTypes.CHANGE_DIR, id++));
+            cards[cards.length - 1].setElement(css);
+
             css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.TAKI], '_');
             cards.push(new Taki(colorNumber[color], enumCard.enumTypes.TAKI, id++));
             cards[cards.length - 1].setElement(css);

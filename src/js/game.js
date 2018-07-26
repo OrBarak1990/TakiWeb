@@ -18,6 +18,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     constructor(users, computer){
         this.gameCards = [];
         this.turn = 0;
+        this.changeDirection = false;
         this.setPlayers(users, computer);
         this.amountOfCardsToTakeFromStock = 1;
         this.endGame = false;
@@ -42,7 +43,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.players[this.turn].calculateAVG();
         this.players[this.turn].resetPlayerClock();
         this.updateManagement(dropAnm);
-        this.turn = (this.turn + promote) % this.players.length;
+        this.turn = (this.turn + this.players.length + promote) % this.players.length;
         let id = this.players[this.turn].id;
         this.stateManagement.playerManagement[id].direction = [];
         this.stateManagement.playerManagement[id].error = [];
@@ -92,7 +93,11 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             Object.keys(enumCard.enumTypes)[enumCard.enumTypes.CHANGE_COLOR], '_'));
         this.stateManagement.openCard =
             {image: this.gameCards[this.gameCards.length - 1].uniqueCardImage, id: this.gameCards[this.gameCards.length - 1].id};
-        this.changeTurn(enumCard.enumResult.NEXT_TURN, false);
+        let promote = enumCard.enumResult.NEXT_TURN;
+        if(this.changeDirection){
+            promote = -promote;
+        }
+        this.changeTurn(promote, false);
         if(!this.computerEnd)
             setTimeout(this.computerOperation, 2200);
     }
@@ -126,9 +131,18 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             if (!this.endGame){
                 // this.stateManagement.playerManagement.forEach(p => p.openCardAnm = true);
                 // this.stateManagement.viewerManagement.forEach(v => v.openCardAnm = true);
-                if (promote !== enumCard.enumResult.CONTINUE_TURN)
+                if (promote !== enumCard.enumResult.CONTINUE_TURN) {
+                    if(promote === enumCard.enumResult.CHANGE_DIR){
+                        this.changeDirection = !this.changeDirection;
+                        if(!this.changeDirection){
+                            promote = -promote;
+                        }
+                    }
+                    else if(this.changeDirection){
+                        promote = -promote;
+                    }
                     this.changeTurn(promote, true);
-                else{
+                }else{
                     this.updateManagement(true);
                 }
             }
@@ -187,7 +201,11 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
                 let playerManagement = this.stateManagement.playerManagement;
                 playerManagement[playerManagement.length - 1].stackCards.splice(0, 1);
             }
-            this.changeTurn(enumCard.enumResult.NEXT_TURN, false);
+            let promote = enumCard.enumResult.NEXT_TURN;
+            if(this.changeDirection){
+                promote = -promote;
+            }
+            this.changeTurn(promote, false);
             if(!this.computerEnd)
                 setTimeout(this.computerOperation, 2200);
         }
@@ -345,6 +363,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.endGameMode();
         else if (this.winMessage === undefined)
             this.winMessage = this.players[this.turn].name;
+        else if (this.secondPlaceMessage === undefined)
+            this.secondPlaceMessage = this.players[this.turn].name;
         let deleteIndex = this.turn;
         this.changeTurnForPlayerOutOfHand(0, true, deleteIndex);
         if(!this.computerEnd)
@@ -355,8 +375,29 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     endGameMode() {
         this.stateManagement.playerManagement.forEach(p => p.savesStates.push(this.stateManagement.clone()));//TODO:: bring it back
         let newMsg = [];
-        newMsg[0] = this.winMessage + " win!";
-/*
+        let currentMes;
+        if(this.winMessage){
+            newMsg[0] = this.winMessage + " win!";
+            if(this.secondPlaceMessage) {
+                currentMes = "Second Place: " + this.secondPlaceMessage;
+                newMsg.push(currentMes);
+                currentMes = "Third Place: " + this.players[this.turn].name;
+                newMsg.push(currentMes);
+                currentMes = "Last Place: " + this.players[(this.turn + 1) % this.players.length].name;
+                newMsg.push(currentMes);
+            }else{
+                currentMes = "Second Place: " + this.players[this.turn].name;
+                newMsg.push(currentMes);
+                currentMes = "Last Place: " + this.players[(this.turn + 1) % this.players.length].name;
+                newMsg.push(currentMes);
+            }
+        }
+        else{
+            newMsg[0] = this.players[this.turn].name + " win!";
+            currentMes = "Last Place: " + this.players[(this.turn + 1) % this.players.length].name;
+            newMsg.push(currentMes);
+        }
+        /*
         if(this.tournament)
             this.tournamentGameEnd(newMsg);
         else {
@@ -400,7 +441,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             let cloneState = this.stateManagement.clone();
             this.stateManagement.playerManagement.forEach(p => p.savesStates.push(cloneState));//TODO:: bring it back
         }else
-            console.log("line 360 in game js");
+            console.log("line 409 in game js");
     }
 
 /*
