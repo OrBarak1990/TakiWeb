@@ -6,7 +6,6 @@ class  StateManagement{
         this.playersCards = [];
         this.playerManagement = [];
         this.viewerManagement = [];
-        this.openCard = undefined;
         this.stackImage = undefined;
         this.gameState =  "start";
         this.winMessage =  undefined;
@@ -164,7 +163,6 @@ class  StateManagement{
             }
             cloneState.playerManagement.push(this.playerManagement[i].clone());
         }
-        cloneState.openCard = this.openCard;
         cloneState.stackImage = this.stackImage;
         return cloneState;
     }
@@ -173,7 +171,6 @@ class  StateManagement{
         this.playersCards[0] = state.playersCards[0];
         this.playersCards[1] = state.playersCards[1];
         this.pickColorVidibility = state.pickColorVidibility;
-        this.openCard = state.openCard;
         this.stackImage = state.stackImage;
         this.statisticsMassages = state.statisticsMassages;
         this.message = state.message;

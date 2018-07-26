@@ -80,7 +80,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     partition() {
         let gameStartCard = stack.getValidOpenCard();
         setCards(this.gameCards, gameStartCard);
-        this.stateManagement.openCard = {image: gameStartCard[0].uniqueCardImage, id: gameStartCard[0].id};
+        this.stateManagement.playerManagement.forEach(p =>
+            p.openCard = {image: gameStartCard[0].uniqueCardImage, id: gameStartCard[0].id});
         this.players.forEach(p => p.setCards(stack.getCards(8), this.players.length));
     }
 
@@ -91,8 +92,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.gameCards[this.gameCards.length - 1].setColor(pickedColor);
         this.gameCards[this.gameCards.length - 1].setImage(getUniqueCss(Object.keys(enumCard.enumColor)[pickedColor],
             Object.keys(enumCard.enumTypes)[enumCard.enumTypes.CHANGE_COLOR], '_'));
-        this.stateManagement.openCard =
-            {image: this.gameCards[this.gameCards.length - 1].uniqueCardImage, id: this.gameCards[this.gameCards.length - 1].id};
+        this.stateManagement.playerManagement.forEach(p =>
+            p.openCard = {image: this.gameCards[this.gameCards.length - 1].uniqueCardImage, id: this.gameCards[this.gameCards.length - 1].id});
         let promote = enumCard.enumResult.NEXT_TURN;
         if(this.changeDirection){
             promote = -promote;
@@ -123,7 +124,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             let promote = this.players[this.turn].doOperation(card, this.gameCards[this.gameCards.length - 1]);
             this.gameCards[this.gameCards.length - 1].setActive(false);
             this.gameCards.push(card);
-            this.stateManagement.openCard = {image: card.uniqueCardImage, id: card.id};
+            this.stateManagement.playerManagement[this.players[this.turn].id].openCard =
+                {image: card.uniqueCardImage, id: card.id};
             this.calcAmountCardsToTake(card);
             if (this.players[this.turn].getAmountOfCards() === 0 && card.getSign() !== enumCard.enumTypes.PLUS) {
                 return this.runOutOfCards();
@@ -163,7 +165,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.gameCards = undefined;
         this.gameCards = [];
         this.gameCards.push(lastCard);
-        this.stateManagement.openCard = {image: lastCard.uniqueCardImage, id: lastCard.id};
+        this.stateManagement.playerManagement.forEach(p =>
+            p.openCard = {image: lastCard.uniqueCardImage, id: lastCard.id});
         this.stateManagement.stackImage = stack.getStackImage();
     }
 
@@ -433,8 +436,14 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     }
 
     updateManagement(dropAnm) {
-        this.stateManagement.playerManagement.forEach(p => p.openCardAnm = dropAnm);
-        this.stateManagement.viewerManagement.forEach(v => v.openCardAnm = dropAnm);
+        if(dropAnm) {
+            let card = this.gameCards[this.gameCards.length -1];
+            this.stateManagement.playerManagement.forEach(
+                p => p.dropCard = {playerID: this.players[this.turn].id, id: card.id});
+            this.stateManagement.playerManagement[this.players[this.turn].id].dropCard = undefined;
+            this.stateManagement.viewerManagement.forEach(
+                v => v.dropCard = {playerID: this.players[this.turn].id, id: card.id});
+        }
         let id = this.players[this.turn].id;
         this.stateManagement.playerManagement[id].error = [];
         if (this.stateManagement.playerManagement[id].stackCards.length === 0) {

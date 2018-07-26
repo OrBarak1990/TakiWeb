@@ -9,6 +9,8 @@ class  PlayerManagement{
         this.direction = [];
         this.savesStates = [];
         this.gameState = "start";
+        this.openCard = undefined;
+        this.dropCard = undefined;
         this.counterAnm = 0;
         this.counterStackAnm = 0;
     }
@@ -23,6 +25,7 @@ class  PlayerManagement{
         clonePlayerState.statisticsMassages = this.statisticsMassages;
         clonePlayerState.message = this.message;
         clonePlayerState.gameState =  "endGame";
+        clonePlayerState.openCard = this.openCard;
         /*clonePlayerState.playerManagement.error = this.error;*/
         return clonePlayerState;
     }

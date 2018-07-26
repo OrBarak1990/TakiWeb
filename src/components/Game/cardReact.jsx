@@ -12,7 +12,8 @@ export default class CardReact extends React.Component {
         this.fetchError = this.fetchError.bind(this);
         this.mouseover = this.mouseover.bind(this);
         this.onmouseout = this.onmouseout.bind(this);
-        this.endAnimation = this.endAnimation.bind(this);
+        this.endPullCardAnimation = this.endPullCardAnimation.bind(this);
+        this.endDropCardAnimation = this.endDropCardAnimation.bind(this);
     }
 
     onDragStart(ev) {
@@ -42,13 +43,10 @@ export default class CardReact extends React.Component {
 
     render() {
         if(this.props.pullCardAnimation !== undefined) {
-            if (this.props.humanAnimation === true) {
-                return this.renderWithHumanAnimation();
-            }
-            else {
-                return this.renderWithComputerAnimation();
-            }
+                return this.pullCardAnm();
             // return this.renderEndAnimation();
+        } else if(this.props.dropCardAnimation !== undefined){
+            return this.dropCardAnm();
         }
         else {
             if (!this.state.bold)
@@ -58,7 +56,23 @@ export default class CardReact extends React.Component {
         }
     }
 
-    endAnimation(){
+        endDropCardAnimation(){
+        let massage = {uniqueID: this.props.uniqueID,
+            gameName: this.props.gameName};
+        return fetch('/game/finishAnimation', {
+            method: 'POST',
+            body: JSON.stringify(massage),
+            credentials: 'include'
+        })
+        .then(response => {
+            if (!response.ok){
+                console.log("OpenCardsReact, line 40");
+            }
+            this.props.setPull();
+        });
+    }
+
+    endPullCardAnimation(){
 /*
         let massage = {error: error, playerID: this.props.uniqueId,
             gameName: this.props.gameName};
@@ -82,26 +96,35 @@ export default class CardReact extends React.Component {
 /*    renderEndAnimation(){
         return(
             <a id="regular">
-                <img onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
     }*/
 
-    renderWithComputerAnimation(){
+    pullCardAnm(){
         return(
             <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
-    }//onAnimationStart={this.endAnimation}
+    }//onAnimationStart={this.endPullCardAnimation}
 
-    renderWithHumanAnimation(){
+
+    dropCardAnm(){
         return(
             <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endDropCardAnimation} style={{transition: "0.4s",animation: this.props.animationDropCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
             </a>
         );
     }
+
+/*    renderWithHumanAnimation(){
+        return(
+            <a id="regular">
+                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+            </a>
+        );
+    }*/
 
     renderWithBold(){
         return(

@@ -16,9 +16,27 @@ export default class CardHolderReact extends React.Component {
     }
 
     render() {
+        if(this.props.dropCard !== undefined)
+            return this.renderWithDrop();
+        return this.renderWithoutDrop();
+
+    }
+
+    renderWithoutDrop(){
         return(
             <div className={"player"} id = {this.props.cssId}>
                 {this.props.cards.map(this.eachCard)}
+            </div>
+        );
+    }
+
+    renderWithDrop() {
+        let anm = Object.keys(this.props.enumReactPosition)[this.props.dropCard.playerID];
+        anm = anm.concat("_drop_move 2s");
+        return(
+            <div className={"player"} id = {this.props.cssId}>
+                {this.props.cards.map(this.eachCard)}
+                <CardReact setPull = {this.props.setPull} animationDropCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} dropCardAnimation ={true} key = {this.props.dropCard.id}/>
             </div>
         );
     }

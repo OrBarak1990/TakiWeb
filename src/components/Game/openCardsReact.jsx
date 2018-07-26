@@ -5,13 +5,18 @@ export default class OpenCardsReact extends React.Component {
     constructor(args) {
         super(...args);
         this.Drop = this.Drop.bind(this);
-        this.renderWithAnimation = this.renderWithAnimation.bind(this);
-        this.renderWithoutAnimation = this.renderWithoutAnimation.bind(this);
-        this.finishAnimation = this.finishAnimation.bind(this);
+        // this.renderWithAnimation = this.renderWithAnimation.bind(this);
+        // this.renderWithoutAnimation = this.renderWithoutAnimation.bind(this);
+        // this.finishAnimation = this.finishAnimation.bind(this);
     }
 
     render() {
-        if(this.state !== null) {
+        return(
+            <div onDragOver={this.allowDrop} onDrop = {this.Drop} id = {"openCards"}>
+                <img draggable={false} src={this.props.images[this.props.card.image]}/>
+            </div>
+        );
+/*        if(this.state !== null) {
             if (this.state.anm) {
                 this.state = null;
                 return this.renderWithAnimation();
@@ -22,10 +27,10 @@ export default class OpenCardsReact extends React.Component {
             if (this.props.anm)
                 return this.renderWithAnimation();
             return this.renderWithoutAnimation();
-        }
+        }*/
     }
 
-    finishAnimation(){
+/*    finishAnimation(){
         let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/finishAnimation', {
@@ -39,9 +44,9 @@ export default class OpenCardsReact extends React.Component {
             }
             this.props.setPull();
         });
-    }
+    }*/
 
-    renderWithAnimation(){
+/*    renderWithAnimation(){
         return(
             <div onAnimationEnd={this.finishAnimation} onDragOver={this.allowDrop} onDrop = {this.Drop} id = {"openCards"} style={{transition: "0.6s",animation: "opencard_move 1.5s"}} >
                 <img draggable={false} src={this.props.images[this.props.card.image]}/>
@@ -55,7 +60,7 @@ export default class OpenCardsReact extends React.Component {
                 <img draggable={false} src={this.props.images[this.props.card.image]}/>
             </div>
         );
-    }
+    }*/
 
     allowDrop(ev) {
         ev.preventDefault();

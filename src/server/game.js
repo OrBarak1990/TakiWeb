@@ -77,7 +77,7 @@ gameManagement.post('/pull',[
         const uniqueId = body.uniqueID;
         const userName = auth.getUserInfo(req.session.id).name;
         const answer = {playersCards: manger.playersCards,
-            openCard: manger.openCard, stackImage: manger.stackImage,
+            stackImage: manger.stackImage,
             gameState: manger.gameState,
             player: manger.getUserDetails(uniqueId, userName)};
         res.json({manager: answer});
@@ -93,7 +93,7 @@ gameManagement.post('/pull',[
         const currentPlayer = manger.playerManagement[manger.game.turn];
         const firstPlayer = manger.playerManagement[manger.game.turn];
         const answer = {playersCards: manger.playersCards,
-            openCard: manger.openCard, stackImage: manger.stackImage,
+            stackImage: manger.stackImage,
             gameState: manger.gameState,
             player: {statisticsMassages: currentPlayer.statisticsMassages,
                 stackCards: firstPlayer.stackCards, openCardAnm: firstPlayer.openCardAnm,
@@ -168,17 +168,22 @@ gameManagement.post('/finishAnimation',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
+        let card = this.boardDetail.game.gameCards[this.boardDetail.game.gameCards.length - 1];
         if(body.uniqueID < 4) {
             const playerManagements = boardDetail.stateManagement.playerManagement;
-            playerManagements[body.uniqueID].openCardAnm = false;
-            if (boardDetail.computer)
-                playerManagements[playerManagements.length - 1].openCardAnm = false;
+            playerManagements[body.uniqueID].openCard = {image: card.uniqueCardImage, id: card.id};
+            playerManagements[body.uniqueID].dropCard = undefined;
+            if (boardDetail.computer) {
+                playerManagements[playerManagements.length - 1].openCard = {image: card.uniqueCardImage, id: card.id};
+                playerManagements[playerManagements.length - 1].dropCard = undefined;
+            }
         }else{
             const userName = auth.getUserInfo(req.session.id).name;
             const viewerManagements = boardDetail.stateManagement.viewerManagement;
             for(let i = 0; i < viewerManagements.length; ++i){
                 if(userName === viewerManagements[i].name){
-                    viewerManagements[i].openCardAnm = false;
+                    viewerManagements[i].openCard = {image: card.uniqueCardImage, id: card.id};
+                    viewerManagements[i].dropCard = undefined;
                     break;
                 }
             }
@@ -197,7 +202,7 @@ gameManagement.post('/prev',[
         const turnIndex = boardDetail.stateManagement.playerManagement[uniqueId].turnIndex;
         const manger = boardDetail.stateManagement.playerManagement[uniqueId].savesStates[turnIndex];
         const answer = {playersCards: manger.playersCards,
-            openCard: manger.openCard, stackImage: manger.stackImage,
+            stackImage: manger.stackImage,
             gameState: manger.gameState,
             player: manger.playerManagement[uniqueId]};
         res.json({manager: answer});
@@ -214,7 +219,7 @@ gameManagement.post('/next',[
         const turnIndex = boardDetail.stateManagement.playerManagement[uniqueId].turnIndex;
         const manger = boardDetail.stateManagement.playerManagement[uniqueId].savesStates[turnIndex];
         const answer = {playersCards: manger.playersCards,
-            openCard: manger.openCard, stackImage: manger.stackImage,
+            stackImage: manger.stackImage,
             gameState: manger.gameState,
             player: manger.playerManagement[uniqueId]};
         res.json({manager: answer});
