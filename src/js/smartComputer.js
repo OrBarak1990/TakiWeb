@@ -9,7 +9,7 @@ class SmartComputer extends Player{
     constructor(playerTurn){
         super("ComputerPlayer",playerTurn);
         this.colorsCards = [[], [], [], []];
-        this.typesCards = [[], [], [], [], [], [], []];
+        this.typesCards = [[], [], [], [], [], [], [], []];
         this.numberOfPlayers = undefined;
         this.lastCardInTaki = undefined;
         this.pickedColor = false;
