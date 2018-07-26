@@ -23,24 +23,24 @@
     to {left: 81%; top: 40%;transform: rotate(90deg);}
 }
 
-@-webkit-keyframes UP_Drop_drop_move {
+@-webkit-keyframes UP_drop_move {
     from {left: 40%;  top: 4%;}
-    to {left: 40%; top: 38%;}
+    to {left: 40%; top: 35%;}
 }
 
 @-webkit-keyframes BUTTON_drop_move {
     from {left: 40%;  top: 80%;}
-    to {left: 40%; top: 38%;}
+    to {left: 40%; top: 35%;}
 }
 
 @-webkit-keyframes LEFT_drop_move {
     from {left: 16%;  top: 40%;transform: rotate(90deg);}
-    to {left: 40%; top: 38%;}
+    to {left: 40%; top: 35%;}
 }
 
 @-webkit-keyframes RIGHT_drop_move {
     from {left: 81%;  top: 40%;transform: rotate(90deg);}
-    to {left: 40%; top: 38%;}
+    to {left: 40%; top: 35%;}
 }
 
 

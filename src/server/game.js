@@ -168,7 +168,7 @@ gameManagement.post('/finishAnimation',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        let card = this.boardDetail.game.gameCards[this.boardDetail.game.gameCards.length - 1];
+        let card = boardDetail.game.gameCards[boardDetail.game.gameCards.length - 1];
         if(body.uniqueID < 4) {
             const playerManagements = boardDetail.stateManagement.playerManagement;
             playerManagements[body.uniqueID].openCard = {image: card.uniqueCardImage, id: card.id};
