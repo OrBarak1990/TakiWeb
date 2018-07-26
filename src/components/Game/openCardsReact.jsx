@@ -33,11 +33,12 @@ export default class OpenCardsReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then(response => {
-                if (!response.ok){
-                    console.log("OpenCardsReact, line 40");
-                }
-            });
+        .then(response => {
+            if (!response.ok){
+                console.log("OpenCardsReact, line 40");
+            }
+            this.props.setPull();
+        });
     }
 
     renderWithAnimation(){

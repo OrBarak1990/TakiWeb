@@ -29,7 +29,6 @@ export default class BoardInput extends React.Component {
                         </label>
                     <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
                 </form>
-                <p id ="errors">{this.state.error}</p>
             </form>
         )
     }
@@ -40,10 +39,7 @@ export default class BoardInput extends React.Component {
         const gameName = this.inputElement.value;
         const numOfPlayers = parseInt(this.numPlayers.value);
         const computer = this.computer.checked;
-        let emptyTitle = "Title can't be empty";
-        let longTitle = "The limited length is 20 letters";
-        let sameName = "That title is exist";
-        let text = {gameName: gameName, numOfPlayers: numOfPlayers, computer: computer, error:undefined, emptyTitle: emptyTitle, longTitle: longTitle, sameName: sameName};
+        let text = {gameName: gameName, numOfPlayers: numOfPlayers, computer: computer};
         fetch('/lobby', {
             method: 'POST',
             body: JSON.stringify(text),
@@ -51,19 +47,15 @@ export default class BoardInput extends React.Component {
         })
         .then(response => {
             if (!response.ok) {
-                //this.setState(()=>({error: text.error}));
+                // this.setState(()=>({error: response.json()}));
+                throw response;
             }
-/*
-
-*/
             this.setState(()=>({sendInProgress: false}));
             this.inputElement.value = '';
         });
-/*
-        .catch(err => {
+/*        .catch(err => {
             this.setState(()=>({error: err}));
-        });
-*/
+        });*/
         return false;
     }
 }
