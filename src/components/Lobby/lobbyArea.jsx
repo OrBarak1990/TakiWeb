@@ -6,9 +6,9 @@ export default class LobbyArea extends React.Component {
         super(...args);
 
         this.state = {
-            users : [],
-            boards : [],
-            errMessage : ""
+            users: [],
+            boards: [],
+            errMessage: ""
         };
 
         this.getLobbyContent = this.getLobbyContent.bind(this);
@@ -27,28 +27,32 @@ export default class LobbyArea extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div className="converssion-area-wrpper">
                 <h2>UsersName:</h2>
                 <ul className="converssion-area-wrpper">
                     {this.state.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
                 <ul className="toolbar">
-                    <li><a className="toolbar-item" >Number</a></li>
-                    <li><a className="toolbar-item" >Title</a></li>
-                    <li><a className="toolbar-item" >Players Active</a></li>
-                    <li><a className="toolbar-item" >Players Capacity</a></li>
+                    <li><a className="toolbar-item">Number</a></li>
+                    <li><a className="toolbar-item">Title</a></li>
+                    <li><a className="toolbar-item">Players Active</a></li>
+                    <li><a className="toolbar-item">Players Capacity</a></li>
                 </ul>
-                <ul className="converssion-area-wrpper">
+                <ul className="lobbyBoards">
                     {this.state.boards.map((board, index) => (
-                        <div className="singleBoardInLobby" key={200 + index} style ={{background:board.color}}>
-                            <li><a className = "singleBoardItem" data-key = {index} >{index + 1}</a></li>
-                            <li><a className = "singleBoardItem" data-key = {index} >{board.gameName}</a></li>
-                            <li><a className = "singleBoardItem" data-key = {index} >{board.registerPlayers}.</a></li>
-                            <li><a className = "singleBoardItem" data-key = {index} >{board.numOfPlayers}</a></li>
-                            <button className="EnterGameButton" data-key = {index} type="button" disabled={this.state.sendInProgress} onClick={this.boardClicked}>Play Game</button>
-                            <button className="ViewGameButton"  data-key = {index} type="button" disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game</button>
-                         </div>
+                        <div className="singleBoardInLobby" key={200 + index} style={{background: board.color}}>
+                            <li><a className="singleBoardItem" data-key={index}>{index + 1}</a></li>
+                            <li><a className="singleBoardItem" data-key={index}>{board.gameName}</a></li>
+                            <li><a className="singleBoardItem" data-key={index}>{board.registerPlayers}</a></li>
+                            <li><a className="singleBoardItem" data-key={index}>{board.numOfPlayers}</a></li>
+                            <button className="EnterGameButton" data-key={index} type="button"
+                                    disabled={this.state.sendInProgress} onClick={this.boardClicked}>Play Game
+                            </button>
+                            <button className="ViewGameButton" data-key={index} type="button"
+                                    disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game
+                            </button>
+                        </div>
                     ))}
                 </ul>
             </div>
@@ -58,21 +62,23 @@ export default class LobbyArea extends React.Component {
     getLobbyContent() {
         return fetch('/lobby', {method: 'GET', credentials: 'include'})
             .then((response) => {
-                if (!response.ok){
+                if (!response.ok) {
                     throw response;
                 }
                 this.timeoutId = setTimeout(this.getLobbyContent, 2000);
                 return response.json();
             })
             .then(content => {
-                this.setState(()=>({boards: content.boards, users: content.users}));
+                this.setState(() => ({boards: content.boards, users: content.users}));
             })
-            .catch(err => {throw err});
+            .catch(err => {
+                throw err
+            });
     }
 
-    viewGame(e){
+    viewGame(e) {
         e.preventDefault();
-        this.setState(()=>({sendInProgress: true}));
+        this.setState(() => ({sendInProgress: true}));
         let index = e.target.getAttribute('data-key');
         let boardDetail = this.state.boards[index];
         return fetch('/lobby/viewGame', {
@@ -81,21 +87,21 @@ export default class LobbyArea extends React.Component {
             credentials: 'include'
         })
             .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
+                if (!response.ok) {
+                    this.setState(() => ({errMessage: response.statusText}));
                 }
-                this.setState(()=>({sendInProgress: false}));
+                this.setState(() => ({sendInProgress: false}));
                 return response.json();
             })
             .then(content => {
-                this.setState(()=> ({errMessage: ""}));
+                this.setState(() => ({errMessage: ""}));
                 this.props.viewGameSuccessHandler(content.boardDetail);
             })
     }
 
-    boardClicked(e){
+    boardClicked(e) {
         e.preventDefault();
-        this.setState(()=>({sendInProgress: true}));
+        this.setState(() => ({sendInProgress: true}));
         let index = e.target.getAttribute('data-key');
         let boardDetail = this.state.boards[index];
         return fetch('/lobby/boardClicked', {
@@ -103,16 +109,24 @@ export default class LobbyArea extends React.Component {
             body: JSON.stringify(boardDetail),
             credentials: 'include'
         })
-        .then((response) => {
-            if (!response.ok){
-                this.setState(()=> ({errMessage: response.statusText}));
-            }
-            this.setState(()=>({sendInProgress: false}));
-            return response.json();
-        })
-        .then(content => {
-            this.setState(()=> ({errMessage: ""}));
-            this.props.boardClickedSuccessHandler(content.boardDetail);
-        })
+            .then((response) => {
+                this.setState(() => ({sendInProgress: false}));
+                if (response.status === 403) {
+                    this.setState(() => ({errMessage: "The game is full"}));
+                }
+                else if (response.status === 401) {
+                    this.setState(() => ({errMessage: "The game is finished"}));
+                }
+                else if (response.ok) {
+                    this.setState(() => ({errMessage: ''}));
+                    return response.json();
+                }
+            })
+            .then(content => {
+                if(content){
+                    this.setState(() => ({errMessage: ""}));
+                    this.props.boardClickedSuccessHandler(content.boardDetail);
+                }
+            })
     }
 }

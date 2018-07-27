@@ -8,13 +8,15 @@ class statistics {
         this.turnsCounter = -1;
         this.singleCardPlayers = [];
     }
-     updateStatistics(turn) {
+     updateStatistics(turn,cardLength) {
         this.turnsCounter++;
          let playerTurnName = "Current player turn: " + this.playersGame[turn].name;
+         let amountOfCardsInStack = "Amount cards In stack: " + cardLength;
          for (let i = 0; i < this.playersGame.length; ++i) {
              let messages = [];
              messages[0] = "\n" + "Turns played totally :" + this.turnsCounter;
              messages.push(playerTurnName);
+             messages.push(amountOfCardsInStack);
              this.singleCardPlayers[i] = this.playersGame[i].getSingleCardCounter();
              let playerLocal = this.playersGame[i].name + ": ";
              messages.push(playerLocal);

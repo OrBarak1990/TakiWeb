@@ -77,7 +77,7 @@ export default class BoardReact extends React.Component {
         return(
             <div>
                 <div id = {"endGameMode"}>
-                    <p id ="message">{this.state.manager.player.message}</p>
+                    <div id ="message">{this.state.manager.player.message.map(this.eachMassage)}</div>
                     <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
                 </div>
                 <div className="container-fluid">
@@ -138,11 +138,17 @@ export default class BoardReact extends React.Component {
         );
     }
 
+    eachMassage(msg, i) {
+        return(
+            <p key={i + 200}>{msg}</p>
+        );
+    }
+
     endGameViewerRender(){
         return(
             <div>
                 <div id = {"endGameMode"}>
-                    <p id ="message">{this.state.manager.player.message}</p>
+                    <div id ="message">{this.state.manager.player.message.map(this.eachMassage)}</div>
                     <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
                 </div>
                 <div className="container-fluid">

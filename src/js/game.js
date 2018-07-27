@@ -47,7 +47,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         let id = this.players[this.turn].id;
         this.stateManagement.playerManagement[id].direction = [];
         this.stateManagement.playerManagement[id].error = [];
-        this.gameStatistics.updateStatistics(this.turn);
+        this.gameStatistics.updateStatistics(this.turn,stack.getAllCards().length);
     }
 
      changeTurnForPlayerOutOfHand(promote, dropAnm, deleteIndex) {
@@ -64,7 +64,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
          let id = this.players[this.turn].id;
          this.stateManagement.playerManagement[id].direction = [];
          this.stateManagement.playerManagement[id].error = [];
-         this.gameStatistics.updateStatistics(this.turn);
+         this.gameStatistics.updateStatistics(this.turn,stack.getAllCards().length);
      }
 
     calcAmountCardsToTake(card) {
@@ -248,7 +248,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.partition();
         this.gameStatistics = new statistics(this.players);
         this.gameStatistics.setManager(this.stateManagement);
-        this.gameStatistics.updateStatistics(this.turn);
+        this.gameStatistics.updateStatistics(this.turn,stack.getAllCards().length);
         this.stateManagement.stackImage = stack.getStackImage();
         this.stateManagement.playerManagement.forEach(p => p.pickColorVidibility = "hidden");
     }

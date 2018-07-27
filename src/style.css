@@ -4,8 +4,8 @@
     padding-right: 8px;
     cursor: pointer;
     border-style: solid;
-    background-color: #d0f3e8;
-    border-color: #d0f3e8;
+    background-color: rgba(225, 236, 230, 1);
+    border-color: rgba(225, 236, 230, 1);
     margin: 0 3px;
 }
 
@@ -59,11 +59,11 @@ html{
 }
 
 .login-page-wrapper .submit-btn:hover {
-    background-color: #cadcff;
-    border-color: #cadcff;
+    background-color: rgba(215, 216, 210, 1);
+    border-color: rgba(215, 216, 210, 1);
 }
 
-.login-page-wrapper .login-error-message {
+.login-error-message {
     color: red;
     font-weight: 600;
 }
@@ -80,7 +80,7 @@ html{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #3733af;
 }
 
 .registerUsers {
@@ -109,7 +109,7 @@ html{
 }
 
 .singleBoardInLobby{
-    border: 1px solid #ccc;
+    border: 1px solid #dadada;
     border-color: #cadcff;
 }
 
@@ -130,7 +130,7 @@ html{
     cursor: pointer;
     border-style: solid;
     background-color: #f3f1ec;
-    border-color: #1f2925;
+    border-color: #f3f1ec;
     margin: 0 3px;
     width: 14%;
     display: inline-block;
@@ -146,7 +146,7 @@ html{
     cursor: pointer;
     border-style: solid;
     background-color: #f3f1ec;
-    border-color: #1f2925;
+    border-color: #f3f1ec;
     width: 15%;
     display: inline-block;
     text-align: center;
@@ -154,24 +154,39 @@ html{
     text-decoration: none;
 }
 
+.singleBoardInLobby .EnterGameButton:hover, .singleBoardInLobby .ViewGameButton:hover{
+    background-color: rgba(215, 216, 210, 1);
+    border-color: rgba(215, 216, 210, 1);
+}
+
 .chat-contaier .converssion-area-wrpper {
     flex-grow: 1;
-    border: 1px solid #ccc;
     margin: 3px;
     padding: 8px;
     list-style-type: none;
 }
 
+    .chat-contaier .converssion-area-wrpper .lobbyBoards{
+    flex-grow: 1;
+    padding: 0px;
+    margin: 3px;
+    list-style-type: none;
+}
 
 
 .chat-contaier .converssion-area-wrpper p{
     margin: 0 0 8px 0;
 }
 
-.chat-contaier .chat-input-wrapper {
+.chat-contaier .chat-input-wrapper{
     margin-bottom: 8px;
     width: 100%;
     display: flex;
+    height: 48px;
+}
+.ComputerLabel{
+    vertical-align: 22px;
+    padding: 4px;
 }
 
 .chat-contaier .chat-input-wrapper input{
@@ -188,4 +203,11 @@ html{
     flex-grow: 0;
     width: 88px;
     margin: 0 2px 0 5px;
+    background-color: rgba(225, 226, 220, 1);
+    border-color: rgba(225, 226, 220, 1);
+}
+
+.chat-contaier .chat-input-wrapper .btn:hover {
+    background-color: rgba(215, 216, 210, 1);
+    border-color: rgba(215, 216, 210, 1);
 }
