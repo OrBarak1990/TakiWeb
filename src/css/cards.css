@@ -295,6 +295,15 @@ img{
     top: 27%;
     left: 40%;
 }
+#centerPosition{
+    top:35%;
+    left: 45%;
+    position: fixed;
+    font-weight: bold;
+    font-style: oblique;
+    font-family: "Times New Roman", Times, serif;
+    font-size:25px;
+}
 
 #endGame{
     position: fixed;

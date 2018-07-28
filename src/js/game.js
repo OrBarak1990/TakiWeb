@@ -336,6 +336,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
 */
     prev(uniqueId){
         let playerManagement = this.stateManagement.playerManagement[uniqueId];
+        playerManagement.showResults = undefined;
         if(playerManagement.turnIndex -1 >= 0) {
             playerManagement.savesStates[playerManagement.turnIndex].playerManagement[uniqueId].error = [];
             playerManagement.turnIndex--;
@@ -377,6 +378,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
 
     endGameMode() {
         this.stateManagement.playerManagement.forEach(p => p.savesStates.push(this.stateManagement.clone()));//TODO:: bring it back
+        this.stateManagement.playerManagement.forEach(p => p.showResults = true);
+        this.gameStatistics.allPlayersStatistics();
         let newMsg = [];
         let currentMes;
         if(this.winMessage){
