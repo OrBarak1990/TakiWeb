@@ -68,7 +68,7 @@ export default class BoardInput extends React.Component {
                 }
                 else if (response.ok) {
                     this.setState(() => ({errMessage: ''}));
-                    return response.json();
+                    // return response.json();
                 }
             });
         /*        .catch(err => {

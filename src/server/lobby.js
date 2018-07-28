@@ -13,8 +13,12 @@ lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const users = auth.getAllUsers();
         const boards = authBoard.getAllBoards();
         let boardMsg = [];
+        const userName =  auth.getUserInfo(req.session.id).name;
         boards.forEach(b => boardMsg.push({numOfPlayers: b.numOfPlayers,
-            registerPlayers: b.registerPlayers, gameName: b.gameName, color: b.color}));
+            registerPlayers: b.registerPlayers, viewers: b.viewers.length,
+            gameName: b.gameName, color: b.color, userName: b.userName,
+            deleteAccess: b.userName === userName && b.users.length === 0 &&
+            b.viewers.length === 0}));
         res.json({boards: boardMsg, users: users});
     });
 
@@ -67,13 +71,27 @@ lobbyManagement.post('/viewGame',[
     }
 ]);
 
+lobbyManagement.post('/deleteGame',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        const userName =  auth.getUserInfo(req.session.id).name;
+        if(boardDetail.userName === userName && boardDetail.users.length === 0 &&
+            boardDetail.viewers.length === 0){
+            authBoard.DeleteBoardFromBoardList(boardDetail);
+        }
+        res.sendStatus(200);
+    }
+]);
+
 lobbyManagement.post('/getBoard',[
     auth.userAuthentication,
     (req, res) => {
         const body = req.body;
         const boardDetail = authBoard.getBoardDetail(body);
         res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
-                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName, users: boardDetail.users, computer: boardDetail.computer}});
+                numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName, users: boardDetail.users, computer: boardDetail.computer, viewers: boardDetail.viewers}});
     }
 ]);
 module.exports = lobbyManagement;

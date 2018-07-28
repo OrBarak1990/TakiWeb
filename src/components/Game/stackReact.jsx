@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {enumCard} from './../../js/enumCard'
 import CardReact from './cardReact.jsx';
 
 export default class StackReact extends React.Component {
@@ -17,7 +16,7 @@ export default class StackReact extends React.Component {
         let anm = Object.keys(this.props.enumReactPosition)[card.playerID];
         anm = anm.concat("_move 2s");
         return(
-            <CardReact setPull = {this.props.setPull} animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>
+            <CardReact  images = {this.props.images} setPull = {this.props.setPull} animationPullCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} pullCardAnimation ={true} key = {i + 400}/>
         );
     }
 
@@ -38,11 +37,6 @@ export default class StackReact extends React.Component {
         let changeColorReact = this.props.pickColorRef.current;
         if (changeColorReact.props.visible === "visible")
             return false;
-/*        if (!this.props.game.players[this.props.game.turn].isComputer())
-            this.props.game.pullCardValidation(this.props.game.players[this.props.game.turn]);
-        else{
-            this.props.game.renderError(enumCard.enumErrors.PULL_CARD_NOT_IN_TURN);
-        }*/
         let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/pullCard', {

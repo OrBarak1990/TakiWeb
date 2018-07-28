@@ -5,7 +5,7 @@ const auth = require('./authUsers');
 const authBoard = require('./authBoard');
 const game = require('./../js/game');
 const stateManagement = require('./../js/stateManagement');
-
+const enumCard = require('./../js/enumCard');
 const gameManagement = express.Router();
 
 gameManagement.use(bodyParser.text());
@@ -40,7 +40,18 @@ gameManagement.post('/',[
                 break;
             }
         }
-        res.json({uniqueId: uniqueId});
+
+        let enumC;
+        if(uniqueId === 0  || uniqueId >= 4)
+            enumC = enumCard.enumCard.enumReactPosition_0;
+        else if(uniqueId === 1 )
+            enumC = enumCard.enumCard.enumReactPosition_1;
+        else if(uniqueId === 2 )
+            enumC = enumCard.enumCard.enumReactPosition_2;
+        else
+            enumC = enumCard.enumCard.enumReactPosition_3;
+
+        res.json({uniqueId: uniqueId, enumCard: enumC, enumColor: enumCard.enumCard.enumColor});
     }
 ]);
 
@@ -107,7 +118,8 @@ gameManagement.post('/cardError',[
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.game.renderError(body.error, body.uniqueID);
+        boardDetail.game.renderError(enumCard.enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK,
+            body.uniqueID);
         res.sendStatus(200);
     }
 ]);
@@ -226,6 +238,23 @@ gameManagement.post('/next',[
     }
 ]);
 
+gameManagement.post('/replay',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        const boardDetail = authBoard.getBoardDetail(body.gameName);
+        const manger = boardDetail.stateManagement;
+        const uniqueId = body.uniqueID;
+        const userName = auth.getUserInfo(req.session.id).name;
+        manger.playerManagement[uniqueId].showResults = undefined;
+        const answer = {playersCards: manger.playersCards,
+            stackImage: manger.stackImage,
+            gameState: manger.gameState,
+            player: manger.getUserDetails(uniqueId, userName)};
+        res.json({manager: answer});
+    }
+]);
+
 gameManagement.post('/finishGame',[
     auth.userAuthentication,
     (req, res) => {
@@ -254,6 +283,25 @@ gameManagement.post('/finishGame',[
         res.sendStatus(200);
     }
 ]);
+
+/*gameManagement.post('/getPos',[
+    auth.userAuthentication,
+    (req, res) => {
+        const body = JSON.parse(req.body);
+        let enumC;
+        if(body === 0  || body >= 4)
+            enumC = enumCard.enumCard.enumReactPosition_0;
+        else if(body === 1 )
+            enumC = enumCard.enumCard.enumReactPosition_1;
+        else if(body === 2 )
+            enumC = enumCard.enumCard.enumReactPosition_2;
+        else
+            enumC = enumCard.enumCard.enumReactPosition_3;
+        res.json({enumCard: enumC});
+        // res.sendStatus(200);
+    }
+]);*/
+
 
 
 

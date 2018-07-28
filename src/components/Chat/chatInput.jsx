@@ -25,7 +25,7 @@ export default class ChatInput extends React.Component {
         e.preventDefault();
         this.setState(()=>({sendInProgress: true}));
         const text = this.inputElement.value;
-        let massage = {text: text, uniqueId: this.props.uniqueId,
+        let massage = {text: text, uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         fetch('/chat', {
             method: 'POST',

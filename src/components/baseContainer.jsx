@@ -5,7 +5,6 @@ import LobbyArea from './Lobby/lobbyArea.jsx';
 import BoardInput from './Lobby/boardInput.jsx';
 import BoardReact from './Game/boardReact.jsx';
 import PreGame from './Game/preGame.jsx';
-import {enumCard} from "../js/enumCard";
 
 export default class BaseContainer extends React.Component {
     constructor(args) {
@@ -28,7 +27,6 @@ export default class BaseContainer extends React.Component {
         this.viewGameSuccessHandler = this.viewGameSuccessHandler.bind(this);
         this.enterGameHandler = this.enterGameHandler.bind(this);
         this.enterViewerGame = this.enterViewerGame.bind(this);
-        this.getPos = this.getPos.bind(this);
         this.exitGame = this.exitGame.bind(this);
 
         this.getUserName();
@@ -54,6 +52,10 @@ export default class BaseContainer extends React.Component {
         console.error('login failed');
        this.setState(()=>({showLogin: true}));
     }
+
+/*    logOutUser(){
+        this.setState(()=>({showLogin: true}));
+    }*/
 
     logOutHandler(){
         return fetch('/users/logout', {method: 'GET', credentials: 'include'})
@@ -90,7 +92,7 @@ export default class BaseContainer extends React.Component {
             return response.json();
         })
         .then(content => {
-            this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, viewer: true, boardDetail: boardDetail}));
+            this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, enumCard: content.enumCard, enumColor: content.enumColor, viewer: true, boardDetail: boardDetail}));
         })
     }
 
@@ -107,7 +109,7 @@ export default class BaseContainer extends React.Component {
                 return response.json();
             })
             .then(content => {
-                this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId}));
+                this.setState(()=>({room4: true, room3: false, myIndex: content.uniqueId, enumCard: content.enumCard, enumColor: content.enumColor}));
             })
     }
 
@@ -136,11 +138,11 @@ export default class BaseContainer extends React.Component {
                 throw err; // in case we're getting an error
             }
         });*/
-        fetch('/users',{method: 'GET', credentials: 'include'})
+        return fetch('/users',{method: 'GET', credentials: 'include'})
         .then(response => {
             if (response.ok){
                 let userInfo = response.json();
-                this.setState(()=>({currentUser:userInfo, showLogin: false}));
+                this.setState(()=>({currentUser: userInfo, showLogin: false}));
             }else{
                 this.setState(()=>({currentUser: {name: ''}, showLogin: true}));
             }
@@ -203,18 +205,8 @@ export default class BaseContainer extends React.Component {
 
     renderRoom4() {
         return(
-            <BoardReact viewer = {this.state.viewer} exitGame = {this.exitGame} enumReactPosition = {this.getPos()} uniqueID = {this.state.myIndex} gameName = {this.state.boardDetail.gameName}/>
+            <BoardReact viewer = {this.state.viewer} exitGame = {this.exitGame} enumReactPosition = {this.state.enumCard} enumColor = {this.state.enumColor} uniqueID = {this.state.myIndex} gameName = {this.state.boardDetail.gameName}/>
         )
-    }
-
-    getPos() {
-        if(this.state.myIndex === 0  || this.state.myIndex >= 4)
-            return enumCard.enumReactPosition_0;
-        else if(this.state.myIndex === 1 )
-            return enumCard.enumReactPosition_1;
-        else if(this.state.myIndex === 2 )
-            return enumCard.enumReactPosition_2;
-        return enumCard.enumReactPosition_3;
     }
 }
 

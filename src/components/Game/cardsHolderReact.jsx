@@ -36,7 +36,7 @@ export default class CardHolderReact extends React.Component {
         return(
             <div className={"player"} id = {this.props.cssId}>
                 {this.props.cards.map(this.eachCard)}
-                <CardReact setPull = {this.props.setPull} animationDropCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} dropCardAnimation ={true} key = {this.props.dropCard.id}/>
+                <CardReact images = {this.props.images} setPull = {this.props.setPull} animationDropCardCss={anm} uniqueID = {this.props.uniqueID} gameName={this.props.gameName} dropCardAnimation ={true} key = {this.props.dropCard.id}/>
             </div>
         );
     }

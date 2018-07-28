@@ -79,7 +79,8 @@ class  StateManagement{
     }
 
     updateDirection(card, playerID){
-        this.playerManagement[playerID].direction = undefined;
+        // this.playerManagement[playerID].direction = [];
+        this.playerManagement.forEach(p=> p.direction = []);
         if (card.sign === enumCard.enumTypes.TWO_PLUS)
             this.playerManagement[(playerID + 1) % this.playerManagement.length].direction = card.direction;
         else if(card.sign === enumCard.enumTypes.CHANGE_DIR)
@@ -109,12 +110,17 @@ class  StateManagement{
     }
 
     endGame(message){
+        let clone = this.clone();
+        this.playerManagement.forEach(p => p.savesStates.push(clone));
+        this.game.gameStatistics.allPlayersStatistics();
         this.playerManagement.forEach(p => {
+            p.showResults = true;
             p.error = [];
             p.message = message;
             p.gameState =  "endGame";
             p.turnIndex = p.savesStates.length - 1;
         });
+
         this.viewerManagement.forEach(v => {
             v.gameState =  "endGame";
             v.message = message;

@@ -1,7 +1,5 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import CloseCard from './../../Images/other/close_card.png'
-import {enumCard} from './../../js/enumCard'
 export default class CardReact extends React.Component {
     constructor(args) {
         super(...args);
@@ -19,15 +17,15 @@ export default class CardReact extends React.Component {
     onDragStart(ev) {
         let changeColorReact = this.props.pickColorRef.current;
         if(changeColorReact.props.visible === "visible"){
-            this.fetchError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
+            this.fetchError();
             // this.props.game.renderError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
             return false;
         }
         ev.dataTransfer.setData("Text", this.props.id);
     }
 
-    fetchError(error) {
-        let massage = {error: error, uniqueID: this.props.uniqueID,
+    fetchError() {
+        let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/game/cardError', {
             method: 'POST',
@@ -96,7 +94,7 @@ export default class CardReact extends React.Component {
 /*    renderEndAnimation(){
         return(
             <a id="regular">
-                <img onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
             </a>
         );
     }*/
@@ -104,7 +102,7 @@ export default class CardReact extends React.Component {
     pullCardAnm(){
         return(
             <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
             </a>
         );
     }//onAnimationStart={this.endPullCardAnimation}
@@ -113,7 +111,7 @@ export default class CardReact extends React.Component {
     dropCardAnm(){
         return(
             <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endDropCardAnimation} style={{transition: "0.4s",animation: this.props.animationDropCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endDropCardAnimation} style={{transition: "0.4s",animation: this.props.animationDropCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
             </a>
         );
     }
@@ -121,7 +119,7 @@ export default class CardReact extends React.Component {
 /*    renderWithHumanAnimation(){
         return(
             <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={CloseCard}/>
+                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
             </a>
         );
     }*/
@@ -131,7 +129,7 @@ export default class CardReact extends React.Component {
             <a id= "bold">
                 <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout}
                      draggable={this.props.isDraggable} onDragStart={this.onDragStart}
-                     src={this.props.openImg? this.props.images[this.props.image] : CloseCard}/>
+                     src={this.props.openImg? this.props.images[this.props.image] : this.props.images["close_card.png"]}/>
             </a>
         );
     }
@@ -141,7 +139,7 @@ export default class CardReact extends React.Component {
             <a id="regular">
                 <img onMouseEnter={this.mouseover} onMouseOut={this.onmouseout}
                      draggable={this.props.isDraggable} onDragStart={this.onDragStart}
-                     src={this.props.openImg? this.props.images[this.props.image] : CloseCard}/>
+                     src={this.props.openImg? this.props.images[this.props.image] : this.props.images["close_card.png"]}/>
             </a>
         );
     }

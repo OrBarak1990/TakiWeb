@@ -56,9 +56,9 @@ const enumCard = (function () {
         enumActionDirection: Object.freeze({
             STOP:"you prevent the next player turn",
             CHANGE_COLOR:"you need to pick one of the buttons",
-            PLUS:"if you have another card: same sign, or same color put it, otherwise take card from stack",
-            TAKI:"please put on the stack all of your cards witch the same color of the taki",
-            TWO_PLUS:"if you have put plus two card, otherwise take cards from stack",
+            PLUS:"put another card: same sign/color, otherwise take card",
+            TAKI:"put your cards witch the same color of the taki",
+            TWO_PLUS:"put two plus card, otherwise take cards",
             CHANGE_DIR:"The game change his direction"
         }),
 

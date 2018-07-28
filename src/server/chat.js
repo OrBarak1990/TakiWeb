@@ -10,7 +10,7 @@ const chatManagement = express.Router();
 
 chatManagement.use(bodyParser.text());
 
-chatManagement.route('/')
+/*chatManagement.route('/')
 	.get(auth.userAuthentication, (req, res) => {		
 		res.json(chatContent);
 	})
@@ -20,13 +20,13 @@ chatManagement.route('/')
         const userInfo =  auth.getUserInfo(req.session.id);
         chatContent.push({user: userInfo, text: body});
         res.sendStatus(200);
-	});
+	});*/
 
 chatManagement.post('/',[
     auth.userAuthentication,
-    authBoard.boardAuthentication,
+    // authBoard.boardAuthentication,
     (req, res) => {
-        const body = req.body;
+        const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
         const userInfo =  auth.getUserInfo(req.session.id);
         if(boardDetail.users[body.uniqueID] === auth.getUserInfo(req.session.id).name) {
@@ -38,9 +38,9 @@ chatManagement.post('/',[
 
 chatManagement.post('/pull',[
 	auth.userAuthentication,
-    authBoard.boardAuthentication,
+    // authBoard.boardAuthentication,
     (req, res) => {
-        const body = req.body;
+        const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
 		if(boardDetail.users[body.uniqueID] === auth.getUserInfo(req.session.id).name)
         	res.json(boardDetail.chatContent);

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {enumCard} from './../../js/enumCard'
 
 export default class PickColorReact extends React.Component {
     constructor(args) {
@@ -82,31 +81,27 @@ export default class PickColorReact extends React.Component {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        // this.props.game.colorPicked(enumCard.enumColor.BLUE);
-        this.fetchColorPicked(enumCard.enumColor.BLUE);
+        this.fetchColorPicked(this.props.enumColor.BLUE);
     }
 
     yellowPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        // this.props.game.colorPicked(enumCard.enumColor.YELLOW);
-        this.fetchColorPicked(enumCard.enumColor.YELLOW);
+        this.fetchColorPicked(this.props.enumColor.YELLOW);
     }
 
     greenPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        // this.props.game.colorPicked(enumCard.enumColor.GREEN);
-        this.fetchColorPicked(enumCard.enumColor.GREEN);
+        this.fetchColorPicked(this.props.enumColor.GREEN);
     }
 
     redPicked(ev) {
         if(this.props.interactive === false)
             return false;
         ev.preventDefault();
-        // this.props.game.colorPicked(enumCard.enumColor.RED);
-        this.fetchColorPicked(enumCard.enumColor.RED);
+        this.fetchColorPicked(this.props.enumColor.RED);
     }
 }

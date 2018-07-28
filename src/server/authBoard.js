@@ -16,6 +16,16 @@ function addBoardToBoardList(boardDetails) {
     boardList.push(boardDetails);
 }
 
+function DeleteBoardFromBoardList(boardDetails) {
+    delete boards[boardDetails.gameName];
+    for(let i = 0; i < boardList.length; ++i){
+        if(boardDetails.gameName === boardList[i].gameName){
+            boardList.splice(i, 1);
+            break;
+        }
+    }
+}
+
 
 function getAllBoards() {
     return boardList;
@@ -66,4 +76,4 @@ function getBoardDetail(gameName) {
 }
 
 
-module.exports = {addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability, getBoardDetail};
+module.exports = {DeleteBoardFromBoardList, addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability, getBoardDetail};

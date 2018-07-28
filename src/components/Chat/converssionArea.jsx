@@ -31,7 +31,7 @@ export default class converssionArea extends React.Component {
     }
 
     getChatContent() {
-        let massage = {uniqueId: this.props.uniqueId,
+        let massage = {uniqueID: this.props.uniqueID,
             gameName: this.props.gameName};
         return fetch('/chat/pull', {
             method: 'POST',

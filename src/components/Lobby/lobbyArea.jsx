@@ -14,6 +14,7 @@ export default class LobbyArea extends React.Component {
         this.getLobbyContent = this.getLobbyContent.bind(this);
         this.boardClicked = this.boardClicked.bind(this);
         this.viewGame = this.viewGame.bind(this);
+        this.deleteGame = this.deleteGame.bind(this);
     }
 
     componentDidMount() {
@@ -35,22 +36,29 @@ export default class LobbyArea extends React.Component {
                 </ul>
                 <ul className="toolbar">
                     <li><a className="toolbar-item">Number</a></li>
+                    <li><a className="toolbar-item">Created By</a></li>
                     <li><a className="toolbar-item">Title</a></li>
                     <li><a className="toolbar-item">Players Active</a></li>
                     <li><a className="toolbar-item">Players Capacity</a></li>
+                    <li><a className="toolbar-item">Viewers</a></li>
                 </ul>
                 <ul className="lobbyBoards">
                     {this.state.boards.map((board, index) => (
                         <div className="singleBoardInLobby" key={200 + index} style={{background: board.color}}>
                             <li><a className="singleBoardItem" data-key={index}>{index + 1}</a></li>
+                            <li><a className="singleBoardItem" data-key={index}>{board.userName}</a></li>
                             <li><a className="singleBoardItem" data-key={index}>{board.gameName}</a></li>
                             <li><a className="singleBoardItem" data-key={index}>{board.registerPlayers}</a></li>
                             <li><a className="singleBoardItem" data-key={index}>{board.numOfPlayers}</a></li>
+                            <li><a className="singleBoardItem" data-key={index}>{board.viewers}</a></li>
                             <button className="EnterGameButton" data-key={index} type="button"
                                     disabled={this.state.sendInProgress} onClick={this.boardClicked}>Play Game
                             </button>
                             <button className="ViewGameButton" data-key={index} type="button"
                                     disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game
+                            </button>
+                            <button className="ViewGameButton" data-key={index} type="button"
+                                    disabled={!board.deleteAccess} onClick={this.deleteGame}>Delete Game
                             </button>
                         </div>
                     ))}
@@ -96,6 +104,26 @@ export default class LobbyArea extends React.Component {
             .then(content => {
                 this.setState(() => ({errMessage: ""}));
                 this.props.viewGameSuccessHandler(content.boardDetail);
+            })
+    }
+
+    deleteGame(e){
+        e.preventDefault();
+        this.setState(() => ({sendInProgress: true}));
+        let index = e.target.getAttribute('data-key');
+        let boardDetail = this.state.boards[index];
+        return fetch('/lobby/deleteGame', {
+            method: 'POST',
+            body: JSON.stringify(boardDetail),
+            credentials: 'include'
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    this.setState(() => ({errMessage: response.statusText}));
+                }
+                this.setState(() => ({sendInProgress: false}));
+                this.setState(() => ({errMessage: ""}));
+                // return response.json();
             })
     }
 

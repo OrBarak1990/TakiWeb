@@ -33,9 +33,13 @@ export default class LobbyArea extends React.Component {
         return(
             <div className="container-fluid">
                 <div>number of registered players: {this.state.boardDetail.registerPlayers}</div>
-                <h2>Register Players</h2>
+                <h2>Register Players:</h2>
                 <ul className="registerUsers">
                     {this.state.boardDetail.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
+                </ul>
+                <h2>Viewers:</h2>
+                <ul className="registerUsers">
+                    {this.state.boardDetail.viewers.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
                 <ul className="registerUsers">
                     <li>{computer}</li>
