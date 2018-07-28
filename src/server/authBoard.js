@@ -29,8 +29,7 @@ function checkAvailability(req, res, next) {
         boards[body.gameName].registerPlayers++;
         available = true;
     }
-
-    if(boards[body.gameName].color === "red" && boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
+    else if(boards[body.gameName].color === "c10000") {
         finished = true;
     }
     /*for (let board in boardList) {
@@ -46,11 +45,11 @@ function checkAvailability(req, res, next) {
     }
     */
     if(finished)
-        res.status(403).send('The game is finished');
+        res.status(401).send();
     if(available)
         next();
     else
-        res.status(403).send('the game have full players');
+        res.status(403).send();
 }
 
 function getBoardDetail(gameName) {

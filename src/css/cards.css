@@ -246,8 +246,9 @@ img{
     font-weight: bold;
     font-style: oblique;
     font-family: "Times New Roman", Times, serif;
-    font-size:30px;
+    font-size:20px;
 }
+
 #directions{
     position: fixed;
     top: 85%;

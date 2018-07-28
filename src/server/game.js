@@ -238,7 +238,7 @@ gameManagement.post('/finishGame',[
                 boardDetail.active = false;
                 boardDetail.game = undefined;
                 boardDetail.stateManagement = undefined;
-                boardDetail.color = "green";
+                boardDetail.color = "#2ec728";
                 boardDetail.chatContent = undefined;
             }
         }else{

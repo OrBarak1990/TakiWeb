@@ -29,7 +29,7 @@ export default class LoginModal extends React.Component {
     }
 
     renderErrorMessage() {
-        if (this.state.errMessage) {
+        if (this.state.errMessage !== "") {
             return (
                 <div className="login-error-message">
                     {this.state.errMessage}

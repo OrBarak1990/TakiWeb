@@ -80,10 +80,12 @@ class  StateManagement{
 
     updateDirection(card, playerID){
         this.playerManagement[playerID].direction = undefined;
-        if (card.sign !== enumCard.enumTypes.TWO_PLUS)
-            this.playerManagement[playerID].direction = card.direction;
-        else
+        if (card.sign === enumCard.enumTypes.TWO_PLUS)
             this.playerManagement[(playerID + 1) % this.playerManagement.length].direction = card.direction;
+        else if(card.sign === enumCard.enumTypes.CHANGE_DIR)
+            this.playerManagement.forEach(p => p.direction = card.direction);
+        else
+            this.playerManagement[playerID].direction = card.direction;
     }
 
     deletePlayerCard(card,playerID){
