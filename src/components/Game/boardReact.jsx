@@ -18,6 +18,7 @@ export default class BoardReact extends React.Component {
         this.eachPlayerInViewer = this.eachPlayerInViewer.bind(this);
         this.gameRender = this.gameRender.bind(this);
         this.firstRender = this.firstRender.bind(this);
+        this.renderResults = this.renderResults.bind(this);
         this.getGameContent = this.getGameContent.bind(this);
         // this.getViewerDetails = this.getViewerDetails.bind(this);
         this.importAll = this.importAll.bind(this);
@@ -58,7 +59,12 @@ export default class BoardReact extends React.Component {
             }
             if(this.props.viewer)
                 return this.endGameViewerRender();
-            return this.endGameRender();
+            else{
+                if(this.state.manager.player.showResults){
+                    return this.renderResults();
+                }
+                return this.endGameRender();
+            }
         }else if(this.props.viewer)
             return this.renderViewer();
         else if(this.state.manager.player.gameState ===  "stopGaming")
@@ -73,6 +79,25 @@ export default class BoardReact extends React.Component {
         );
     }
 
+    renderResults(){
+        return(
+            <div>
+                <div id = {"endGameMode"}>
+                    <div id ="centerPosition">{this.state.manager.player.message.map(this.eachMassage)}</div>
+                    <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
+                </div>
+                <div className="container-fluid">
+                    <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                </div>
+                <div>
+                    <p id ="errors">{this.state.manager.player.error}</p>
+                    <button id={"next"} onClick={this.next}>Next</button>
+                    <button id={"prev"} onClick={this.prev}>Prev</button>
+                </div>
+            </div>
+        );
+    }
+    
     endGameRender(){
         return(
             <div>
