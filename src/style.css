@@ -1,3 +1,99 @@
+@media all and (min-width: 680px) {
+    .singleBoardInLobby .singleBoardItem {
+        width: 6%;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        justify-content: space-between;
+    }
+
+    .toolbar-item {
+        width: 6%;
+        cursor: context-menu;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+}
+
+@media all and (min-width: 800px) {
+    .singleBoardInLobby .singleBoardItem {
+        width: 7%;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        justify-content: space-between;
+    }
+
+    .toolbar-item {
+        width: 7%;
+        cursor: context-menu;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+}
+
+@media all and (min-width: 1000px) {
+    .singleBoardInLobby .singleBoardItem {
+        width: 8%;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        justify-content: space-between;
+    }
+
+    .toolbar-item {
+        width: 8%;
+        cursor: context-menu;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+}
+
+@media all and (min-width: 1200px) {
+    .singleBoardInLobby .singleBoardItem {
+        width: 8%;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        justify-content: space-between;
+    }
+
+    .toolbar-item {
+        width: 8%;
+        cursor: context-menu;
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+}
+
 .btn {
     font-size: 16px;
     padding-left: 8px;
@@ -91,8 +187,9 @@ html{
     fon-size:40px;
 }
 
+/*
 .toolbar-item {
-    width: 9%;
+    width: 6%;
     cursor: context-menu;
     float: left;
     display: block;
@@ -101,6 +198,7 @@ html{
     padding: 14px 16px;
     text-decoration: none;
 }
+*/
 
 #checkbox1{
     display: block;
@@ -113,8 +211,9 @@ html{
     border-color: #cadcff;
 }
 
+/*
 .singleBoardInLobby .singleBoardItem{
-    width: 9%;
+    width: 6%;
     float: left;
     display: block;
     color: white;
@@ -123,6 +222,8 @@ html{
     text-decoration: none;
     justify-content: space-between;
 }
+*/
+
 .singleBoardInLobby .DeleteGameButton{
     font-size: 16px;
     color:black;
@@ -145,7 +246,7 @@ html{
     background-color: #f3f1ec;
     border-color: #f3f1ec;
     margin: 0 3px;
-    width: 9%;
+    width: 10%;
     display: inline-block;
     text-align: center;
     padding: 14px 16px;

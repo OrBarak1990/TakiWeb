@@ -80,9 +80,67 @@ body {
     background: #87CEEB;
 }
 
-@media all and (min-height: 768px) and (min-width: 680px) {
+@media all and (min-width: 680px) {
     img {
-        height: 100px;
+        height: 75px;
+        width: 70px;
+    }
+    #BUTTON {
+        bottom: 2%;
+        left: 32%;
+        height: 120px;
+        position: fixed;
+    }
+
+    #LEFT {
+        position: fixed;
+        top: 20%;
+        left: -5%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+    #RIGHT {
+        position: fixed;
+        top: 20%;
+        right: -25%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+
+    #UP {
+        position: fixed;
+        top: 2%;
+        left: 32%;
+        margin: auto;
+    }
+    #chatWindow{
+        height:115px;
+        width:115px;
+        border:1px solid #ccc;
+        font:14px/20px Georgia, Garamond, Serif;
+        overflow:auto;
+        background: #f0f0f0;
+        border-color: rgb(28, 31, 29);
+    }
+
+    #chatInputArea{
+        width:80px;
+    }
+
+    #chatSendButton{
+        width:35px;
+        text-align: center;
+        padding-left: 5px;
+        font-size: 10px;
+    }
+}
+
+/*@media all and (min-height: 768px) and (min-width: 680px) {*/
+@media all and (min-width: 860px) {
+    img {
+        height: 90px;
         width: 75px;
     }
     #BUTTON {
@@ -94,140 +152,20 @@ body {
 
     #LEFT {
         position: fixed;
-        top: 5%;
-        left: 5%;
-        width: 70%;
-        height: 148px;
-        transform: rotate(-90deg);
-    }
-
-    #RIGHT {
-        position: fixed;
-        top: 5%;
-        right: -20%;
-        width: 70%;
-        height: 148px;
-        transform: rotate(-90deg);
-    }
-
-
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
-    #chatWindow{
-        height:110px;
-        width:110px;
-        border:1px solid #ccc;
-        font:14px/20px Georgia, Garamond, Serif;
-        overflow:auto;
-        background: #f0f0f0;
-        border-color: rgb(28, 31, 29);
-    }
-
-    #chatInputArea{
-        width:90px;
-    }
-
-    #chatSendButton{
-        width:15px;
-        text-align: center;
-        padding-left: 5px;
-        font-size: 14px;
-    }
-}
-
-@media all and (min-height: 768px) and (min-width: 720px) {
-    img {
-        height: 110px;
-        width: 78px;
-    }
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
-
-    #LEFT {
-        position: fixed;
-        top: 5%;
-        left: 0%;
-        width: 70%;
-        height: 148px;
-        transform: rotate(-90deg);
-    }
-
-    #RIGHT {
-        position: fixed;
-        top: 5%;
-        right: -20%;
-        width: 70%;
-        height: 148px;
-        transform: rotate(-90deg);
-    }
-
-
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
-    #chatWindow{
-        height:140px;
-        width:155px;
-        border:1px solid #ccc;
-        font:14px/20px Georgia, Garamond, Serif;
-        overflow:auto;
-        background: #f0f0f0;
-        border-color: rgb(28, 31, 29);
-    }
-
-    #chatInputArea{
-        width:110px;
-    }
-
-    #chatSendButton{
-        width:25px;
-        text-align: center;
-        padding-left: 5px;
-        font-size: 14px;
-    }
-}
-
-@media all and (min-height: 768px) and (min-width: 760px) {
-    img {
-        height: 120px;
-        width: 81px;
-    }
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
-
-    #LEFT {
-        position: fixed;
-        top: 5%;
+        top: 15%;
         left: -5%;
         width: 70%;
         height: 148px;
         transform: rotate(-90deg);
     }
-
     #RIGHT {
         position: fixed;
-        top: 5%;
-        right: -20%;
+        top: 15%;
+        right: -25%;
         width: 70%;
         height: 148px;
         transform: rotate(-90deg);
     }
-
 
     #UP {
         position: fixed;
@@ -246,7 +184,65 @@ body {
     }
 
     #chatInputArea{
-        width:130px;
+        width:135px;
+    }
+
+    #chatSendButton{
+        width:30px;
+        text-align: center;
+        padding-left: 5px;
+        font-size: 14px;
+    }
+}
+
+/*@media all and (min-height: 768px) and (min-width: 720px) {*/
+@media all and (min-width: 1000px) {
+    img {
+        height: 100px;
+        width: 78px;
+    }
+    #BUTTON {
+        bottom: 2%;
+        left: 32%;
+        height: 120px;
+        position: fixed;
+    }
+
+    #LEFT {
+        position: fixed;
+        top: 6%;
+        left: -7%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+    #RIGHT {
+        position: fixed;
+        top: 8%;
+        right: -20%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+
+    #UP {
+        position: fixed;
+        top: 2%;
+        left: 32%;
+        margin: auto;
+    }
+    #chatWindow{
+        height:180px;
+        width:180px;
+        border:1px solid #ccc;
+        font:14px/20px Georgia, Garamond, Serif;
+        overflow:auto;
+        background: #f0f0f0;
+        border-color: rgb(28, 31, 29);
+    }
+
+    #chatInputArea{
+        width:140px;
     }
 
     #chatSendButton{
@@ -254,12 +250,72 @@ body {
         text-align: center;
         padding-left: 5px;
         font-size: 14px;
-
     }
-
 }
 
-@media all and (min-height: 768px) and (min-width: 800px) {
+/*
+@media all and (min-height: 768px) and (min-width: 760px) {
+*/
+@media all and (min-width: 1150px) {
+    img {
+        height: 110px;
+        width: 81px;
+    }
+    #BUTTON {
+        bottom: 2%;
+        left: 32%;
+        height: 120px;
+        position: fixed;
+    }
+
+    #LEFT {
+        position: fixed;
+        top: 6%;
+        left: -9%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+    #RIGHT {
+        position: fixed;
+        top: 5%;
+        right: -20%;
+        width: 70%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+
+
+    #UP {
+        position: fixed;
+        top: 2%;
+        left: 32%;
+        margin: auto;
+    }
+    #chatWindow{
+        height:190px;
+        width:190px;
+        border:1px solid #ccc;
+        font:14px/20px Georgia, Garamond, Serif;
+        overflow:auto;
+        background: #f0f0f0;
+        border-color: rgb(28, 31, 29);
+    }
+
+    #chatInputArea{
+        width:145px;
+    }
+
+    #chatSendButton{
+        width:40px;
+        text-align: center;
+        padding-left: 5px;
+        font-size: 14px;
+    }
+}
+
+/*@media all and (min-height: 768px) and (min-width: 800px) {*/
+@media all and (min-width: 1300px) {
     img {
         height: 120px;
         width: 84px;
@@ -274,12 +330,11 @@ body {
     #LEFT {
         position: fixed;
         top: 5%;
-        left: -10%;
+        left: -12%;
         width: 70%;
         height: 148px;
         transform: rotate(-90deg);
     }
-
     #RIGHT {
         position: fixed;
         top: 5%;
@@ -344,6 +399,7 @@ img{
     position: fixed;
 }
 
+/*
 #LEFT {
     position: fixed;
     top: 5%;
@@ -369,6 +425,7 @@ img{
     left: 32%;
     margin: auto;
 }
+*/
 
 #UP .closeCard{
     height: 140px;
@@ -472,7 +529,7 @@ img{
 
 #directions{
     position: fixed;
-    top: 85%;
+    top: 94%;
     left: 0.5%;
     font-weight: bold;
     font-size:100%;
@@ -480,7 +537,7 @@ img{
 
 #errors{
     position: fixed;
-    top: 85%;
+    top: 94%;
     left: 0.5%;
     font-weight: bold;
     font-size:100%;
@@ -535,7 +592,7 @@ img{
     left: 55%;
 }
 
-#chatWindow{
+/*#chatWindow{
     height:200px;
     width:200px;
     border:1px solid #ccc;
@@ -554,4 +611,4 @@ img{
     text-align: center;
     padding-left: 5px;
     font-size: 14px;
-}
+}*/
