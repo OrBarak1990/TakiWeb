@@ -20,7 +20,9 @@ function checkIfPresent(req, res, next) {
 function addUserToAuthList(req, res, next) {	
 	if (userList[req.session.id] !== undefined) {
 		res.json({errMessage: "User name already exist, please try another one"});
-	} else {		
+	}else if(req.body.length === 0 || req.body.length > 20)
+        res.json({errMessage: "User name have to be between 1 to 20 letters"});
+	else {
 		for (sessionid in userList) {
 			const name = userList[sessionid];
 			if (name === req.body) {
