@@ -1,12 +1,20 @@
 const userList = {};
 const users = [];
 
-function userAuthentication(req, res, next) {		
-	if (userList[req.session.id] === undefined) {
-		res.sendStatus(404);
-	} else {		
-		next();
-	}
+function userAuthentication(req, res, next) {
+    if (userList[req.session.id] === undefined) {
+        res.sendStatus(404);
+    } else {
+        next();
+    }
+}
+
+function checkIfPresent(req, res, next) {
+    if (userList[req.session.id] === undefined) {
+        res.json({showLogin: true});
+    } else {
+        next();
+    }
 }
 
 function addUserToAuthList(req, res, next) {	
@@ -45,4 +53,4 @@ function getAllUsers() {
 	return users;
 }
 
-module.exports = {userAuthentication, addUserToAuthList, removeUserFromAuthList, getUserInfo, getAllUsers};
+module.exports = {checkIfPresent, userAuthentication, addUserToAuthList, removeUserFromAuthList, getUserInfo, getAllUsers};

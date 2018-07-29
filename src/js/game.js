@@ -18,7 +18,6 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
     constructor(users, computer){
         this.gameCards = [];
         this.turn = 0;
-        this.changeDirection = false;
         this.setPlayers(users, computer);
         this.stack = new Stack();
         this.amountOfCardsToTakeFromStock = 1;
@@ -45,7 +44,8 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.players[this.turn].calculateAVG();
         this.players[this.turn].resetPlayerClock();
         this.updateManagement(dropAnm);
-        this.turn = (this.turn + this.players.length + promote) % this.players.length;
+        // this.turn = (this.turn + this.players.length + promote) % this.players.length;
+        this.turn = (this.turn + promote) % this.players.length;
         let id = this.players[this.turn].id;
         // this.stateManagement.playerManagement[id].direction = [];
         this.stateManagement.playerManagement[id].error = [];
@@ -68,6 +68,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
          this.turn = (this.turn) % (this.players.length-1);
          this.players.splice(deleteIndex, 1);
          if(promote !== 1 && promote !== enumCard.enumResult.CONTINUE_TURN) {
+             promote--;
              this.turn = (this.turn + this.players.length + promote) % this.players.length;
          }
 
@@ -111,9 +112,9 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         this.stateManagement.playerManagement.forEach(p =>
             p.openCard = {image: this.gameCards[this.gameCards.length - 1].uniqueCardImage, id: this.gameCards[this.gameCards.length - 1].id});
         let promote = enumCard.enumResult.NEXT_TURN;
-        if(this.changeDirection){
+/*        if(this.changeDirection){
             promote = -promote;
-        }
+        }*/
         if(this.colorPickLastCard){
             this.colorPickLastCard = false;
             return this.runOutOfCards(promote);
@@ -147,8 +148,12 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
             this.stateManagement.playerManagement[this.players[this.turn].id].openCard =
                 {image: card.uniqueCardImage, id: card.id};
             this.calcAmountCardsToTake(card);
-            if (promote !== enumCard.enumResult.CONTINUE_TURN)
-                promote = this.changeDirOperation(card, promote);
+            if(card.sign === enumCard.enumTypes.CHANGE_DIR) {
+                this.changeDir();
+                promote = enumCard.enumResult.NEXT_TURN;
+            }
+/*            if (promote !== enumCard.enumResult.CONTINUE_TURN)
+                promote = this.changeDirOperation(card, promote);*/
             if (this.players[this.turn].getAmountOfCards() === 0 && card.getSign() !== enumCard.enumTypes.PLUS) {
                 if (card.sign === enumCard.enumTypes.CHANGE_COLOR &&
                     this.players.length > 2)
@@ -176,7 +181,24 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
         }
     }
 
-     changeDirOperation(card, promote) {
+     changeDir(){
+        let newPlayers = [];
+        for(let i = 0; i < this.players.length; ++i){
+            let ind = (this.turn + this.players.length - i) % this.players.length;
+            // let ind = (this.turn + i) % this.players.length;
+            newPlayers.push(this.players[ind]);
+        }
+        this.turn = 0;
+        this.players = newPlayers;
+        this.gameStatistics.playersGame = newPlayers;
+        let playerManagement = this.stateManagement.playerManagement;
+        for(let i = 0; i < this.players.length; ++i){
+             playerManagement[this.players[i].id].turn = i;
+        }
+
+     }
+
+/*     changeDirOperation(card, promote) {
          if(promote === enumCard.enumResult.CHANGE_DIR){
              this.changeDirection = !this.changeDirection;
              if(!this.changeDirection){
@@ -187,7 +209,7 @@ const {setCards, takiPermission, takeCards, getUniqueCss} = require('./operation
              promote = -promote;
          }
          return promote;
-     }
+     }*/
 
      //TODO: fined why line 107 has openCardAnm and in updateManagement
 

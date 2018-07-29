@@ -29,7 +29,7 @@ export default class BaseContainer extends React.Component {
         this.enterViewerGame = this.enterViewerGame.bind(this);
         this.exitGame = this.exitGame.bind(this);
 
-        this.getUserName();
+        this.getUserStataus();
     }
     
     render() {
@@ -127,6 +127,19 @@ export default class BaseContainer extends React.Component {
     */
 
     getUserName() {
+        return fetch('/users',{method: 'GET', credentials: 'include'})
+            .then(response => {
+                if (response.ok){
+                    let userInfo = response.json();
+                    this.setState(()=>({currentUser: userInfo, showLogin: false}));
+                }else{
+                    this.setState(()=>({currentUser: {name: ''}, showLogin: true}));
+                }
+            });
+    }
+
+
+    getUserStataus() {
 /*        this.fetchUserInfo()
         .then(userInfo => {
             this.setState(()=>({currentUser:userInfo, showLogin: false}));
@@ -138,15 +151,24 @@ export default class BaseContainer extends React.Component {
                 throw err; // in case we're getting an error
             }
         });*/
-        return fetch('/users',{method: 'GET', credentials: 'include'})
-        .then(response => {
+        return fetch('/users/userStatus',{method: 'GET', credentials: 'include'})
+/*        .then(response => {
             if (response.ok){
                 let userInfo = response.json();
                 this.setState(()=>({currentUser: userInfo, showLogin: false}));
             }else{
                 this.setState(()=>({currentUser: {name: ''}, showLogin: true}));
             }
-        });
+        });*/
+            .then((response) => {
+                if (!response.ok){
+                    this.setState(()=> ({errMessage: response.statusText}));
+                }
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=>(content));
+            })
     }
 
     fetchUserInfo() {        
@@ -173,7 +195,7 @@ export default class BaseContainer extends React.Component {
     * */
     renderRoom3() {
         return(
-            <PreGame viewer = {this.state.viewer} viewGameSuccessHandler = {this.viewGameSuccessHandler} enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
+            <PreGame exitGame = {this.exitGame} viewer = {this.state.viewer} viewGameSuccessHandler = {this.viewGameSuccessHandler} enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
         )
     }
 
@@ -198,7 +220,7 @@ export default class BaseContainer extends React.Component {
         })
         .then(response => {
             if (response.ok){
-                this.setState(()=>({room4: false}));
+                this.setState(()=>({room3: false, room4: false, showLogin: false}));
             }
         });
     }

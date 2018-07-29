@@ -14,6 +14,7 @@ export default class LobbyArea extends React.Component {
         this.getBoardContent = this.getBoardContent.bind(this);
         this.firstRender = this.firstRender.bind(this);
         this.secondRender = this.secondRender.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount(){
@@ -37,13 +38,15 @@ export default class LobbyArea extends React.Component {
                 <ul className="registerUsers">
                     {this.state.boardDetail.users.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
+                <ul className="registerUsers">
+                    <li>{computer}</li>
+                </ul>
+
                 <h2>Viewers:</h2>
                 <ul className="registerUsers">
                     {this.state.boardDetail.viewers.map((user, index) => (<li key={100 + index}>{user}</li>))}
                 </ul>
-                <ul className="registerUsers">
-                    <li>{computer}</li>
-                </ul>
+                <button id="Quit_Game" type="button" style={{visibility : "visible"}} onClick={this.logOut}>Logout</button>
                 {/*<Stack cards = {[]} interactive = {false} img = {CloseCards}/>*/}
             </div>
         );
@@ -85,5 +88,12 @@ export default class LobbyArea extends React.Component {
             }
             this.setState(()=> ({boardDetail: content.boardDetail}));
         })
+    }
+
+    logOut() {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+        this.props.exitGame();
     }
 }

@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 export default class converssionArea extends React.Component {
     constructor(args) {
         super(...args);
-        
+
         this.state = {
             content: []
-        };        
+        };
 
         this.getChatContent = this.getChatContent.bind(this);
     }
@@ -22,10 +22,10 @@ export default class converssionArea extends React.Component {
         }
     }
 
-    render() {               
+    render() {
         return(
             <div id="chatWindow">
-                {this.state.content.map((line, index) => (<p key={line.user.name + index}>{line.user.name}:  {line.text}</p>))}
+                {this.state.content.map((line, index) => (<p key={line.user.name + index}> {line.user.name}:  {line.text}</p>))}
             </div>
         )
     }
@@ -38,16 +38,16 @@ export default class converssionArea extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-        .then((response) => {
-            if (!response.ok){
-                throw response;
-            }
-            this.timeoutId = setTimeout(this.getChatContent, 200);
-            return response.json();            
-        })
-        .then(content => {
-            this.setState(()=>({content}));
-        })
-        .catch(err => {throw err});
+            .then((response) => {
+                if (!response.ok){
+                    throw response;
+                }
+                this.timeoutId = setTimeout(this.getChatContent, 200);
+                return response.json();
+            })
+            .then(content => {
+                this.setState(()=>({content}));
+            })
+            .catch(err => {throw err});
     }
 }

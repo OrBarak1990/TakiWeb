@@ -47,15 +47,15 @@ html{
 }
 
 .login-page-wrapper .username-label {
-    margin: 0 5px;    
+    margin: 0 5px;
     font-size: 18px;
 }
 
-.login-page-wrapper .username-input {    
+.login-page-wrapper .username-input {
     font-size: 16px;
     line-height: 16px;
     margin: 1px;
-    border: 1px solid #ccc;   
+    border: 1px solid #ccc;
 }
 
 .login-page-wrapper .submit-btn:hover {
@@ -92,7 +92,7 @@ html{
 }
 
 .toolbar-item {
-    width: 15%;
+    width: 9%;
     cursor: context-menu;
     float: left;
     display: block;
@@ -114,7 +114,7 @@ html{
 }
 
 .singleBoardInLobby .singleBoardItem{
-    width: 15%;
+    width: 9%;
     float: left;
     display: block;
     color: white;
@@ -131,10 +131,10 @@ html{
     background-color: #f3f1ec;
     border-color: #f3f1ec;
     margin: 0 3px;
-    width: 4%;
+    width: 10%;
     display: inline-block;
     text-align: center;
-    padding: 14px 16px;
+    padding: 14px 10px;
     text-decoration: none;
 }
 .singleBoardInLobby .ViewGameButton{
@@ -145,7 +145,7 @@ html{
     background-color: #f3f1ec;
     border-color: #f3f1ec;
     margin: 0 3px;
-    width: 14%;
+    width: 9%;
     display: inline-block;
     text-align: center;
     padding: 14px 16px;
@@ -160,7 +160,7 @@ html{
     border-style: solid;
     background-color: #f3f1ec;
     border-color: #f3f1ec;
-    width: 15%;
+    width: 10%;
     display: inline-block;
     text-align: center;
     padding: 14px 16px;
@@ -179,7 +179,7 @@ html{
     list-style-type: none;
 }
 
-    .chat-contaier .converssion-area-wrpper .lobbyBoards{
+.chat-contaier .converssion-area-wrpper .lobbyBoards{
     flex-grow: 1;
     padding: 0px;
     margin: 3px;

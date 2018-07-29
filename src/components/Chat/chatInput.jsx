@@ -12,14 +12,15 @@ export default class ChatInput extends React.Component {
         this.sendText = this.sendText.bind(this);
     }
 
-    render() {               
+    render() {
         return(
             <form className="chat-input-wrapper" onSubmit={this.sendText}>
-                <input disabled={this.state.sendInProgress} placeholder="enter text here" ref={input => this.inputElement = input} />
-                <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
+                <input id = "chatInputArea" disabled={this.state.sendInProgress} placeholder="enter text here" ref={input => this.inputElement = input} />
+                <input id = "chatSendButton" type="submit" className="btn" disabled={this.state.sendInProgress} value="Send" />
             </form>
         )
-    }   
+    }
+
 
     sendText(e) {
         e.preventDefault();

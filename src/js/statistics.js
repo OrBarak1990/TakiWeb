@@ -62,6 +62,17 @@ class statistics {
             this.manager.playerManagement[i].statisticsMassages = [];
             this.manager.playerManagement[i].statisticsMassages = messages;
         }
+        this.updateViewerStatistics(turn,cardLength);
+    }
+
+    updateViewerStatistics(turn,cardLength){
+        let messages = [];
+        messages[0] = "\n" + "Turns played totally :" + this.turnsCounter;
+        let playerTurnName = "Current player turn: " + this.playersGame[turn].name;
+        let amountOfCardsInStack = "Amount cards In stack: " + cardLength;
+        messages.push(playerTurnName);
+        messages.push(amountOfCardsInStack);
+        this.manager.viewerManagement.forEach(v => v.statisticsMassages = messages);
     }
 
 /*    allPlayersStatistics() {

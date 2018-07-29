@@ -1,3 +1,5 @@
+const auth = require('./authUsers');
+const enumCard = require('./../js/enumCard');
 const boards = {};
 const boardList = [];
 
@@ -9,6 +11,67 @@ function boardAuthentication(req, res, next) {
     } else {
         next();
     }
+}
+
+function checkIfPresent(req, res, next) {
+    const userName = auth.getUserInfo(req.session.id).name;
+    for( let i = 0; i < boardList.length; ++i){
+        let boardDetail = {registerPlayers: boardList[i].registerPlayers,
+            numOfPlayers: boardList[i].numOfPlayers,  gameName: boardList[i].gameName,
+            users: boardList[i].users, computer: boardList[i].computer, viewers: boardList[i].viewers};
+
+        for(let j = 0; j < boardList[i].users.length; ++j){
+            if(boardList[i].users[j] === userName){
+                if(boardList[i].registerPlayers === boardList[i].numOfPlayers) {
+                    res.json({
+                        room4: true,
+                        room3: false,
+                        myIndex: j,
+                        enumCard: getEnumCard(j),
+                        enumColor: enumCard.enumCard.enumColor,
+                        boardDetail: boardDetail
+                    });
+                    return;
+                }else {
+                    res.status(200).json({viewer: false, room3: true, boardDetail: boardDetail});
+                    return;
+                }
+            }
+        }
+
+        for(let j = 0; j < boardList[i].viewers.length; ++j){
+            if(boardList[i].viewers[j] === userName){
+                if(boardList[i].registerPlayers === boardList[i].numOfPlayers) {
+                    res.status(200).json({
+                        room4: true,
+                        room3: false,
+                        myIndex: j + 4,
+                        enumCard: getEnumCard(j + 4),
+                        enumColor: enumCard.enumCard.enumColor,
+                        viewer: true,
+                        boardDetail: boardDetail
+                    });
+                    return;
+                }else {
+                    res.status(200).json({viewer: true, room3: true, boardDetail: boardDetail});
+                    return;
+                }
+            }
+        }
+
+    }
+
+    next();
+}
+
+function getEnumCard(uniqueId) {
+    if(uniqueId === 0  || uniqueId >= 4)
+        return enumCard.enumCard.enumReactPosition_0;
+    else if(uniqueId === 1 )
+        return enumCard.enumCard.enumReactPosition_1;
+    else if(uniqueId === 2 )
+        return enumCard.enumCard.enumReactPosition_2;
+    return enumCard.enumCard.enumReactPosition_3;
 }
 
 function addBoardToBoardList(boardDetails) {
@@ -76,4 +139,4 @@ function getBoardDetail(gameName) {
 }
 
 
-module.exports = {DeleteBoardFromBoardList, addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability, getBoardDetail};
+module.exports = {checkIfPresent, DeleteBoardFromBoardList, addBoardToBoardList, boardAuthentication, getAllBoards, checkAvailability, getBoardDetail};

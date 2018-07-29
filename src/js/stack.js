@@ -72,29 +72,6 @@ class Stack{
             this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
             this.cards[this.cards.length - 1].setElement(this.css);
 
-/*            this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.STOP], '_');
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-
-            this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.STOP], '_');
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-
-            this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.STOP], '_');
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-
-            this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.STOP], '_');
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);
-            this.cards.push(new Stop(this.colorNumber[color], enumCard.enumTypes.STOP, this.id++));
-            this.cards[this.cards.length - 1].setElement(this.css);*/
 
             this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], Object.keys(enumCard.enumTypes)[enumCard.enumTypes.TWO_PLUS], '_');
             this.cards.push(new TwoPlus(this.colorNumber[color], enumCard.enumTypes.TWO_PLUS, this.id++));

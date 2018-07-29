@@ -2,6 +2,7 @@ import css from '../../css/cards.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Statistics from './statisticsReact.jsx'
+import BoardUsers from './boardUsers.jsx'
 import OpenCards from './openCardsReact.jsx'
 import Stack from './stackReact.jsx'
 import CardsHolder from './cardsHolderReact.jsx'
@@ -128,6 +129,7 @@ export default class BoardReact extends React.Component {
                 <p id ="directions">{this.state.manager.player.direction}</p>
                 {<Clock/>}
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                <BoardUsers playersMsg = {this.state.manager.players} viewersMsg = {this.state.manager.viewers}/>
                 <OpenCards setPull = {this.getGameContent} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} uniqueID={this.props.uniqueID} gameName={this.props.gameName} images = {this.images} card = {this.state.manager.player.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayer)}
                 <PickColor enumColor = {this.props.enumColor} uniqueID={this.props.uniqueID} gameName={this.props.gameName} interactive = {true} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
@@ -154,6 +156,7 @@ export default class BoardReact extends React.Component {
         return(
             <div className="container-fluid">
                 <Statistics msg= {this.state.manager.player.statisticsMassages}/>
+                <BoardUsers playersMsg = {this.state.manager.players} viewersMsg = {this.state.manager.viewers}/>
                 <OpenCards setPull = {this.getGameContent} uniqueID={this.props.uniqueID} gameName={this.props.gameName} pullCardAnm ={this.state.manager.player.stackCards.length !== 0} images = {this.images} card = {this.state.manager.player.openCard} open = {true}/>
                 {this.state.manager.playersCards.map(this.eachPlayerInViewer)}
                 <PickColor  enumColor = {this.props.enumColor} interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>

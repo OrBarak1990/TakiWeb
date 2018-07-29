@@ -57,7 +57,7 @@ export default class LobbyArea extends React.Component {
                             <button className="ViewGameButton" data-key={index} type="button"
                                     disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game
                             </button>
-                            <button className="ViewGameButton" data-key={index} type="button"
+                            <button className="DeleteGameButton" data-key={index} type="button"
                                     disabled={!board.deleteAccess} onClick={this.deleteGame}>Delete Game
                             </button>
                         </div>

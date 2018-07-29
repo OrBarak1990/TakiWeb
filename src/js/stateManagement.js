@@ -59,6 +59,8 @@ class  StateManagement{
         this.viewerManagement[this.viewerManagement.length - 1].gameState = this.gameState;
         let card = this.game.gameCards[this.game.gameCards.length -1];
         this.viewerManagement[this.viewerManagement.length - 1].openCard = {image: card.uniqueCardImage, id: card.id};
+        this.game.gameStatistics.updateViewerStatistics(this.game.turn,
+            this.game.stack.getAllCards().length);
 
     }
 
