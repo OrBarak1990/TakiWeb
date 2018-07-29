@@ -19,8 +19,8 @@ export default class BaseContainer extends React.Component {
         };
 
         this.logOutHandler = this.logOutHandler.bind(this);
-        this.handleSuccessedLogin = this.handleSuccessedLogin.bind(this);
-        this.handleLoginError = this.handleLoginError.bind(this);
+        this.handleSuccessLogin = this.handleSuccessLogin.bind(this);
+        // this.handleLoginError = this.handleLoginError.bind(this);
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
         this.logoutHandler= this.logoutHandler.bind(this);
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
@@ -38,19 +38,14 @@ export default class BaseContainer extends React.Component {
         else if(this.state.room3){
             return this.renderRoom3();
         }else if (this.state.showLogin) {
-            return (<LoginModal loginSuccessHandler={this.handleSuccessedLogin} loginErrorHandler={this.handleLoginError}/>)
+            return (<LoginModal loginSuccessHandler={this.handleSuccessLogin}/>)
         }
         return this.renderRoom2();
     }
 
 
-    handleSuccessedLogin() {
+    handleSuccessLogin() {
         this.setState(()=>({showLogin: false}), this.getUserName);
-    }
-
-    handleLoginError() {
-        console.error('login failed');
-       this.setState(()=>({showLogin: true}));
     }
 
 /*    logOutUser(){

@@ -19,12 +19,12 @@ function checkIfPresent(req, res, next) {
 
 function addUserToAuthList(req, res, next) {	
 	if (userList[req.session.id] !== undefined) {
-		res.status(403).send('user already exist');
+		res.json({errMessage: "User name already exist, please try another one"});
 	} else {		
 		for (sessionid in userList) {
 			const name = userList[sessionid];
 			if (name === req.body) {
-				res.status(403).send('user name already exist');
+                res.json({errMessage: "User name already exist, please try another one"});
 				return;
 			}
 		}		

@@ -22,8 +22,8 @@ userManagement.get('/allUsers', auth.userAuthentication, (req, res) => {
 	res.json(userList);
 });
 
-userManagement.post('/addUser', auth.addUserToAuthList, (req, res) => {		
-	res.sendStatus(200);	
+userManagement.post('/addUser', auth.addUserToAuthList, (req, res) => {
+    res.json({errMessage: ""});
 });
 
 userManagement.get('/logout', [

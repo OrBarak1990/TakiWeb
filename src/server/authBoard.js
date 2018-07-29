@@ -7,10 +7,12 @@ const boardList = [];
 function boardAuthentication(req, res, next) {
     const body = JSON.parse(req.body);
     if(boards[body.gameName] !== undefined) {
-        res.status(403).send('game name already exist');
-    } else {
+        return res.json({sendInProgress: false, errMessage: "game name already exist"});
+    } else if(body.gameName.length > 20 || body.gameName.length === 0){
+        return res.json({sendInProgress: false,
+            errMessage: "game name have to be between 1 to 20 letters"});
+    }else
         next();
-    }
 }
 
 function checkIfPresent(req, res, next) {
@@ -96,14 +98,15 @@ function getAllBoards() {
 
 function checkAvailability(req, res, next) {
     const body = JSON.parse(req.body);
-    let available = false;
-    let finished = false;
+    // let available = false;
+    // let finished = false;
     if(boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
         boards[body.gameName].registerPlayers++;
-        available = true;
+        // available = true;
     }
-    else if(boards[body.gameName].color === "c10000") {
-        finished = true;
+    else if(boards[body.gameName].active === true) {
+        return res.json({sendInProgress: false,
+            errMessage: "The game is full"});
     }
     /*for (let board in boardList) {
         const name = boardList[board].gameName;
@@ -117,12 +120,13 @@ function checkAvailability(req, res, next) {
         }
     }
     */
-    if(finished)
+/*    if(finished)
         res.status(401).send();
     if(available)
         next();
     else
-        res.status(403).send();
+        res.status(403).send();*/
+    next();
 }
 
 function getBoardDetail(gameName) {

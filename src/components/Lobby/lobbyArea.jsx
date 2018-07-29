@@ -25,6 +25,8 @@ export default class LobbyArea extends React.Component {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
+        if(this.timeoutErr)
+            clearTimeout(this.timeoutErr);
     }
 
     render() {
@@ -58,11 +60,14 @@ export default class LobbyArea extends React.Component {
                                     disabled={this.state.sendInProgress} onClick={this.viewGame}>View Game
                             </button>
                             <button className="DeleteGameButton" data-key={index} type="button"
-                                    disabled={!board.deleteAccess} onClick={this.deleteGame}>Delete Game
+                                    onClick={this.deleteGame}>Delete Game
                             </button>
                         </div>
                     ))}
                 </ul>
+                <div className="login-error-message">
+                    {this.state.errMessage}
+                </div>
             </div>
         )
     }
@@ -94,17 +99,17 @@ export default class LobbyArea extends React.Component {
             body: JSON.stringify(boardDetail),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok) {
-                    this.setState(() => ({errMessage: response.statusText}));
-                }
-                this.setState(() => ({sendInProgress: false}));
-                return response.json();
-            })
-            .then(content => {
-                this.setState(() => ({errMessage: ""}));
-                this.props.viewGameSuccessHandler(content.boardDetail);
-            })
+        .then((response) => {
+            if (!response.ok) {
+                this.setState(() => ({errMessage: response.statusText}));
+            }
+            this.setState(() => ({sendInProgress: false}));
+            return response.json();
+        })
+        .then(content => {
+            this.setState(() => ({errMessage: ""}));
+            this.props.viewGameSuccessHandler(content.boardDetail);
+        })
     }
 
     deleteGame(e){
@@ -112,19 +117,27 @@ export default class LobbyArea extends React.Component {
         this.setState(() => ({sendInProgress: true}));
         let index = e.target.getAttribute('data-key');
         let boardDetail = this.state.boards[index];
+/*        if(!boardDetail.deleteAccess)
+            // this.setState(() => ({you are not aout}));*/
         return fetch('/lobby/deleteGame', {
             method: 'POST',
             body: JSON.stringify(boardDetail),
             credentials: 'include'
         })
-            .then((response) => {
-                if (!response.ok) {
-                    this.setState(() => ({errMessage: response.statusText}));
-                }
-                this.setState(() => ({sendInProgress: false}));
-                this.setState(() => ({errMessage: ""}));
-                // return response.json();
-            })
+        .then((response) => {
+            if (!response.ok) {
+                this.setState(() => ({errMessage: response.statusText}));
+            }else
+                return response.json();
+        })
+        .then(content => {
+            if(content){
+                if(this.timeoutErr)
+                    clearTimeout(this.timeoutErr);
+                this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
+                this.setState(()=>(content));
+            }
+        })
     }
 
     boardClicked(e) {
@@ -138,7 +151,7 @@ export default class LobbyArea extends React.Component {
             credentials: 'include'
         })
             .then((response) => {
-                this.setState(() => ({sendInProgress: false}));
+/*                this.setState(() => ({sendInProgress: false}));
                 if (response.status === 403) {
                     this.setState(() => ({errMessage: "The game is full"}));
                 }
@@ -148,12 +161,21 @@ export default class LobbyArea extends React.Component {
                 else if (response.ok) {
                     this.setState(() => ({errMessage: ''}));
                     return response.json();
-                }
+                }*/
+                if (!response.ok) {
+                    this.setState(() => ({errMessage: response.statusText}));
+                }else
+                    return response.json();
             })
             .then(content => {
-                if(content){
+                if(content.errMessage === undefined){
                     this.setState(() => ({errMessage: ""}));
                     this.props.boardClickedSuccessHandler(content.boardDetail);
+                }else {
+                    if(this.timeoutErr)
+                        clearTimeout(this.timeoutErr);
+                    this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
+                    this.setState(() => (content));
                 }
             })
     }

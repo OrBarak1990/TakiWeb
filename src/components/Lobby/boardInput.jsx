@@ -11,6 +11,11 @@ export default class BoardInput extends React.Component {
         this.addBoard = this.addBoard.bind(this);
     }
 
+    componentWillUnmount() {
+        if(this.timeoutErr)
+            clearTimeout(this.timeoutErr);
+    }
+
     render() {
         return (
             <form className="converssion-area-wrpper">
@@ -55,14 +60,27 @@ export default class BoardInput extends React.Component {
         const numOfPlayers = parseInt(this.numPlayers.value);
         const computer = this.computer.checked;
         let text = {gameName: gameName, numOfPlayers: numOfPlayers, computer: computer};
-        fetch('/lobby', {
+        return fetch('/lobby', {
             method: 'POST',
             body: JSON.stringify(text),
             credentials: 'include'
         })
-            .then((response) => {
+        .then((response) => {
+            this.inputElement.value = '';
+            if (!response.ok) {
+                this.setState(() => ({errMessage: response.statusText}));
+            }else
+                return response.json();
+        })
+        .then(content => {
+            if(this.timeoutErr)
+                clearTimeout(this.timeoutErr);
+            this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
+            this.setState(() => (content));
+        })
+ /*           .then((response) => {
                 this.setState(() => ({sendInProgress: false}));
-                this.inputElement.value = '';
+
                 if (response.status === 403) {
                     this.setState(()=> ({errMessage: "That game name is exist"}));
                 }
@@ -71,9 +89,9 @@ export default class BoardInput extends React.Component {
                     // return response.json();
                 }
             });
-        /*        .catch(err => {
+        /!*        .catch(err => {
                     this.setState(()=>({error: err}));
-                });*/
-        return false;
+                });*!/
+        return false;*/
     }
 }

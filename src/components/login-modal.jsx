@@ -13,6 +13,11 @@ export default class LoginModal extends React.Component {
         this.handleLogin = this.handleLogin.bind(this);
 
     }
+
+    componentWillUnmount() {
+        if(this.timeoutErr)
+            clearTimeout(this.timeoutErr);
+    }
     
     render() {
         return (
@@ -42,8 +47,30 @@ export default class LoginModal extends React.Component {
     handleLogin(e) {
         e.preventDefault();
         const userName = e.target.elements.userName.value;
-        fetch('/users/addUser', {method:'POST', body: userName, credentials: 'include'})
-        .then(response=> {            
+        return fetch('/users/addUser', {method:'POST', body: userName, credentials: 'include'})
+            .then((response) => {
+                if (!response.ok) {
+                    this.setState(() => ({errMessage: response.statusText}));
+                }else
+                    return response.json();
+            })
+            .then(content => {
+                if(content.errMessage.length === 0){
+                    this.setState(() => ({errMessage: ""}));
+                    this.props.loginSuccessHandler();
+                }else {
+                    if(this.timeoutErr)
+                        clearTimeout(this.timeoutErr);
+                    this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
+                    this.setState(() => (content));
+                }
+/*
+                if(this.timeoutErr)
+                    clearTimeout(this.timeoutErr);
+                this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
+                this.setState(() => (content));*/
+            })
+        /*.then(response=> {
             if (response.ok){
                 this.setState(()=> ({errMessage: ""}));
                 this.props.loginSuccessHandler();
@@ -51,9 +78,9 @@ export default class LoginModal extends React.Component {
                 if (response.status === 403) {
                     this.setState(()=> ({errMessage: "User name already exist, please try another one"}));
                 }
-                this.props.loginErrorHandler();
+                // this.props.loginErrorHandler();
             }
         });
-        return false;
+        return false;*/
     }    
 }

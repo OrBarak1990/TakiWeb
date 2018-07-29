@@ -40,7 +40,7 @@ lobbyManagement.post('/',[
                 users: [], active: false, registerPlayers: registers ,
                 color: "#2ec728"};
             authBoard.addBoardToBoardList(details);
-            res.sendStatus(200);
+            return res.json({errMessage: "", sendInProgress: false});
         }
 ]);
 
@@ -55,8 +55,10 @@ lobbyManagement.post('/boardClicked',[
             if(boardDetail.registerPlayers === boardDetail.numOfPlayers){
                 boardDetail.color = "#c10000";
             }
-            res.json({boardDetail: {registerPlayers: boardDetail.registerPlayers,
-                    numOfPlayers: boardDetail.numOfPlayers,  gameName: boardDetail.gameName}});
+            res.json({sendInProgress: false,
+                boardDetail: {registerPlayers: boardDetail.registerPlayers,
+                    numOfPlayers: boardDetail.numOfPlayers,
+                    gameName: boardDetail.gameName}});
         }
     ]);
 
@@ -80,8 +82,17 @@ lobbyManagement.post('/deleteGame',[
         if(boardDetail.userName === userName && boardDetail.users.length === 0 &&
             boardDetail.viewers.length === 0){
             authBoard.DeleteBoardFromBoardList(boardDetail);
+            res.json({sendInProgress: false, errMessage: ""});
+        }else if(boardDetail.userName !== userName){
+            res.json({sendInProgress: false,
+                errMessage: "only the user that created the game, can delete it"});
+        }else if(boardDetail.users.length !== 0){
+            res.json({sendInProgress: false,
+                errMessage: "game need to be empty from players, inorder to delete it"});
+        }else{
+            res.json({sendInProgress: false,
+                errMessage: "game need to be empty from viewers, inorder to delete it"});
         }
-        res.sendStatus(200);
     }
 ]);
 
