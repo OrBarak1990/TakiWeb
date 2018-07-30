@@ -115,6 +115,12 @@ body {
         left: 32%;
         margin: auto;
     }
+    #players-Viewers-Name{
+        left:88%;
+        width: 30%;
+        top: 20%;
+        position: fixed;
+    }
     #chatWindow{
         height:115px;
         width:115px;
@@ -165,6 +171,12 @@ body {
         width: 70%;
         height: 148px;
         transform: rotate(-90deg);
+    }
+    #players-Viewers-Name{
+        left:90%;
+        width: 23%;
+        top: 20%;
+        position: fixed;
     }
 
     #UP {
@@ -224,7 +236,12 @@ body {
         height: 148px;
         transform: rotate(-90deg);
     }
-
+    #players-Viewers-Name{
+        left:90%;
+        width: 20%;
+        top: 20%;
+        position: fixed;
+    }
     #UP {
         position: fixed;
         top: 2%;
@@ -292,6 +309,12 @@ body {
         left: 32%;
         margin: auto;
     }
+    #players-Viewers-Name{
+        left:90%;
+        width: 17%;
+        top: 20%;
+        position: fixed;
+    }
     #chatWindow{
         height:190px;
         width:190px;
@@ -351,6 +374,14 @@ body {
         left: 32%;
         margin: auto;
     }
+
+    #players-Viewers-Name {
+        width: 14%;
+        top: 20%;
+        position: fixed;
+        left: 92%;
+    }
+
     #chatWindow{
         height:200px;
         width:200px;
@@ -381,12 +412,6 @@ img{
     font-weight: bold;
 }
 
-#players-Viewers-Name{
-    width:14%;
-    top: 20%;
-    position: fixed;
-    left:92%;
-}
 
 #statistics{
     width: 14%;
