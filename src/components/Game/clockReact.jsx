@@ -48,7 +48,7 @@ export default class ClockReact extends React.Component {
     render() {
         return(
             <div>
-                <h3>Game clock: {this.state.hours}:{this.state.minutes}:{this.state.seconds}</h3>
+                <h3 id ="Clock">Game clock: {this.state.hours}:{this.state.minutes}:{this.state.seconds}</h3>
             </div>
         );
     }

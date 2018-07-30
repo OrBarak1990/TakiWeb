@@ -115,11 +115,16 @@ body {
         left: 32%;
         margin: auto;
     }
+    #Clock{
+        font-size: 13px;
+    }
+
     #players-Viewers-Name{
-        left:88%;
+        left:90%;
         width: 30%;
         top: 20%;
         position: fixed;
+        font-size: 12px;
     }
     #chatWindow{
         height:115px;
@@ -145,6 +150,11 @@ body {
 
 /*@media all and (min-height: 768px) and (min-width: 680px) {*/
 @media all and (min-width: 860px) {
+
+    #Clock{
+        font-size: 16px;
+    }
+
     img {
         height: 90px;
         width: 75px;
@@ -173,10 +183,11 @@ body {
         transform: rotate(-90deg);
     }
     #players-Viewers-Name{
-        left:90%;
+        left:92%;
         width: 23%;
         top: 20%;
         position: fixed;
+        font-size: 12px;
     }
 
     #UP {
@@ -196,14 +207,14 @@ body {
     }
 
     #chatInputArea{
-        width:135px;
+        width:130px;
     }
 
     #chatSendButton{
-        width:30px;
+        width:35px;
         text-align: center;
         padding-left: 5px;
-        font-size: 14px;
+        font-size: 10px;
     }
 }
 
@@ -213,6 +224,11 @@ body {
         height: 100px;
         width: 78px;
     }
+
+    #Clock{
+        font-size: 20px;
+    }
+
     #BUTTON {
         bottom: 2%;
         left: 32%;
@@ -241,6 +257,7 @@ body {
         width: 20%;
         top: 20%;
         position: fixed;
+        font-size: 14px;
     }
     #UP {
         position: fixed;
@@ -259,14 +276,14 @@ body {
     }
 
     #chatInputArea{
-        width:140px;
+        width:135px;
     }
 
     #chatSendButton{
-        width:35px;
+        width:40px;
         text-align: center;
         padding-left: 5px;
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -278,6 +295,10 @@ body {
         height: 110px;
         width: 81px;
     }
+    #Clock{
+        font-size: 24px;
+    }
+
     #BUTTON {
         bottom: 2%;
         left: 32%;
@@ -314,6 +335,8 @@ body {
         width: 17%;
         top: 20%;
         position: fixed;
+        font-size: 16px;
+
     }
     #chatWindow{
         height:190px;
@@ -326,11 +349,11 @@ body {
     }
 
     #chatInputArea{
-        width:145px;
+        width:140px;
     }
 
     #chatSendButton{
-        width:40px;
+        width:45px;
         text-align: center;
         padding-left: 5px;
         font-size: 14px;
@@ -380,6 +403,7 @@ body {
         top: 20%;
         position: fixed;
         left: 92%;
+        font-size: 16px;
     }
 
     #chatWindow{
