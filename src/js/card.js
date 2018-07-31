@@ -1,14 +1,10 @@
-// import {enumCard} from './enumCard'
-const {enumCard} = require('./enumCard');
-
 class Card{
 
-    constructor (theColor, theSign, theId, theScore){
+    constructor (theColor, theSign, theId){
         this.color = theColor;
         this.sign = theSign;
         this.active = false;
         this.id = theId;
-        this.score = theScore;
         this.uniqueCardImage = undefined;
     }
 

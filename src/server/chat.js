@@ -1,30 +1,13 @@
 const express = require('express');
-const router = express.Router();
 const bodyParser = require('body-parser');
 const auth = require('./authUsers');
 const authBoard = require('./authBoard');
-
-// const chatContent = [];
-
 const chatManagement = express.Router();
 
 chatManagement.use(bodyParser.text());
 
-/*chatManagement.route('/')
-	.get(auth.userAuthentication, (req, res) => {		
-		res.json(chatContent);
-	})
-	.post(auth.userAuthentication, (req, res) => {
-        const body = req.body;
-
-        const userInfo =  auth.getUserInfo(req.session.id);
-        chatContent.push({user: userInfo, text: body});
-        res.sendStatus(200);
-	});*/
-
 chatManagement.post('/',[
     auth.userAuthentication,
-    // authBoard.boardAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
@@ -38,7 +21,6 @@ chatManagement.post('/',[
 
 chatManagement.post('/pull',[
 	auth.userAuthentication,
-    // authBoard.boardAuthentication,
     (req, res) => {
         const body = JSON.parse(req.body);
         const boardDetail = authBoard.getBoardDetail(body.gameName);
@@ -46,10 +28,5 @@ chatManagement.post('/pull',[
         	res.json(boardDetail.chatContent);
     }
 ]);
-
-chatManagement.appendUserLogoutMessage = function(userInfo) {
-	chatContent.push({user: userInfo, text: `user had logout`}); 
-}
-
 
 module.exports = chatManagement;

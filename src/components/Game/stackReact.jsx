@@ -9,8 +9,6 @@ export default class StackReact extends React.Component {
         this.dragStart = this.dragStart.bind(this);
         this.eachCard = this.eachCard.bind(this);
     }
-//            <CardReact uniqueID = {this.props.uniqueID} gameName={this.props.gameName}humanAnimation = {humanAnimation} pullCardAnimation ={true} game = {this.props.game} key = {i + 400}/>
-//        let humanAnimation = card.playerID % this.props.myModul === 0;
 
     eachCard(card, i) {
         let anm = Object.keys(this.props.enumReactPosition)[card.playerID];
@@ -44,12 +42,6 @@ export default class StackReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then(response => {
-                if (!response.ok){
-                    console.log("StackReact, line 55");
-                }
-            });
-
     }
 
     dragStart() {

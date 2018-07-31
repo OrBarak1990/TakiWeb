@@ -1,12 +1,3 @@
-// import {enumCard} from './enumCard'
-// import {getUniqueCss} from './operations'
-// import ChangeColorCard from './changeColorCard'
-// import NumberCard from './numberCard'
-// import Plus from './plus'
-// import Stop from './stop'
-// import SuperTaki from './superTaki'
-// import Taki from './taki'
-// import TwoPlus from './twoPlus'
 const {enumCard} = require('./enumCard');
 const {getUniqueCss} = require('./operations');
 const ChangeColorCard = require('./changeColorCard');
@@ -29,24 +20,17 @@ class Stack{
     }
 
     createDeck() {
-        let score = 1;
         for (let number = 0; number < this.twoCardsNumber.length; ++number) {
             for (let color = 0; color < this.colorNumber.length; ++color) {
                 this.css = getUniqueCss(Object.keys(enumCard.enumColor)[color], this.twoCardsNumber[number].toString(), '_');
-                this.cards.push(new NumberCard(this.colorNumber[color], enumCard.enumTypes.NUMBER, this.id++, score));
+                this.cards.push(new NumberCard(this.colorNumber[color], enumCard.enumTypes.NUMBER, this.id++));
                 this.cards[this.cards.length - 1].number = this.twoCardsNumber[number];
                 this.cards[this.cards.length - 1].setElement(this.css);
 
-                this.cards.push(new NumberCard(this.colorNumber[color], enumCard.enumTypes.NUMBER, this.id++, score));
+                this.cards.push(new NumberCard(this.colorNumber[color], enumCard.enumTypes.NUMBER, this.id++));
                 this.cards[this.cards.length - 1].number = this.twoCardsNumber[number];
                 this.cards[this.cards.length - 1].setElement(this.css);
             }
-/*
-            score++;
-            if(number === 0){
-                score++;
-            }
-*/
         }
 
         for (let color = 0; color < this.colorNumber.length; ++color) {
@@ -128,11 +112,6 @@ class Stack{
             }
         }
         return undefined;
-/*        this.css = getUniqueCss(Object.keys(enumCard.enumColor)[0], this.twoCardsNumber[0].toString(), '_');
-        this.cards.push(new NumberCard(this.colorNumber[0], enumCard.enumTypes.NUMBER, this.id++, 1));
-        this.cards[this.cards.length - 1].number = this.twoCardsNumber[0];
-        this.cards[this.cards.length - 1].setElement(this.css);
-        return this.cards.splice(this.cards.length - 1, 1);*/
     }
 
     initializeStock(allCards) {

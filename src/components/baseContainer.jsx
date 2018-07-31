@@ -20,7 +20,6 @@ export default class BaseContainer extends React.Component {
 
         this.logOutHandler = this.logOutHandler.bind(this);
         this.handleSuccessLogin = this.handleSuccessLogin.bind(this);
-        // this.handleLoginError = this.handleLoginError.bind(this);
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
         this.logoutHandler= this.logoutHandler.bind(this);
         this.boardClickedSuccessHandler = this.boardClickedSuccessHandler.bind(this);
@@ -28,7 +27,6 @@ export default class BaseContainer extends React.Component {
         this.enterGameHandler = this.enterGameHandler.bind(this);
         this.enterViewerGame = this.enterViewerGame.bind(this);
         this.exitGame = this.exitGame.bind(this);
-
         this.getUserStataus();
     }
     
@@ -47,10 +45,6 @@ export default class BaseContainer extends React.Component {
     handleSuccessLogin() {
         this.setState(()=>({showLogin: false}), this.getUserName);
     }
-
-/*    logOutUser(){
-        this.setState(()=>({showLogin: true}));
-    }*/
 
     logOutHandler(){
         return fetch('/users/logout', {method: 'GET', credentials: 'include'})
@@ -108,19 +102,6 @@ export default class BaseContainer extends React.Component {
             })
     }
 
-   /* renderChatRoom() {
-        return(
-            <div className="chat-base-container">
-                <div className="user-info-area">
-                    Hello {this.state.currentUser.name}
-                    <button className="logout btn" onClick={this.logoutHandler}>Logout</button>
-                </div>
-                <ChatContaier />                
-            </div>
-        )
-    }
-    */
-
     getUserName() {
         return fetch('/users',{method: 'GET', credentials: 'include'})
             .then(response => {
@@ -135,26 +116,7 @@ export default class BaseContainer extends React.Component {
 
 
     getUserStataus() {
-/*        this.fetchUserInfo()
-        .then(userInfo => {
-            this.setState(()=>({currentUser:userInfo, showLogin: false}));
-        })
-        .catch(err=>{            
-            if (err.status === 401) { // incase we're getting 'unautorithed' as response
-                this.setState(()=>({showLogin: true}));
-            } else {
-                throw err; // in case we're getting an error
-            }
-        });*/
         return fetch('/users/userStatus',{method: 'GET', credentials: 'include'})
-/*        .then(response => {
-            if (response.ok){
-                let userInfo = response.json();
-                this.setState(()=>({currentUser: userInfo, showLogin: false}));
-            }else{
-                this.setState(()=>({currentUser: {name: ''}, showLogin: true}));
-            }
-        });*/
             .then((response) => {
                 if (!response.ok){
                     this.setState(()=> ({errMessage: response.statusText}));
@@ -178,16 +140,11 @@ export default class BaseContainer extends React.Component {
 
     logoutHandler() {
         fetch('/users/logout', {method: 'GET', credentials: 'include'})
-        .then(response => {
-            if (!response.ok) {
-                console.log(`failed to logout user ${this.state.currentUser.name} `, response);                
-            }
+        .then(() => {
             this.setState(()=>({currentUser: {name:''}, showLogin: true}));
         })
     }
 
-    /*TODO:: adding props for: is computer and number of players
-    * */
     renderRoom3() {
         return(
             <PreGame exitGame = {this.exitGame} viewer = {this.state.viewer} viewGameSuccessHandler = {this.viewGameSuccessHandler} enterGameHandler = {this.enterGameHandler} boardDetail = {this.state.boardDetail}/>
@@ -197,12 +154,11 @@ export default class BaseContainer extends React.Component {
     renderRoom2() {
         return(
             <div className="chat-contaier">
-                <button id="Quit_Game" type="button" style={{width: "100px", visibility : "visible"}} onClick={this.logOutHandler}>Logout</button> {/*//TODO: remove the user*/}
+                <button id="Quit_Game" type="button" style={{width: "100px", visibility : "visible"}} onClick={this.logOutHandler}>Logout</button>
                 <LobbyArea viewGameSuccessHandler = {this.viewGameSuccessHandler} boardClickedSuccessHandler={this.boardClickedSuccessHandler}/>
                 <BoardInput />
             </div>
         )
-        // return (<LobbyContainer boardClickedSuccessHandler={this.boardClickedSuccessHandler} />)
     }
 
     exitGame(){
@@ -226,13 +182,3 @@ export default class BaseContainer extends React.Component {
         )
     }
 }
-
-/*
-TODO: the get user name for first request, and for new window in same session is no good:
-    1. in the first request there is a warning, we need to change the response from error
-    2. in opening new window, the updateManagement will be correct only if we in login or in lobby
- */
-
-/*
-* TODO: add button for if the user want ine of the players will be computer
-*/

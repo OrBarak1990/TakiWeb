@@ -1,12 +1,10 @@
-// import Card from "./card";
-// import {enumCard} from './enumCard'
 const {enumCard} = require('./enumCard');
 const Card = require('./card');
 
 class TwoPlus extends Card{
 
     constructor(theColor, theSign, theId){
-        super(theColor, theSign, theId,10);
+        super(theColor, theSign, theId);
         this.direction = enumCard.enumActionDirection.TWO_PLUS;
     }
 

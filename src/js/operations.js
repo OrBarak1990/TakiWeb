@@ -12,15 +12,6 @@ function takiModeChecker(cards, takiMode)
     return foundColor;
 }
 
-/*
-function removeAllCards(placeHOlder) {
-    let deleteElement = document.getElementById(placeHOlder);
-
-    while (deleteElement.hasChildNodes()) {
-        deleteElement.removeChild(deleteElement.childNodes[0]);
-    }
-}*/
-
 function getUniqueCss(color, type, separator) {
     return color.concat(separator).concat(type);
 }
@@ -41,9 +32,6 @@ function takiPermission(player, card) {
     let taki = player.getTakiMode();
     return (taki === undefined || (taki !== undefined && taki.getColor() === card.getColor()));
 }
-
-
-// export {takiModeChecker, getUniqueCss, setCards, takeCards, takiPermission}
 
 module.exports.takiModeChecker = takiModeChecker;
 module.exports.getUniqueCss = getUniqueCss;

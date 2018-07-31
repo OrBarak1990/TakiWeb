@@ -117,8 +117,6 @@ export default class LobbyArea extends React.Component {
         this.setState(() => ({sendInProgress: true}));
         let index = e.target.getAttribute('data-key');
         let boardDetail = this.state.boards[index];
-/*        if(!boardDetail.deleteAccess)
-            // this.setState(() => ({you are not aout}));*/
         return fetch('/lobby/deleteGame', {
             method: 'POST',
             body: JSON.stringify(boardDetail),
@@ -151,17 +149,6 @@ export default class LobbyArea extends React.Component {
             credentials: 'include'
         })
             .then((response) => {
-/*                this.setState(() => ({sendInProgress: false}));
-                if (response.status === 403) {
-                    this.setState(() => ({errMessage: "The game is full"}));
-                }
-                else if (response.status === 401) {
-                    this.setState(() => ({errMessage: "The game is finished"}));
-                }
-                else if (response.ok) {
-                    this.setState(() => ({errMessage: ''}));
-                    return response.json();
-                }*/
                 if (!response.ok) {
                     this.setState(() => ({errMessage: response.statusText}));
                 }else

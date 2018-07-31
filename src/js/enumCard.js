@@ -65,9 +65,7 @@ const enumCard = (function () {
         enumReactPosition_0: Object.freeze({
             BUTTON: 0, UP: 1, LEFT: 2, RIGHT: 3
         }),
-/*        enumReactPosition_1: Object.freeze({
-            BUTTON: 1, UP: 0, LEFT: 2, RIGHT: 3
-        }),*/
+
         enumReactPosition_1: Object.freeze({
             UP: 0, BUTTON: 1, LEFT: 2, RIGHT: 3
         }),
@@ -82,5 +80,4 @@ const enumCard = (function () {
     }
 })();
 
-// export {enumCard}
 module.exports.enumCard = enumCard;

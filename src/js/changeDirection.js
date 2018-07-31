@@ -1,5 +1,3 @@
-// import Card from "./card";
-// import {enumCard} from './enumCard'
 const {enumCard} = require('./enumCard');
 const Card = require('./card');
 
@@ -7,7 +5,7 @@ const Card = require('./card');
 class ChangeDirection extends Card{
 
     constructor(theColor, theSign, theId){
-        super(theColor, theSign, theId,10,true);
+        super(theColor, theSign, theId);
         this.direction = enumCard.enumActionDirection.CHANGE_DIR;
     }
 

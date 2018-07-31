@@ -34,10 +34,6 @@ export default class BoardReact extends React.Component {
     }
 
     componentDidMount(){
-/*        if(this.props.viewer)
-            this.getViewerDetails();
-        else
-            this.getGameContent();*/
         this.getGameContent();
         this.images = Object.assign((this.importAll(require.context('./../../Images/blue', false, /\.(png|jpe?g|svg)$/))),
             (this.importAll(require.context('./../../Images/green', false, /\.(png|jpe?g|svg)$/))),
@@ -185,20 +181,6 @@ export default class BoardReact extends React.Component {
             </div>
         );
     }
-    /*
-    *
-    *                 <div id = {"endGameMode"}>
-                    <div id ="message">{this.state.manager.player.message.map(this.eachMassage)}</div>
-                    <button id={"endGame"} onClick={this.props.exitGame}>Back To Lobby</button>
-                </div>
-                <div className="container-fluid">
-                    <Statistics msg= {this.state.manager.player.statisticsMassages}/>
-                    <OpenCards card =  {this.state.manager.player.openCard} images = {this.images} open = {true}/>
-                    {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
-                    <PickColor interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                    <Stack cards = {[]} images = {this.images} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder} />
-                </div>
-    * */
 
     eachPlayerInViewer(cards, i){
         if(i === 0) {
@@ -229,14 +211,6 @@ export default class BoardReact extends React.Component {
 
         }
     }
-
-/*    myCards(cards, i){
-
-    }
-
-    rivalCards(cards, i){
-
-    }*/
 
     eachPlayer(cards, i) {
         if(i === this.props.uniqueID) {
@@ -291,37 +265,15 @@ export default class BoardReact extends React.Component {
             if (!response.ok){
                 this.setState(()=> ({errMessage: response.statusText}));
             }
-            // this.timeoutId = setTimeout(this.getGameContent, 200);
             return response.json();
         })
         .then(content => {
             if (content.manager.player.dropCard === undefined &&
                 content.manager.player.stackCards.length === 0)
                 this.timeoutId = setTimeout(this.getGameContent, 200);
-            else
-                console.log("rf");
             this.setState(()=> ({manager: content.manager}));
         })
     }
-
-/*    getViewerDetails() {
-        let massage = {gameName: this.props.gameName};
-        return fetch('/game/pullViewerDetails', {
-            method: 'POST',
-            body: JSON.stringify(massage),
-            credentials: 'include'
-        })
-            .then((response) => {
-                if (!response.ok){
-                    this.setState(()=> ({errMessage: response.statusText}));
-                }
-                this.timeoutId = setTimeout(this.getViewerDetails, 200);
-                return response.json();
-            })
-            .then(content => {
-                this.setState(()=> ({manager: content.manager}));
-            })
-    }*/
 
     replay(){
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
@@ -376,8 +328,6 @@ export default class BoardReact extends React.Component {
             this.setState(()=> ({manager: content.manager}));
         })
     }
-//  const uniqueId = req.body
-//{error: board.stateManagment.errors[uniqueId], }
     viewerLogOut() {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);

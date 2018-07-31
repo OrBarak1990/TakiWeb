@@ -8,7 +8,6 @@ const lobbyManagement = express.Router();
 
 lobbyManagement.use(bodyParser.text());
 
-// lobbyManagement.route('/')
 lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const users = auth.getAllUsers();
         const boards = authBoard.getAllBoards();
@@ -44,7 +43,6 @@ lobbyManagement.post('/',[
         }
 ]);
 
-// lobbyManagement.route('/boardClicked')
 lobbyManagement.post('/boardClicked',[
         auth.userAuthentication,
         authBoard.checkAvailability,
