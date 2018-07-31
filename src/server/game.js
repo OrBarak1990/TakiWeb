@@ -231,8 +231,14 @@ gameManagement.post('/finishGame',[
             const userName = auth.getUserInfo(req.session.id).name;
             uniqueId = getUniqueID(boardDetail, userName);
         }
+        const userName = auth.getUserInfo(req.session.id).name;
         if(uniqueId < 4) {
-            boardDetail.users.splice(uniqueId, 1);
+            for(let i = 0; i < boardDetail.users.length; ++i){
+                if(boardDetail.users[i] === userName){
+                    boardDetail.users.splice(i, 1);
+                    break;
+                }
+            }
             boardDetail.registerPlayers--;
             if (boardDetail.users.length === 0) {
                 boardDetail.active = false;
@@ -242,7 +248,6 @@ gameManagement.post('/finishGame',[
                 boardDetail.chatContent = undefined;
             }
         }else{
-            const userName = auth.getUserInfo(req.session.id).name;
             if(boardDetail.stateManagement !== undefined) {
                 boardDetail.stateManagement.removeViewer(userName);
             }
