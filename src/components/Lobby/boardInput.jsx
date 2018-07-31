@@ -18,7 +18,7 @@ export default class BoardInput extends React.Component {
 
     render() {
         return (
-            <form className="converssion-area-wrpper">
+            <div className="converssion-area-wrpper">
                 <h2>New Board:</h2>
                 <form className="chat-input-wrapper" onSubmit={this.addBoard}>
                     <input disabled={this.state.sendInProgress} placeholder="enter game name here"
@@ -36,7 +36,7 @@ export default class BoardInput extends React.Component {
                     <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send"/>
                 </form>
                     {this.renderErrorMessage()}
-            </form>
+            </div>
         )
     }
 
