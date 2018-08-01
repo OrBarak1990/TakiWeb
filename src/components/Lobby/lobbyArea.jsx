@@ -162,7 +162,7 @@ export default class LobbyArea extends React.Component {
                     if(content.registerPlayers === content.numberOfPlayers)
                         this.setState(() => ({errMessage: "The game is full"}));
                     else if(!content.active)
-                        this.setState(() => ({errMessage: "The game is finished"}));
+                        this.setState(() => ({errMessage: "The game is finished but still active"}));
                     if(this.timeoutErr)
                         clearTimeout(this.timeoutErr);
                     this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
