@@ -8,7 +8,6 @@ const lobbyManagement = express.Router();
 
 lobbyManagement.use(bodyParser.text());
 
-// lobbyManagement.route('/')
 lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const users = auth.getAllUsers();
         const boards = authBoard.getAllBoards();
@@ -16,7 +15,7 @@ lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const userName =  auth.getUserInfo(req.session.id).name;
         boards.forEach(b => boardMsg.push({numOfPlayers: b.numOfPlayers,
             registerPlayers: b.registerPlayers, viewers: b.viewers.length,
-            gameName: b.gameName, color: b.color, userName: b.userName,
+            gameName: b.gameName, color: b.color, userName: b.userName, active: false,
             deleteAccess: b.userName === userName && b.users.length === 0 &&
             b.viewers.length === 0}));
         res.json({boards: boardMsg, users: users});
@@ -44,7 +43,6 @@ lobbyManagement.post('/',[
         }
 ]);
 
-// lobbyManagement.route('/boardClicked')
 lobbyManagement.post('/boardClicked',[
         auth.userAuthentication,
         authBoard.checkAvailability,
