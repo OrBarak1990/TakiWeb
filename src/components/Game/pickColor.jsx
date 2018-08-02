@@ -70,11 +70,6 @@ export default class PickColorReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then(response => {
-                if (!response.ok){
-                    console.log("PickColorReact, line 77");
-                }
-            });
     }
 
     bluePicked(ev) {

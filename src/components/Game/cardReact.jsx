@@ -18,7 +18,6 @@ export default class CardReact extends React.Component {
         let changeColorReact = this.props.pickColorRef.current;
         if(changeColorReact.props.visible === "visible"){
             this.fetchError();
-            // this.props.game.renderError(enumCard.enumErrors.DRAG_CARD_WITH_CHANGE_COLOR_PICK);
             return false;
         }
         ev.dataTransfer.setData("Text", this.props.id);
@@ -32,17 +31,11 @@ export default class CardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-            .then(response => {
-                if (!response.ok){
-                    console.log("cardReact, line 38");
-                }
-            });
     }
 
     render() {
         if(this.props.pullCardAnimation !== undefined) {
                 return this.pullCardAnm();
-            // return this.renderEndAnimation();
         } else if(this.props.dropCardAnimation !== undefined){
             return this.dropCardAnm();
         }
@@ -62,19 +55,12 @@ export default class CardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-        .then(response => {
-            if (!response.ok){
-                console.log("OpenCardsReact, line 40");
-            }
+        .then(() => {
             this.props.setPull();
         });
     }
 
     endPullCardAnimation(){
-/*
-        let massage = {error: error, playerID: this.props.uniqueId,
-            gameName: this.props.gameName};
-*/
         let massage = {uniqueID: this.props.uniqueID, gameName: this.props.gameName};
 
         return fetch('/game/animationCardEnd', {
@@ -82,22 +68,10 @@ export default class CardReact extends React.Component {
             body: JSON.stringify(massage),
             credentials: 'include'
         })
-        .then(response => {
-            if (!response.ok){
-                console.log("cardReact, line 70");
-            }
+        .then(() => {
             this.props.setPull();
         });
-        // this.props.game.animationCardEnd();
     }
-
-/*    renderEndAnimation(){
-        return(
-            <a id="regular">
-                <img onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
-            </a>
-        );
-    }*/
 
     pullCardAnm(){
         return(
@@ -105,7 +79,7 @@ export default class CardReact extends React.Component {
                 <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
             </a>
         );
-    }//onAnimationStart={this.endPullCardAnimation}
+    }
 
 
     dropCardAnm(){
@@ -115,14 +89,6 @@ export default class CardReact extends React.Component {
             </a>
         );
     }
-
-/*    renderWithHumanAnimation(){
-        return(
-            <a id="regular">
-                <img id="endPullCardAnm" onAnimationEnd={this.endPullCardAnimation} style={{transition: "0.4s",animation: this.props.animationPullCardCss, position: "fixed"}} draggable={false} src={this.props.images["close_card.png"]}/>
-            </a>
-        );
-    }*/
 
     renderWithBold(){
         return(
