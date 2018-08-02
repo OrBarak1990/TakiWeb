@@ -1,13 +1,11 @@
-// import Card from "./card";
-// import {enumCard} from './enumCard'
 const Card = require('./card');
 const {enumCard} = require('./enumCard');
 
 
 class NumberCard extends Card{
 
-    constructor(theColor, theSign, theId, theScore){
-        super(theColor, theSign, theId, theScore);
+    constructor(theColor, theSign, theId){
+        super(theColor, theSign, theId);
     }
 
     doOperation() {

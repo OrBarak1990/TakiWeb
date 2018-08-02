@@ -17,6 +17,5 @@ app.use('/users', userManagement);
 app.use('/chat', chatManagement);
 app.use('/lobby', lobbyManagement);
 app.use('/game', gameManagement);
-//app.use('/SecondScreen', chatManagement);
 
 app.listen(3000, console.log('web taki'));

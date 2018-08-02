@@ -1,6 +1,3 @@
-// import Card from "./card";
-// import {enumCard} from './enumCard'
-// import {getUniqueCss} from './operations'
 const {enumCard} = require('./enumCard');
 const Card = require('./card');
 const {getUniqueCss} = require('./operations');
@@ -8,7 +5,7 @@ const {getUniqueCss} = require('./operations');
 class SuperTaki extends Card{
 
     constructor(theColor, theSign, theId){
-        super(theColor, theSign, theId,15);
+        super(theColor, theSign, theId);
         this.direction = enumCard.enumActionDirection.TAKI;
     }
 

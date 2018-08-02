@@ -10,10 +10,6 @@ class  StateManagement{
         this.gameState =  "start";
         this.winMessage =  undefined;
         this.setStartGame = this.setStartGame.bind(this);
-        this.setStartTournament = this.setStartTournament.bind(this);
-        this.setRestartStartGame = this.setRestartStartGame.bind(this);
-        this.setRestartTournamentStartGame = this.setRestartTournamentStartGame.bind(this);
-        this.setQuitGame = this.setQuitGame.bind(this);
     }
 
     setStartGame(game, players){
@@ -35,20 +31,6 @@ class  StateManagement{
                 }
             }
         }
-/*        if(this.playerManagement[uniqueID].openCardAnm)
-            this.playerManagement[uniqueID].counterAnm++;
-        else
-            this.playerManagement[uniqueID].counterAnm = 0;
-        if(this.playerManagement[uniqueID].counterAnm === 17)
-            this.playerManagement[uniqueID].openCardAnm = false;
-
-        if(this.playerManagement[uniqueID].stackCards.length > 0)
-            this.playerManagement[uniqueID].counterStackAnm++;
-        else
-            this.playerManagement[uniqueID].counterStackAnm = 0;
-        if(this.playerManagement[uniqueID].counterStackAnm === 17)
-            this.playerManagement[uniqueID].stackCards.length = 0;*/
-
         return this.playerManagement[uniqueID];
     }
 
@@ -73,15 +55,7 @@ class  StateManagement{
         }
     }
 
-    setStartTournament(game){
-        this.game = game;
-        this.game.setManager(this);
-        this.gameState = "gaming";
-        this.game.startTournament();
-    }
-
     updateDirection(card, playerID){
-        // this.playerManagement[playerID].direction = [];
         this.playerManagement.forEach(p=> p.direction = []);
         if (card.sign === enumCard.enumTypes.TWO_PLUS)
             this.playerManagement[(playerID + 1) % this.playerManagement.length].direction = card.direction;
@@ -98,17 +72,6 @@ class  StateManagement{
                 break;
             }
         }
-    }
-    renderPush(uniqueIndex){
-        // this.pullCardsCallBacks.forEach(r => r.push(uniqueIndex));
-    }
-
-    renderPullCard(uniqueIndex){
-        // this.pullCardsCallBacks.forEach(r => r.pull(uniqueIndex));
-    }
-
-    renderError(uniqueIndex){
-        // boardsReact[uniqueIndex].renderError();
     }
 
     endGame(message){
@@ -131,40 +94,6 @@ class  StateManagement{
         this.gameState =  "endGame";
     }
 
-    endGameInTournament(message){
-        this.message = message;
-        this.gameState =  "endGameInTournament";
-    }
-
-    endTournament(message){
-        this.message = message;
-        this.gameState =  "endTournament";
-    }
-
-    setRestartTournamentStartGame(){
-        this.game.restartTournamentGame();
-        this.gameState = "gaming";
-    }
-
-    setRestartStartGame(){
-        this.game.restartGame();
-        this.gameState = "gaming";
-    }
-
-    setQuitGame(){
-        this.game.quitGame();
-    }
-
-    next(){
-        this.error = undefined;
-        this.game.next();
-    }
-
-    prev(){
-        this.error = undefined;
-        this.game.prev();
-    }
-
     clone(){
         let cloneState = new StateManagement();
         cloneState.playersCards = [];
@@ -177,16 +106,6 @@ class  StateManagement{
         }
         cloneState.stackImage = this.stackImage;
         return cloneState;
-    }
-
-    takeValues(state){
-        this.playersCards[0] = state.playersCards[0];
-        this.playersCards[1] = state.playersCards[1];
-        this.pickColorVidibility = state.pickColorVidibility;
-        this.stackImage = state.stackImage;
-        this.statisticsMassages = state.statisticsMassages;
-        this.message = state.message;
-        this.error = state.error;
     }
 }
 

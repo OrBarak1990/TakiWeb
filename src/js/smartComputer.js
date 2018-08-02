@@ -1,5 +1,3 @@
-// import Player from './player'
-// import {enumCard} from './enumCard'
 const {enumCard} = require('./enumCard');
 const Player = require('./player');
 
@@ -448,8 +446,7 @@ class SmartComputer extends Player{
         this.pickedColor = false;
     }
 
-    setCards(cards, playersAmount){
-        // this.numberOfPlayers = playersAmount;
+    setCards(cards){
         this.numberOfPlayers = 2;
         this.setAllCards(cards);
         super.setCardsPlace();

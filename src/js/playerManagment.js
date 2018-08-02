@@ -11,8 +11,6 @@ class  PlayerManagement{
         this.gameState = "start";
         this.openCard = undefined;
         this.dropCard = undefined;
-        this.counterAnm = 0;
-        this.counterStackAnm = 0;
     }
 
     endGame(){
@@ -26,7 +24,6 @@ class  PlayerManagement{
         clonePlayerState.message = this.message;
         clonePlayerState.gameState =  "endGame";
         clonePlayerState.openCard = this.openCard;
-        /*clonePlayerState.playerManagement.error = this.error;*/
         return clonePlayerState;
     }
 }

@@ -1,5 +1,3 @@
-// import {enumCard} from './enumCard'
-// import {takiModeChecker} from './operations'
 const {enumCard} = require('./enumCard');
 const {takiModeChecker} = require('./operations');
 
@@ -9,7 +7,6 @@ class Player{
     constructor(theName,theTurn){
         this.allCards = [];
         this.singleCardCounter = 0;
-      //  this.score = 0;
         this.averageTimePlayed = 0;
         this.turnsPlayedForStatistics = 0;
         this.takiMode = undefined;
@@ -88,7 +85,6 @@ class Player{
     addCards(cardsToAdd) {
         this.stateManagement.playerManagement.forEach(p => p.stackCards.push({playerID: this.id, id: cardsToAdd[0].id}));
         this.stateManagement.viewerManagement.forEach(v => v.stackCards.push({playerID: this.id, id: cardsToAdd[0].id}));
-        // this.stateManagement.renderAnimationEnd = false;
         this.saveCardsToAdd = cardsToAdd;
     }
 
@@ -126,28 +122,6 @@ class Player{
             this.singleCardCounter++;
         return promote;
     }
-
-/*
-    calcScore(){
-      let score = 0;
-        this.allCards.forEach(card => {
-            score += card.score;
-        });
-      return score;
-    }
-*/
-
-/*
-    updateTournamentScore(playerScore){
-        this.score += playerScore;
-    }
-*/
-
-/*
-    getScore(){
-        return this.score;
-    }
-*/
 }
 
 module.exports = Player;

@@ -1,6 +1,3 @@
-// import Player from './player'
-// import {enumCard} from './enumCard'
-// import {setCards} from './operations'
 const Player = require('./player');
 const {enumCard} = require('./enumCard');
 const {setCards} = require('./operations');
@@ -35,18 +32,10 @@ class HumanPlayer extends Player{
         this.currentTurnTime = 0;
     }
 
-    setAverageTimePlayed(currentAverageTimePlayed){
-        this.averageTimePlayed = currentAverageTimePlayed;
-    }
-
     setCards(theCards) {
         this.allCards = theCards;
         setInterval(this.calcCurrentTurn.bind(this),1000);
         super.setCardsPlace();
-    }
-
-    setTurnsPlayed(currentTurnsPlayed){
-        this.turnsPlayed =  currentTurnsPlayed;
     }
 
     increasePlayerTurns() {

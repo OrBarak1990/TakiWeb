@@ -8,7 +8,7 @@ export default class LoginModal extends React.Component {
 
         this.state ={
             errMessage: ""
-        }
+        };
 
         this.handleLogin = this.handleLogin.bind(this);
 
@@ -64,23 +64,6 @@ export default class LoginModal extends React.Component {
                     this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
                     this.setState(() => (content));
                 }
-/*
-                if(this.timeoutErr)
-                    clearTimeout(this.timeoutErr);
-                this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
-                this.setState(() => (content));*/
             })
-        /*.then(response=> {
-            if (response.ok){
-                this.setState(()=> ({errMessage: ""}));
-                this.props.loginSuccessHandler();
-            } else {
-                if (response.status === 403) {
-                    this.setState(()=> ({errMessage: "User name already exist, please try another one"}));
-                }
-                // this.props.loginErrorHandler();
-            }
-        });
-        return false;*/
     }    
 }
