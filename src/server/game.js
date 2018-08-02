@@ -59,30 +59,6 @@ function getUniqueID(boardDetail, userName){
     }
 }
 
-/*gameManagement.post('/viewerEnter',[
-    auth.userAuthentication,
-    (req, res) => {
-        const body = JSON.parse(req.body);
-        const boardDetail = authBoard.getBoardDetail(body.gameName);
-        boardDetail.active = true ;
-        if (boardDetail.game === undefined) {
-            boardDetail.game = new game(boardDetail.users, boardDetail.computer);
-            boardDetail.stateManagement = new stateManagement();
-            boardDetail.stateManagement.setStartGame(boardDetail.game, boardDetail.numOfPlayers);
-            boardDetail.chatContent = [];
-        }
-        const userName = auth.getUserInfo(req.session.id).name;
-        let uniqueId;
-        for (let i = 0; i < boardDetail.users.length; ++i) {
-            if (userName === boardDetail.users[i]) {
-                uniqueId = i;
-                break;
-            }
-        }
-        res.json({uniqueId: uniqueId});
-    }
-]);*/
-
 gameManagement.post('/pull',[
     auth.userAuthentication,
     (req, res) => {
@@ -99,25 +75,7 @@ gameManagement.post('/pull',[
             player: manger.getUserDetails(uniqueId, userName)};
         res.json({manager: answer});
     }
-]);//
-
-/*gameManagement.post('/pullViewerDetails',[
-    auth.userAuthentication,
-    (req, res) => {
-        const body = JSON.parse(req.body);
-        const boardDetail = authBoard.getBoardDetail(body.gameName);
-        const manger = boardDetail.stateManagement;
-        const currentPlayer = manger.playerManagement[manger.game.turn];
-        const firstPlayer = manger.playerManagement[manger.game.turn];
-        const answer = {playersCards: manger.playersCards,
-            stackImage: manger.stackImage,
-            gameState: manger.gameState,
-            player: {statisticsMassages: currentPlayer.statisticsMassages,
-                stackCards: firstPlayer.stackCards, openCardAnm: firstPlayer.openCardAnm,
-            }};
-        res.json({manager: answer});
-    }
-]);*/
+]);
 
 gameManagement.post('/cardError',[
     auth.userAuthentication,
@@ -273,8 +231,14 @@ gameManagement.post('/finishGame',[
             const userName = auth.getUserInfo(req.session.id).name;
             uniqueId = getUniqueID(boardDetail, userName);
         }
+        const userName = auth.getUserInfo(req.session.id).name;
         if(uniqueId < 4) {
-            boardDetail.users.splice(uniqueId, 1);
+            for(let i = 0; i < boardDetail.users.length; ++i){
+                if(boardDetail.users[i] === userName){
+                    boardDetail.users.splice(i, 1);
+                    break;
+                }
+            }
             boardDetail.registerPlayers--;
             if (boardDetail.users.length === 0) {
                 boardDetail.active = false;
@@ -284,7 +248,6 @@ gameManagement.post('/finishGame',[
                 boardDetail.chatContent = undefined;
             }
         }else{
-            const userName = auth.getUserInfo(req.session.id).name;
             if(boardDetail.stateManagement !== undefined) {
                 boardDetail.stateManagement.removeViewer(userName);
             }
@@ -300,38 +263,4 @@ gameManagement.post('/finishGame',[
     }
 ]);
 
-/*gameManagement.post('/getPos',[
-    auth.userAuthentication,
-    (req, res) => {
-        const body = JSON.parse(req.body);
-        let enumC;
-        if(body === 0  || body >= 4)
-            enumC = enumCard.enumCard.enumReactPosition_0;
-        else if(body === 1 )
-            enumC = enumCard.enumCard.enumReactPosition_1;
-        else if(body === 2 )
-            enumC = enumCard.enumCard.enumReactPosition_2;
-        else
-            enumC = enumCard.enumCard.enumReactPosition_3;
-        res.json({enumCard: enumC});
-        // res.sendStatus(200);
-    }
-]);*/
-
-
-
-
 module.exports = gameManagement;
-
-/*            <div>
-                    {this.state.manager.playersCards.map(this.eachPlayerInEndGame)}
-                    <PickColor interactive = {false} visible = {this.state.manager.player.pickColorVidibility} ref= {this.pickColorHolder}/>
-                    <Stack cards = {[]} images = {this.images} interactive = {false} img = {this.state.manager.stackImage} pickColorRef = {this.pickColorHolder} />
-                </div>
-                <div>
-                    <p id ="errors">{this.state.manager.player.error}</p>
-                    <button id={"next"} onClick={this.next}>Next</button>
-                    <button id={"prev"} onClick={this.prev}>Prev</button>
-                </div>
-            </div>
-*/

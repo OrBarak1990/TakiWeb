@@ -1,8 +1,6 @@
 const express = require('express');
-const router = express.Router();
 const auth = require('./authUsers');
 const authBoard = require('./authBoard');
-const chatManagement = require('./chat');
 
 const userManagement = express.Router();
 userManagement.get('/', auth.userAuthentication, (req, res) => {
@@ -27,11 +25,6 @@ userManagement.post('/addUser', auth.addUserToAuthList, (req, res) => {
 });
 
 userManagement.get('/logout', [
-/*	(req, res, next) => {
-		const userinfo = auth.getUserInfo(req.session.id);	
-		chatManagement.appendUserLogoutMessage(userinfo);
-		next();
-	}, */
 	auth.removeUserFromAuthList,
 	(req, res) => {
 		res.sendStatus(200);		

@@ -98,47 +98,22 @@ function getAllBoards() {
 
 function checkAvailability(req, res, next) {
     const body = JSON.parse(req.body);
-    // let available = false;
-    // let finished = false;
-    if(boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
+    if(!boards[body.gameName].active && boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
         boards[body.gameName].registerPlayers++;
-        // available = true;
     }
+    else if(boards[body.gameName].registerPlayers === boards[body.gameName].numOfPlayers)
+        return res.json({sendInProgress: false,
+            errMessage: "The game is full",
+        });
     else if(boards[body.gameName].active === true) {
         return res.json({sendInProgress: false,
-            errMessage: "The game is full"});
+            errMessage: "The game is finished but still active",
+        });
     }
-    /*for (let board in boardList) {
-        const name = boardList[board].gameName;
-        if (name === body.gameName) {
-            if(boardList[board].registerPlayers < boardList[board].numOfPlayers) {
-                boardList[board].registerPlayers++;
-                available = true;
-                break;
-            }else
-                break;
-        }
-    }
-    */
-/*    if(finished)
-        res.status(401).send();
-    if(available)
-        next();
-    else
-        res.status(403).send();*/
     next();
 }
 
 function getBoardDetail(gameName) {
-    /*
-    for (let board in boardList) {
-        const name = boardList[board].gameName;
-        if (name === gameName) {
-            return boardList[board];
-        }
-    }
-    return undefined;
-    */
     return boards[gameName];
 }
 
