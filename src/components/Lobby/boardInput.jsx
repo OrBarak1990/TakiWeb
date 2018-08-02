@@ -78,20 +78,5 @@ export default class BoardInput extends React.Component {
             this.timeoutErr = setTimeout((() => this.setState(()=>({errMessage:  ""}))), 5000);
             this.setState(() => (content));
         })
- /*           .then((response) => {
-                this.setState(() => ({sendInProgress: false}));
-
-                if (response.status === 403) {
-                    this.setState(()=> ({errMessage: "That game name is exist"}));
-                }
-                else if (response.ok) {
-                    this.setState(() => ({errMessage: ''}));
-                    // return response.json();
-                }
-            });
-        /!*        .catch(err => {
-                    this.setState(()=>({error: err}));
-                });*!/
-        return false;*/
     }
 }
