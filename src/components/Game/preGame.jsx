@@ -4,7 +4,7 @@ import Stack from './stackReact.jsx'
 import takiImage from './../resources/taki_logo.png';
 import CloseCards from './../../Images/other/many_close_cards.png'
 
-export default class LobbyArea extends React.Component {
+export default class preGame extends React.Component {
     constructor(args) {
         super(...args);
 

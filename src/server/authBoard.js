@@ -98,12 +98,17 @@ function getAllBoards() {
 
 function checkAvailability(req, res, next) {
     const body = JSON.parse(req.body);
-    if(boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
+    if(!boards[body.gameName].active && boards[body.gameName].registerPlayers < boards[body.gameName].numOfPlayers) {
         boards[body.gameName].registerPlayers++;
     }
+    else if(boards[body.gameName].registerPlayers === boards[body.gameName].numOfPlayers)
+        return res.json({sendInProgress: false,
+            errMessage: "The game is full",
+        });
     else if(boards[body.gameName].active === true) {
         return res.json({sendInProgress: false,
-            errMessage: "The game is full"});
+            errMessage: "The game is finished but still active",
+        });
     }
     next();
 }

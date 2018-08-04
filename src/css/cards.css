@@ -85,12 +85,6 @@ body {
         height: 75px;
         width: 70px;
     }
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
 
     #LEFT {
         position: fixed;
@@ -109,12 +103,6 @@ body {
         transform: rotate(-90deg);
     }
 
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
     #Clock{
         font-size: 13px;
     }
@@ -159,13 +147,6 @@ body {
         width: 75px;
     }
 
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
-
     #LEFT {
         position: fixed;
         top: 15%;
@@ -174,6 +155,7 @@ body {
         height: 148px;
         transform: rotate(-90deg);
     }
+
     #RIGHT {
         position: fixed;
         top: 15%;
@@ -182,6 +164,7 @@ body {
         height: 148px;
         transform: rotate(-90deg);
     }
+
     #players-Viewers-Name{
         left:92%;
         width: 23%;
@@ -190,12 +173,6 @@ body {
         font-size: 12px;
     }
 
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
     #chatWindow{
         height:170px;
         width:170px;
@@ -228,13 +205,6 @@ body {
         font-size: 20px;
     }
 
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
-
     #LEFT {
         position: fixed;
         top: 6%;
@@ -258,13 +228,8 @@ body {
         position: fixed;
         font-size: 14px;
     }
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
-    #chatWindow{
+
+     #chatWindow{
         height:180px;
         width:180px;
         border:1px solid #ccc;
@@ -295,13 +260,6 @@ body {
         font-size: 24px;
     }
 
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
-
     #LEFT {
         position: fixed;
         top: 6%;
@@ -319,13 +277,6 @@ body {
         transform: rotate(-90deg);
     }
 
-
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
-    }
     #players-Viewers-Name{
         left:90%;
         width: 17%;
@@ -361,12 +312,6 @@ body {
         height: 120px;
         width: 84px;
     }
-    #BUTTON {
-        bottom: 2%;
-        left: 32%;
-        height: 120px;
-        position: fixed;
-    }
 
     #LEFT {
         position: fixed;
@@ -383,14 +328,6 @@ body {
         width: 70%;
         height: 148px;
         transform: rotate(-90deg);
-    }
-
-
-    #UP {
-        position: fixed;
-        top: 2%;
-        left: 32%;
-        margin: auto;
     }
 
     #players-Viewers-Name {
@@ -421,6 +358,73 @@ body {
         padding-left: 5px;
         font-size: 14px;
     }
+}
+
+@media all and (min-width: 1600px) {
+    img {
+        height: 130px;
+        width: 87px;
+    }
+
+    #LEFT {
+        position: fixed;
+        top: 5%;
+        left: -12%;
+        width: 60%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+    #RIGHT {
+        position: fixed;
+        top: 5%;
+        right: -20%;
+        width: 60%;
+        height: 148px;
+        transform: rotate(-90deg);
+    }
+
+    #players-Viewers-Name {
+        width: 14%;
+        top: 20%;
+        position: fixed;
+        left: 92%;
+        font-size: 16px;
+    }
+
+    #chatWindow{
+        height:200px;
+        width:200px;
+        border:1px solid #ccc;
+        font:14px/20px Georgia, Garamond, Serif;
+        overflow:auto;
+        background: #f0f0f0;
+        border-color: rgb(28, 31, 29);
+    }
+
+    #chatInputArea{
+        width:150px;
+    }
+
+    #chatSendButton{
+        width:45px;
+        text-align: center;
+        padding-left: 5px;
+        font-size: 14px;
+    }
+}
+
+#BUTTON {
+    bottom: 2%;
+    left: 32%;
+    height: 120px;
+    position: fixed;
+}
+
+#UP {
+    position: fixed;
+    top: 2%;
+    left: 32%;
+    margin: auto;
 }
 
 img{

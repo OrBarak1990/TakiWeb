@@ -15,7 +15,7 @@ lobbyManagement.get('/',auth.userAuthentication, (req, res) => {
         const userName =  auth.getUserInfo(req.session.id).name;
         boards.forEach(b => boardMsg.push({numOfPlayers: b.numOfPlayers,
             registerPlayers: b.registerPlayers, viewers: b.viewers.length,
-            gameName: b.gameName, color: b.color, userName: b.userName,
+            gameName: b.gameName, color: b.color, userName: b.userName, active: false,
             deleteAccess: b.userName === userName && b.users.length === 0 &&
             b.viewers.length === 0}));
         res.json({boards: boardMsg, users: users});
